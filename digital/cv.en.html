@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucas Costa Pena — CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF8; --card:#EFEFEC; --white:#fff;
+  --ink:#141414; --muted:#6B6B66; --line:#E2E2DD;
+  --blue:#2F4BE0; --coral:#FF7457; --yellow:#FFD23F; --mint:#5FD3A0; --lilac:#8E6CFF;
+  --w:1140px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Lato,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.cv-wrap{max-width:var(--w);margin:0 auto;padding:0 28px}
+.cv-g{color:var(--muted)}
+.cv-lab{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* top bar */
+.cv-top{position:sticky;top:0;z-index:20;background:rgba(250,250,248,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.cv-top .cv-wrap{display:flex;align-items:center;justify-content:space-between;height:64px;font-size:14px;gap:12px}
+.cv-pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:999px;background:var(--card);font-weight:700;white-space:nowrap}
+.cv-pill.cv-dl{background:var(--ink);color:#fff}
+.cv-pill.cv-dl:hover{background:var(--blue)}
+.cv-brand{font-weight:900;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.cv-av{width:30px;height:30px;border-radius:50%;overflow:hidden;flex:none}.cv-av img{width:100%;height:100%;object-fit:cover}
+
+/* hero */
+.cv-hero{padding-top:64px;display:grid;grid-template-columns:1fr 360px;gap:40px;align-items:end}
+.cv-who{display:flex;align-items:center;gap:16px;margin-bottom:22px}
+.cv-who img{width:72px;height:72px;border-radius:22px;object-fit:cover;box-shadow:0 0 0 4px #fff,0 18px 36px -18px rgba(0,0,0,.45);transform:rotate(-4deg)}
+.cv-who b{display:block;font-size:22px;font-weight:900;letter-spacing:-.02em;line-height:1.1}
+.cv-who span{font-size:14px;color:var(--muted)}
+h1{font-size:clamp(42px,6vw,80px);line-height:1;font-weight:900;letter-spacing:-.04em;max-width:14ch}
+.cv-lede{margin-top:24px;font-size:clamp(18px,1.7vw,21px);color:var(--muted);max-width:56ch}
+.cv-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
+.cv-tags span{font-size:13px;font-weight:700;padding:7px 13px;border-radius:999px;background:var(--card)}
+.cv-facts{display:grid;gap:8px}
+.cv-facts div{background:var(--card);border-radius:16px;padding:14px 18px}
+.cv-facts dt{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.cv-facts dd{font-size:15px;font-weight:700;line-height:1.4}
+.cv-facts a{border-bottom:2px solid var(--line)}
+.cv-facts a:hover{border-color:var(--blue)}
+
+/* PDF banner */
+.cv-pdf{margin-top:40px;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;background:var(--yellow);border-radius:28px;padding:22px 26px}
+.cv-pdf .cv-ic{width:56px;height:56px;border-radius:16px;background:var(--ink);color:var(--yellow);display:grid;place-items:center}
+.cv-pdf b{display:block;font-size:19px;font-weight:900;letter-spacing:-.01em}
+.cv-pdf p{font-size:15px;color:#141414c4}
+.cv-pdf .cv-btns{display:flex;gap:8px;flex-wrap:wrap}
+.cv-pdf .cv-btns a{height:46px;display:inline-flex;align-items:center;gap:8px;padding:0 20px;border-radius:999px;background:var(--ink);color:#fff;font-weight:900;font-size:15px;transition:transform .2s}
+.cv-pdf .cv-btns a.cv-sec{background:#14141414;color:var(--ink)}
+.cv-pdf .cv-btns a:hover{transform:translateY(-2px)}
+
+/* sections */
+.cv-sec{padding-top:96px}
+.cv-hd{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:22px}
+.cv-hd h2{font-size:clamp(30px,3.6vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1.05}
+
+/* current role: big card that lights up */
+.cv-now{--c:var(--blue);background:var(--card);border-radius:36px;padding:44px;transition:background .7s cubic-bezier(.2,.7,.2,1),color .7s}
+.cv-now.cv-lit{background:var(--c);color:#fff}
+.cv-now .cv-when{font-size:13px;font-weight:700;color:var(--muted);transition:color .7s}
+.cv-now h3{font-size:clamp(28px,3vw,40px);font-weight:900;letter-spacing:-.03em;line-height:1.08;margin:12px 0 10px}
+.cv-now h3 span{color:var(--muted);transition:color .7s}
+.cv-now > p{color:var(--muted);max-width:64ch;transition:color .7s}
+.cv-now.cv-lit .cv-when,.cv-now.cv-lit h3 span,.cv-now.cv-lit > p{color:#ffffffc4}
+.cv-projs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:28px}
+.cv-pj{background:var(--white);color:var(--ink);border-radius:20px;padding:22px 22px 20px;display:grid;grid-template-rows:subgrid;grid-row:span 4;align-content:start}
+.cv-projs{grid-auto-rows:auto;row-gap:0}
+.cv-pj{margin-bottom:10px}
+.cv-pj .cv-k{align-self:end}
+.cv-pj .cv-rd{justify-self:start;align-self:end}
+.cv-pj.cv-wide{grid-column:1/-1}
+.cv-pj .cv-k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cv-pj h4{font-size:19px;font-weight:900;letter-spacing:-.01em;margin:8px 0 10px;line-height:1.25;align-self:start}
+.cv-pj ul{list-style:none;display:grid;gap:6px}
+.cv-pj li{font-size:15px;color:var(--muted);padding-left:16px;position:relative}
+.cv-pj li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--line)}
+.cv-pj .cv-rd{margin-top:auto;padding-top:14px;font-weight:900;font-size:14px;display:inline-flex;align-items:center;gap:8px}
+.cv-pj .cv-rd i{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-style:normal;font-size:13px;transition:transform .25s}
+.cv-pj a.cv-rd:hover i{transform:translateX(4px)}
+.cv-now .cv-also{margin-top:16px;font-size:14px;color:var(--muted);transition:color .7s}
+.cv-now.cv-lit .cv-also{color:#ffffffb3}
+
+/* timeline of earlier roles */
+.cv-tl{display:grid;gap:10px;margin-top:10px}
+.cv-rl{display:grid;grid-template-columns:190px 1fr;gap:24px;background:var(--card);border-radius:22px;padding:22px 26px;transition:background .3s,transform .3s}
+.cv-rl:hover{transform:translateX(4px)}
+.cv-rl:nth-child(1):hover{background:var(--coral)}
+.cv-rl:nth-child(2):hover{background:var(--mint)}
+.cv-rl:nth-child(3):hover{background:var(--yellow)}
+.cv-rl:nth-child(4):hover{background:var(--lilac);color:#fff}
+.cv-rl:nth-child(5):hover{background:var(--coral)}
+.cv-rl:nth-child(6):hover{background:var(--mint)}
+.cv-rl .cv-when{font-size:13px;font-weight:700;color:var(--muted);padding-top:3px;font-variant-numeric:tabular-nums}
+.cv-rl h3{font-size:19px;font-weight:900;letter-spacing:-.01em;line-height:1.3}
+.cv-rl h3 span{font-weight:400;color:var(--muted)}
+.cv-rl p{font-size:15.5px;color:var(--muted);margin-top:4px;max-width:70ch}
+.cv-rl:hover .cv-when,.cv-rl:hover h3 span,.cv-rl:hover p{color:inherit;opacity:.8}
+
+/* skills */
+.cv-sk{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.cv-sk > div{background:var(--card);border-radius:24px;padding:26px;transition:background .4s,color .4s}
+.cv-sk h3{font-size:20px;font-weight:900;letter-spacing:-.01em;margin-bottom:14px}
+.cv-chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none}
+.cv-chips li{font-size:13.5px;font-weight:700;padding:7px 12px;border-radius:999px;background:var(--white);transition:background .4s}
+.cv-sk > div:nth-child(1):hover{background:var(--blue);color:#fff}
+.cv-sk > div:nth-child(2):hover{background:var(--yellow)}
+.cv-sk > div:nth-child(3):hover{background:var(--mint)}
+.cv-sk > div:nth-child(4):hover{background:var(--coral)}
+.cv-sk > div:nth-child(5):hover{background:var(--lilac);color:#fff}
+.cv-sk > div:hover .cv-chips li{background:#ffffff33}
+
+/* education + languages + certs */
+.cv-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cv-box{background:var(--card);border-radius:24px;padding:26px}
+.cv-box h3{font-size:20px;font-weight:900;letter-spacing:-.01em;margin-bottom:14px}
+.cv-edu{display:grid;gap:10px}
+.cv-edu div{display:grid;grid-template-columns:86px 1fr;gap:14px;background:var(--white);border-radius:14px;padding:14px 16px}
+.cv-edu .cv-y{font-size:12px;font-weight:900;color:var(--muted);padding-top:2px}
+.cv-edu b{display:block;font-size:16px}
+.cv-edu small{font-size:14px;color:var(--muted)}
+.cv-langs{display:grid;gap:10px}
+.cv-langs div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;background:var(--white);border-radius:14px;padding:14px 16px}
+.cv-langs b{font-size:20px;font-weight:900;letter-spacing:-.02em}
+.cv-langs span{font-size:14px;color:var(--muted)}
+.cv-bar{height:6px;border-radius:6px;background:var(--card);margin-top:8px;overflow:hidden}
+.cv-bar i{display:block;height:100%;width:0;border-radius:6px;background:var(--ink);transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.cv-langs .cv-in .cv-bar i{width:var(--v)}
+.cv-certs{list-style:none;display:grid;gap:8px}
+.cv-certs li{display:flex;justify-content:space-between;gap:16px;align-items:center;background:var(--white);border-radius:14px;padding:13px 16px;font-size:15px;font-weight:700}
+.cv-certs li span{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+.cv-certs li.cv-hl{background:var(--mint)}
+.cv-certs li.cv-hl span{color:var(--ink)}
+
+/* speaking */
+.cv-stage{background:var(--ink);color:#fff;border-radius:36px;padding:44px;display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:start}
+.cv-stage .cv-yr{font-size:clamp(60px,8vw,110px);font-weight:900;line-height:.9;letter-spacing:-.05em}
+.cv-stage .cv-lab{color:#ffffff99}
+.cv-stage h3{font-size:clamp(24px,2.6vw,32px);font-weight:900;line-height:1.15;letter-spacing:-.02em;margin:10px 0 12px}
+.cv-stage p{color:#ffffffb3;max-width:60ch}
+.cv-flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.cv-flags span{font-size:13px;font-weight:700;padding:7px 12px;border-radius:999px;background:#ffffff14}
+
+.cv-note{margin-top:16px;display:flex;gap:12px;align-items:flex-start;background:var(--card);border-radius:18px;padding:16px 20px;font-size:15px;color:var(--muted)}
+.cv-note svg{flex:none;margin-top:3px}
+
+footer{margin-top:120px;background:var(--ink);color:#fff}
+footer .cv-wrap{padding-top:80px;padding-bottom:40px}
+footer .cv-big{font-size:clamp(60px,10vw,140px);font-weight:900;line-height:.9;letter-spacing:-.05em}
+footer .cv-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+footer .cv-links a{height:48px;display:inline-flex;align-items:center;padding:0 22px;border-radius:999px;background:#ffffff14;font-weight:700;transition:background .3s,color .3s}
+footer .cv-links a:hover{background:var(--yellow);color:var(--ink)}
+footer .cv-base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:72px;font-size:13px;color:#ffffff73}
+
+.cv-rv{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.cv-rv.cv-is-in{opacity:1;transform:none}
+
+@media (max-width:900px){
+  .cv-hero{grid-template-columns:1fr;gap:28px;padding-top:40px}
+  .cv-pdf{grid-template-columns:1fr;gap:14px}
+  .cv-projs,.cv-sk,.cv-two{grid-template-columns:1fr}
+  .cv-now,.cv-stage{padding:28px;border-radius:28px}
+  .cv-stage{grid-template-columns:1fr;gap:10px}
+  .cv-rl{grid-template-columns:1fr;gap:4px;padding:20px}
+  .cv-top .cv-brand span.cv-nm{display:none}
+}
+@media (prefers-reduced-motion:reduce){.cv-rv{opacity:1;transform:none;transition:none}.cv-now,.cv-bar i{transition:none}}
+@media (max-width:600px){.cv-hd{flex-direction:column;align-items:flex-start;gap:8px}.cv-hd h2{white-space:nowrap}}
+@media (max-width:900px){.cv-hov{display:none}.cv-now h3{font-size:24px}}
+.lng{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}.rt{display:flex;align-items:center;gap:8px}@media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
+</style>
+</head>
+<body>
+<script>
+/* every page opens at the top (links between pages, back/forward and reloads) */
+(function(){
+  try{ if('scrollRestoration' in history) history.scrollRestoration='manual'; }catch(e){}
+  function top(){ if(!location.hash){ var h=document.documentElement, b=h.style.scrollBehavior; h.style.scrollBehavior='auto'; window.scrollTo(0,0); h.style.scrollBehavior=b; } }
+  top(); document.addEventListener('DOMContentLoaded',top); window.addEventListener('load',top); window.addEventListener('pageshow',top);
+})();
+</script>
+
+
+<header class="cv-top">
+  <div class="cv-wrap">
+    <a class="cv-pill" href="index.en.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Portfolio</a>
+    <span class="cv-brand"><span class="cv-av"><img src="assets/cv/me-av.webp" alt=""></span><span class="cv-nm">Lucas Costa Pena</span></span>
+    <span class="rt"><a class="lng" href="cv.html" hreflang="es" lang="es" aria-label="Ver en español"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>ES</a><a class="cv-pill cv-dl" href="assets/cv/Lucas-Costa-Pena-CV-EN.pdf" download><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>PDF</a></span>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="cv-wrap cv-hero">
+  <div>
+    <div class="cv-who"><img src="assets/cv/me-sq.webp" alt="Lucas Costa Pena"><div><b>Lucas Costa Pena</b><span>Curriculum Vitae</span></div></div>
+    <h1>Product Designer <span class="cv-g">with a Product Owner mindset.</span></h1>
+    <p class="cv-lede">I design simple solutions for complex organisations: I turn administrative processes into digital services, for public administration and private companies.</p>
+  </div>
+  <dl class="cv-facts">
+    <div><dt>Based in</dt><dd>Badajoz, Spain</dd></div>
+    <div><dt>Work</dt><dd>Available · Product Designer, Product Owner or digital transformation consulting · Remote, hybrid or on-site</dd></div>
+    <div><dt>Nationalities</dt><dd>🇧🇷 Brazilian · 🇪🇸 Spanish</dd></div>
+    <div><dt>Languages</dt><dd>Portuguese native · Spanish fluent · English C1</dd></div>
+    <div><dt>Contact</dt><dd><a href="mailto:lucascostapena@gmail.com">lucascostapena@gmail.com</a></dd></div>
+    <div><dt>Profile</dt><dd><a href="https://www.linkedin.com/in/lucascostapena/">linkedin.com/in/lucascostapena</a></dd></div>
+  </dl>
+</section>
+
+<div class="cv-wrap">
+  <div class="cv-pdf cv-rv">
+    <span class="cv-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6M9 14l3 3 3-3"/></svg></span>
+    <div><b>Need it as a PDF?</b><p>Download a one-page version, or write to me and I’ll send a detailed CV with client names and references.</p></div>
+    <div class="cv-btns"><a href="assets/cv/Lucas-Costa-Pena-CV-EN.pdf" download>Download PDF</a><a class="cv-sec" href="mailto:lucascostapena@gmail.com?subject=Detailed%20CV%20request">Ask for the detailed CV</a></div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section class="cv-wrap cv-sec">
+  <div class="cv-hd"><h2>Experience</h2><span class="cv-lab">Since 2018</span></div>
+
+  <article class="cv-now" id="now">
+    <span class="cv-when">Sep 2023 – Present</span>
+    <h3>askblue <span>· Senior Consultant, Product Designer with Product Owner responsibilities</span></h3>
+    <p>Digital transformation consultancy for public and private organisations. End-to-end product and design, leading design teams in close collaboration with development and business.</p>
+    <div class="cv-projs">
+      <div class="cv-pj cv-wide"><span class="cv-k">Regional government, Portugal · Lead Product Designer · PO responsibilities · PRR-funded project</span><h4>Three platforms for one digital ecosystem</h4>
+        <ul>
+          <li>Product vision and backlog for three platforms: public services portal, employee intranet and elections portal.</li>
+          <li>User stories, acceptance criteria, business rules and functional documentation for the development teams.</li>
+          <li>UI design, and maintenance and evolution of the design system across the three platforms.</li>
+          <li>Change requests from analysis and prioritisation to production; sprints and agile ceremonies; led the design team.</li>
+          <li>Discovery with business and users: requirements workshops based on the tender, citizen journeys, sitemaps, wireframes and validation.</li>
+        </ul>
+        <div style="display:flex;gap:22px;flex-wrap:wrap"><a class="cv-rd" href="services-portal.en.html"><i>→</i>Services Portal case</a><a class="cv-rd" href="employee-portal.en.html"><i>→</i>Employee Portal case</a></div>
+      </div>
+      <div class="cv-pj"><span class="cv-k">Agribusiness · Lead Product Designer</span><h4>A batch selection tool</h4>
+        <ul><li>Business process analysis, user stories and business rules, prototyping and usability testing.</li></ul>
+        <a class="cv-rd" href="batch-selection.en.html"><i>→</i>Read the case</a>
+      </div>
+      <div class="cv-pj"><span class="cv-k">Public institute · Strategy &amp; PMO</span><h4>A 2024–2028 strategic plan</h4>
+        <ul><li>Tools and frameworks to gather, co-create and prioritise 60+ initiatives.</li><li>Strategic objectives, dependencies and roadmap; then PMO for the plan’s rollout and monitoring.</li></ul>
+      </div>
+      <div class="cv-pj"><span class="cv-k">Industrial technology · Product Design</span><h4>From Excel and Word to one product</h4>
+        <ul><li>A custom digital product that replaced business processes run in Excel and Word.</li><li>Process redesign, user interviews, user stories, prototyping, usability testing and style guides.</li></ul>
+      </div>
+      <div class="cv-pj"><span class="cv-k">Consultancy rebrand &amp; website · Lead</span><h4>End to end, in-house</h4>
+        <ul><li>Led the design team: research, interviews, design, implementation follow-up and post-launch analysis.</li></ul>
+      </div>
+    </div>
+  </article>
+
+  <div class="cv-tl">
+    <div class="cv-rl cv-rv"><span class="cv-when">Feb 2023 – Sep 2023</span><div><h3>Monday <span>· Human-Centred Design Consultant &amp; Trainer</span></h3><p>Design Thinking, Design Sprint and Lean Inception (product vision and MVP definition) for teams at major energy and infrastructure companies in Portugal, Spain, Brazil and Angola.</p></div></div>
+    <div class="cv-rl cv-rv"><span class="cv-when">Sep 2022 – Jul 2023</span><div><h3>Lisbon School of Design <span>· UX/UI Design Lecturer</span></h3><p>Usability, UX and interface design for digital products. 80+ students, many now at companies such as Google and Adobe.</p></div></div>
+    <div class="cv-rl cv-rv"><span class="cv-when">Feb 2022 – Jul 2023</span><div><h3>Mói Studio <span>· UX/UI Consultant</span></h3><p>Research, experience strategy and interfaces for major banks, media groups, and health and education companies in Brazil.</p></div></div>
+    <div class="cv-rl cv-rv"><span class="cv-when">Sep 2019 – Feb 2023</span><div><h3>GUDA <span>· Senior Designer</span></h3><p>Design strategy for clients in the UK, the Netherlands and Australia.</p></div></div>
+    <div class="cv-rl cv-rv"><span class="cv-when">Feb 2020 – Jan 2023</span><div><h3>ISMAT <span>· Design Lecturer</span></h3><p>Design project management with students, from idea to implementation.</p></div></div>
+    <div class="cv-rl cv-rv"><span class="cv-when">Sep 2018 – Jan 2022</span><div><h3>CiEC – ULHT <span>· Design Thinking Researcher</span></h3><p>80+ Design Thinking workshops in a European educational innovation project.</p></div></div>
+  </div>
+  <div class="cv-note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Client names are omitted for confidentiality. Names, references and a detailed CV are available on request.</p></div>
+</section>
+
+<!-- SKILLS -->
+<section class="cv-wrap cv-sec">
+  <div class="cv-hd"><h2>Skills</h2><span class="cv-lab cv-hov">Hover a group</span></div>
+  <div class="cv-sk">
+    <div class="cv-rv"><h3>Product design</h3><ul class="cv-chips"><li>UX research</li><li>User journeys</li><li>UX/UI</li><li>Prototyping</li><li>Design systems</li><li>Usability testing</li><li>Accessibility (WCAG)</li></ul></div>
+    <div class="cv-rv"><h3>Product ownership</h3><ul class="cv-chips"><li>Backlog</li><li>User stories &amp; acceptance criteria</li><li>Business rules</li><li>Functional analysis</li><li>Prioritisation</li><li>Roadmapping</li><li>Discovery &amp; MVP</li></ul></div>
+    <div class="cv-rv"><h3>Ways of working</h3><ul class="cv-chips"><li>Scrum</li><li>Sprints &amp; ceremonies</li><li>Design Sprint</li><li>Lean UX</li><li>PMO</li></ul></div>
+    <div class="cv-rv"><h3>Leadership</h3><ul class="cv-chips"><li>Stakeholder management</li><li>Workshop facilitation</li><li>Team leadership</li><li>Training</li></ul></div>
+    <div class="cv-rv"><h3>Tools</h3><ul class="cv-chips"><li>Figma</li><li>Jira</li><li>AI in the design workflow</li></ul></div>
+  </div>
+</section>
+
+<!-- EDUCATION + LANGUAGES -->
+<section class="cv-wrap cv-sec">
+  <div class="cv-two">
+    <div class="cv-box cv-rv"><h3>Education</h3><div class="cv-edu">
+      <div><span class="cv-y">MA · 2022</span><span><b>Design</b><small>University for the Creative Arts, England</small></span></div>
+      <div><span class="cv-y">BA · 2018</span><span><b>Design</b><small>Universidade Lusófona, Portugal</small></span></div>
+      <div><span class="cv-y">BA · 2014</span><span><b>Philosophy</b><small>UFMT, Brazil</small></span></div>
+    </div></div>
+    <div class="cv-box cv-rv" id="langs"><h3>Languages</h3><div class="cv-langs">
+      <div><b>Portuguese</b><span>Native</span></div>
+      <div><b>Spanish</b><span>Fluent</span></div>
+      <div><b>English</b><span>Professional · C1</span></div>
+    </div></div>
+  </div>
+</section>
+
+<!-- CERTIFICATES -->
+<section class="cv-wrap cv-sec">
+  <div class="cv-hd"><h2>Certificates</h2></div>
+  <ul class="cv-certs">
+    <li class="cv-hl cv-rv">Professional Scrum Product Owner I (PSPO I) <span>In progress</span></li>
+    <li class="cv-rv">Product Owner Fundamentals, IIBA-endorsed <span>Udemy</span></li>
+    <li class="cv-rv">Product Management Fundamentals <span>Udemy</span></li>
+    <li class="cv-rv">Business Analysis: Functional &amp; Non-Functional Requirements <span>Udemy</span></li>
+    <li class="cv-rv">Project Management Fundamentals <span>Udemy</span></li>
+    <li class="cv-rv">Facilitation: Become a Master Facilitator and Team Leader <span>Udemy</span></li>
+    <li class="cv-rv">Product Discovery · AI Prototyping · Designing Human-AI Experiences <span>The Starter</span></li>
+    <li class="cv-rv">English C1 <span>EF SET</span></li>
+  </ul>
+</section>
+
+<!-- SPEAKING -->
+<section class="cv-wrap cv-sec">
+  <div class="cv-hd"><h2>Speaking</h2></div>
+  <div class="cv-stage cv-rv">
+    <span class="cv-yr">2026</span>
+    <div>
+      <span class="cv-lab">Islands Digital Summit · Oct 2026</span>
+      <h3>Invited speaker: one citizen journey, live.</h3>
+      <p>A live walkthrough of a citizen journey through a regional government’s public services portal, for delegations from nine regions and countries.</p>
+      <div class="cv-flags"><span>Mallorca</span><span>Madeira</span><span>Germany</span><span>Netherlands</span><span>Denmark</span><span>Greece</span><span>Croatia</span><span>Finland</span><span>Sweden</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="cv-wrap">
+    <p class="cv-big">Let’s talk.</p>
+    <div class="cv-links"><a href="mailto:lucascostapena@gmail.com">lucascostapena@gmail.com</a><a href="https://www.linkedin.com/in/lucascostapena/">LinkedIn</a><a href="assets/cv/Lucas-Costa-Pena-CV-EN.pdf" download>Download PDF</a><a href="index.en.html">Portfolio</a></div>
+    <div class="cv-base"><span>Lucas Costa Pena · Product Designer · Digital transformation</span><span>© 2026</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var lit=new IntersectionObserver(function(es){ es.forEach(function(e){ e.target.classList.toggle('cv-lit',e.isIntersecting); }); },{rootMargin:'-35% 0px -35% 0px'});
+  lit.observe(document.getElementById('now'));
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('cv-is-in'); io.unobserve(e.target); } }); },{threshold:.15});
+  document.querySelectorAll('.cv-rv').forEach(function(el){ io.observe(el); });
+
+  /* PDF download through the artifact's downloads capability (falls back to a plain link elsewhere) */
+  var links=[].slice.call(document.querySelectorAll('a[download]')), dl=null;
+  if(window.claude && claude.use){ claude.use('downloads').then(function(d){ dl=d; }); }
+  links.forEach(function(a){ a.addEventListener('click',function(e){
+    if(!dl) return; e.preventDefault();
+    fetch(a.getAttribute('href')).then(function(r){ return r.blob(); }).then(function(b){
+      return dl.save({filename:'Lucas-Costa-Pena-CV.pdf',data:b});
+    }).catch(function(err){ if(err && err.code && err.code!=='declined' && err.code!=='rate_limited'){ location.href=a.getAttribute('href'); } });
+  }); });
+})();
+</script>
+</body>
+</html>
