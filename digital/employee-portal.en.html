@@ -711,7 +711,7 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
     var head=xp.querySelector('.xp-head'), st=xp.querySelector('.xp-st');
     head.addEventListener('click',function(){
       var open=!xp.classList.contains('open');
-      xp.classList.toggle('open',open); head.setAttribute('aria-expanded',open?'true':'false'); st.textContent=open?'Cerrar':'Abrir';
+      xp.classList.toggle('open',open); head.setAttribute('aria-expanded',open?'true':'false'); st.textContent=open?'Close':'Open';
       if(open){
         setTimeout(function(){ visibleCounts(xp);
           xp.querySelectorAll('.sp .fill').forEach(function(f,i){ setTimeout(function(){ f.style.width=f.dataset.w; },i*110); });
@@ -733,32 +733,32 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
 
   /* rituals (original invites) */
   var R={
-  plan:{t:'Intranet · 1.er Design Sprint Planning 🚀',w:'Día 1 · 09:30 – 10:00',c:'Una vez por sprint',p:['Marta Rocha','Joana Lemos','Rita Paiva'],
-   b:['¡Hola, dream team!','Es hora de arrancar el sprint como exploradores que trazan rumbo a nuevas tierras 🌍.','En este Sprint Planning aclararemos objetivos y acordaremos qué significa realmente el “éxito” en este sprint. Es como preparar la mochila con las herramientas adecuadas antes del viaje.','<b>Módulo:</b> Gestión de contenidos y comunicación · <b>Duración del sprint:</b> 2 semanas'],
-   q:['¿Cuál es nuestra <em>estrella polar</em> en este sprint?','¿Qué tareas parecen las montañas más altas?','¿Cómo sabremos que hemos llegado a la cima (Definition of Done)?'],e:'¡Hasta luego!'},
-  am:{t:'Intranet · Morning Kick-off ☀️',w:'Cada día · 09:30 – 10:00',c:'Diario',p:['Marta Rocha','Joana Lemos'],
-   b:['¡Buenos días, dream team!','Esta es nuestra carga de energía diaria: sincronizar brújulas antes de salir a la ruta 🧭. Rápido, claro y con energía, para que todas estemos al día y listas para hacerlo juntas.'],
-   q:['¿Cuál es mi foco principal hoy?','¿Qué me impide avanzar rápido?','¿Dónde puedo colaborar o pedir ayuda?'],e:'¡Vamos!'},
-  pm:{t:'Intranet · Evening Wrap-up 🔄',w:'Cada día · 17:00 – 17:30',c:'Diario',p:['Marta Rocha','Joana Lemos','Rita Paiva'],
-   b:['<b>Evening Wrap-up: ¡reflexionar y desconectar!</b>','¡Hola, dream team!','Antes de cerrar, aterricemos el avión con suavidad 🛬. El Evening Wrap-up es el momento de repasar avances, cerrar temas abiertos y preparar el día siguiente con claridad (y quizá con una sonrisa).'],
-   q:['¿Qué he hecho hoy de lo que me siento orgullosa?','¿Qué queda pendiente para mañana?','¿Hemos aprendido hoy algo que merezca compartir con el equipo?'],e:'A reiniciar el cerebro.'},
-  rev:{t:'Intranet · 1.er Design Sprint Review 🌟',w:'Último día · 17:00 – 17:30',c:'Una vez por sprint',p:['Marta Rocha','Joana Lemos','Rita Paiva','Sara Mendes'],
-   b:['<b>Sprint Review: ¡mostrar y celebrar!</b>','¡Hola, dream team!','Es nuestro momento de brillar 🌟. En el Sprint Review mostramos lo que hemos construido, recogemos feedback y celebramos los logros, grandes o pequeños. Es como la noche del estreno tras semanas de ensayo: luces encendidas, escenario listo y público esperando.'],
-   q:['¿Qué hemos entregado <em>realmente</em> en este sprint?','¿Qué valor ha aportado a los usuarios o a los stakeholders?','¿Qué feedback hará el próximo sprint aún mejor?'],e:'¡A descansar!'}};
+  plan:{t:'Intranet · 1st Design Sprint Planning 🚀',w:'Day 1 · 09:30 – 10:00',c:'Once per sprint',p:['Marta Rocha','Joana Lemos','Rita Paiva'],
+   b:['Hey dream team,','Time to kick off our sprint like explorers setting course for new lands 🌍.','In this Sprint Planning, we’ll clarify our goals, and align on what “success” really means for this sprint. Think of it as packing our bags with the right tools before the journey.','<b>Module:</b> Content management &amp; communication · <b>Sprint duration:</b> 2 weeks'],
+   q:['What is our <em>North Star</em> for this sprint?','Which tasks look like the biggest mountains to climb?','How will we know we’ve reached the summit (Definition of Done)?'],e:'See ya'},
+  am:{t:'Intranet · Morning Kick-off ☀️',w:'Every day · 09:30 – 10:00',c:'Daily',p:['Marta Rocha','Joana Lemos'],
+   b:['Good morning dream team,','This is our daily fuel-up! Think of it as syncing our compasses before hiking into the day 🧭. Quick, sharp, and energizing so we’re all in the loop and ready to crush it together.'],
+   q:['What’s my top focus today?','What’s blocking me from moving fast?','Where can I collaborate or ask for backup?'],e:'Let’s go!'},
+  pm:{t:'Intranet · Evening Wrap-up 🔄',w:'Every day · 17:00 – 17:30',c:'Daily',p:['Marta Rocha','Joana Lemos','Rita Paiva'],
+   b:['<b>Evening Wrap-up: Reflect &amp; Reset!</b>','Hey dream team,','Before we log off, let’s land the plane smoothly 🛬. Evening Wrap-up is our chance to reflect on progress, close open loops, and set ourselves up for tomorrow with clarity (and maybe a smile).'],
+   q:['What did I get done today that I’m proud of?','What’s still hanging that I’ll pick up tomorrow?','Did we learn something today worth sharing with the team?'],e:'Let’s reset the brain.'},
+  rev:{t:'Intranet · 1st Design Sprint Review 🌟',w:'Last day · 17:00 – 17:30',c:'Once per sprint',p:['Marta Rocha','Joana Lemos','Rita Paiva','Sara Mendes'],
+   b:['<b>Sprint Review: Show &amp; Celebrate!</b>','Hello dream team,','This is our time to shine 🌟. In the Sprint Review, we showcase what we’ve built, get feedback, and celebrate the wins — big or small. It’s like opening night after weeks of rehearsal: lights on, stage ready, audience waiting.'],
+   q:['What did we <em>actually</em> deliver this sprint?','How did it bring value to the users or stakeholders?','What feedback will make the next sprint even sharper?'],e:'Let’s relax.'}};
   var ic={cal:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',rep:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg>',vid:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="m16 10 5-3v10l-5-3"/></svg>'};
   function ini(n){ return n.split(' ').map(function(x){ return x[0]; }).join(''); }
   var box=document.getElementById('inv'), rb=document.querySelectorAll('.rit button');
   function show(k){ var r=R[k];
     rb.forEach(function(b){ b.setAttribute('aria-selected',b.dataset.k===k?'true':'false'); });
-    box.innerHTML='<div class="im"><p class="tt">'+r.t+'</p><div class="rw">'+ic.cal+r.w+'</div><div class="rw">'+ic.rep+r.c+'</div><div class="rw">'+ic.vid+'Reunión online</div><div class="pp"><span class="me"><i>LC</i>Lucas Costa · organizador</span>'+r.p.map(function(n){ return '<span><i>'+ini(n)+'</i>'+n+'</span>'; }).join('')+'</div></div>'+
-    '<div class="ib">'+r.b.map(function(x){ return '<p>'+x+'</p>'; }).join('')+'<p style="margin-bottom:0"><b>Preguntas clave</b></p><ol>'+r.q.map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol><p>'+r.e+'<br>Un abrazo, Lucas</p></div>'; }
+    box.innerHTML='<div class="im"><p class="tt">'+r.t+'</p><div class="rw">'+ic.cal+r.w+'</div><div class="rw">'+ic.rep+r.c+'</div><div class="rw">'+ic.vid+'Online meeting</div><div class="pp"><span class="me"><i>LC</i>Lucas Costa · organiser</span>'+r.p.map(function(n){ return '<span><i>'+ini(n)+'</i>'+n+'</span>'; }).join('')+'</div></div>'+
+    '<div class="ib">'+r.b.map(function(x){ return '<p>'+x+'</p>'; }).join('')+'<p style="margin-bottom:0"><b>Key questions</b></p><ol>'+r.q.map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol><p>'+r.e+'<br>Warmly, Lucas</p></div>'; }
   rb.forEach(function(b){ b.addEventListener('click',function(){ show(b.dataset.k); }); });
   show('plan');
 
   /* journey stepper */
   var jb=[].slice.call(document.querySelectorAll('#jl button')), jimg=document.getElementById('jimg'), jcap=document.getElementById('jcap'), ji=0;
   function js(i){ ji=(i+jb.length)%jb.length; jb.forEach(function(b,k){ b.setAttribute('aria-selected',k===ji?'true':'false'); });
-    var b=jb[ji]; jimg.src='assets/ep/'+b.dataset.img+'.webp'; jimg.alt=b.textContent.replace(/^\d+/,'').trim(); jcap.textContent='Paso '+(ji+1)+' de '+jb.length; }
+    var b=jb[ji]; jimg.src='assets/ep/'+b.dataset.img+'.webp'; jimg.alt=b.textContent.replace(/^\d+/,'').trim(); jcap.textContent='Step '+(ji+1)+' of '+jb.length; }
   jb.forEach(function(b,k){ b.addEventListener('click',function(){ js(k); }); });
   document.getElementById('jp').addEventListener('click',function(){ js(ji-1); });
   document.getElementById('jn').addEventListener('click',function(){ js(ji+1); });

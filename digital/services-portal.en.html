@@ -927,7 +927,7 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
     var head=xp.querySelector('.xp-head'), st=xp.querySelector('.xp-st');
     head.addEventListener('click',function(){
       var open=!xp.classList.contains('open');
-      xp.classList.toggle('open',open); head.setAttribute('aria-expanded',open?'true':'false'); st.textContent=open?'Cerrar':'Abrir';
+      xp.classList.toggle('open',open); head.setAttribute('aria-expanded',open?'true':'false'); st.textContent=open?'Close':'Open';
       if(open){ setTimeout(function(){ visibleCounts(xp); },350); var top=xp.getBoundingClientRect().top; if(top<0||top>innerHeight*.5) xp.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); }
     });
   });
@@ -952,16 +952,16 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
 
   /* ecosystem channels */
   var chs=document.querySelectorAll('#eco .ch'), from=document.getElementById('ecofrom');
-  var names=['the Services Portal','the mobile app','the chatbot','the assisted desk'];
+  var names=['Services Portal','mobile app','chatbot','assisted desk'];
   chs.forEach(function(c){ c.addEventListener('click',function(){
     chs.forEach(function(x){ x.classList.toggle('on',x===c); });
-    from.style.opacity=0; setTimeout(function(){ from.textContent='Started on '+names[+c.dataset.i]; from.style.opacity=1; },200);
+    from.style.opacity=0; setTimeout(function(){ from.textContent='Started '+(c.dataset.i==='3'?'at the ':'on the ')+names[+c.dataset.i]; from.style.opacity=1; },200);
   }); });
 
   /* journey stepper */
   var jb=[].slice.call(document.querySelectorAll('#jl button')), jimg=document.getElementById('jimg'), jcap=document.getElementById('jcap'), ji=0;
   function js(i){ ji=(i+jb.length)%jb.length; jb.forEach(function(b,k){ b.setAttribute('aria-selected',k===ji?'true':'false'); });
-    var b=jb[ji]; jimg.src='assets/sp/'+b.dataset.img+'.webp'; jimg.alt=b.textContent.replace(/^\d+/,'').trim(); jcap.textContent='Paso '+(ji+1)+' de '+jb.length; }
+    var b=jb[ji]; jimg.src='assets/sp/'+b.dataset.img+'.webp'; jimg.alt=b.textContent.replace(/^\d+/,'').trim(); jcap.textContent='Step '+(ji+1)+' of '+jb.length; }
   jb.forEach(function(b,k){ b.addEventListener('click',function(){ js(k); }); });
   document.getElementById('jp').addEventListener('click',function(){ js(ji-1); });
   document.getElementById('jn').addEventListener('click',function(){ js(ji+1); });

@@ -409,6 +409,7 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
 .steps4 ul{align-self:start}
 .more .cta{align-self:end}
 }
+.lofi-board{margin:0 0 32px}
 .lng{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}.rt{display:flex;align-items:center;gap:8px}@media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
 </style>
 </head>
@@ -571,9 +572,8 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
     </div>
     <div data-tabset style="margin-top:28px">
       <p class="phint">The deliverables behind each step. Click a tab, and any image to enlarge it.</p>
-      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-s4">Low-fi map</button><button role="tab" aria-selected="false" data-p="p-s1">Session boards</button><button role="tab" aria-selected="false" data-p="p-s2">User flow</button><button role="tab" aria-selected="false" data-p="p-s3">Story map</button></div>
-      <div class="tpanel on" id="p-s4"><figure class="fig wf"><img src="assets/bs/lofi-map.webp" alt="The low-fi map: every screen, state and note in one board before moving up in fidelity." loading="lazy" data-zoom><figcaption>The low-fi map: every screen, state and note in one board before moving up in fidelity.</figcaption></figure></div>
-      <div class="tpanel" id="p-s1"><div class="g2s"><figure class="fig wf"><img src="assets/bs/session-1.webp" alt="Discovery session board: stock stages, process notes and first problems." loading="lazy" data-zoom><figcaption>Discovery session board: stock stages, process notes and first problems.</figcaption></figure><figure class="fig wf"><img src="assets/bs/session-3.webp" alt="Third session: rules, mixing proposals and the first sketch of the new tool." loading="lazy" data-zoom><figcaption>Third session: rules, mixing proposals and the first sketch of the new tool.</figcaption></figure></div></div>
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-s1">Session boards</button><button role="tab" aria-selected="false" data-p="p-s2">User flow</button><button role="tab" aria-selected="false" data-p="p-s3">Story map</button></div>
+      <div class="tpanel on" id="p-s1"><div class="g2s"><figure class="fig wf"><img src="assets/bs/session-1.webp" alt="Discovery session board: stock stages, process notes and first problems." loading="lazy" data-zoom><figcaption>Discovery session board: stock stages, process notes and first problems.</figcaption></figure><figure class="fig wf"><img src="assets/bs/session-3.webp" alt="Third session: rules, mixing proposals and the first sketch of the new tool." loading="lazy" data-zoom><figcaption>Third session: rules, mixing proposals and the first sketch of the new tool.</figcaption></figure></div></div>
       <div class="tpanel" id="p-s2"><figure class="fig wf"><img src="assets/bs/user-flow.webp" alt="To-be flow: demand → allocation → mix → distribution." loading="lazy" data-zoom><figcaption>To-be flow: demand → allocation → mix → distribution.</figcaption></figure></div>
       <div class="tpanel" id="p-s3"><figure class="fig wf wide"><img src="assets/bs/story-map-full.webp" alt="User story mapping: six domains, from viewing stock to exporting results." loading="lazy" data-zoom><figcaption>User story mapping: six domains, from viewing stock to exporting results.</figcaption></figure></div>
     </div>
@@ -592,6 +592,7 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
     <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
   </button>
   <div class="xp-body" id="b-evo"><div class="in"><div class="pad">
+    <figure class="fig wf lofi-board"><img src="assets/bs/lofi-map.webp" alt="The low-fi map: every screen, state and note in one board before moving up in fidelity." loading="lazy" data-zoom><figcaption>The low-fi map: every screen, state and note in one board before moving up in fidelity.</figcaption></figure>
     <div data-tabset>
       <p class="phint">Drag the handle to go from low-fi to the final design.</p>
       <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-e1">Mixing</button><button role="tab" aria-selected="false" data-p="p-e2">Monthly plan (MPS)</button><button role="tab" aria-selected="false" data-p="p-e3">Allocation</button></div>
@@ -724,7 +725,7 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
     var head=xp.querySelector('.xp-head'), st=xp.querySelector('.xp-st');
     head.addEventListener('click',function(){
       var open=!xp.classList.contains('open');
-      xp.classList.toggle('open',open); head.setAttribute('aria-expanded',open?'true':'false'); st.textContent=open?'Cerrar':'Abrir';
+      xp.classList.toggle('open',open); head.setAttribute('aria-expanded',open?'true':'false'); st.textContent=open?'Close':'Open';
       if(open){ var top=xp.getBoundingClientRect().top; if(top<0||top>innerHeight*.5) xp.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); }
     });
   });
