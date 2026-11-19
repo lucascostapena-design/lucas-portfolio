@@ -324,6 +324,29 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
 .more .cta{align-self:end}
 }
 /* pill-center */.meta>div{min-width:0}.meta dd{overflow-wrap:break-word;hyphens:auto}.sp .fill{min-width:max-content}.seg2 button,.tabs button,button[role=tab]{text-align:center;justify-content:center}.five .srcs span{text-align:center}
+/* fw-guide */
+[data-guided] .fwh{display:flex;flex-direction:column;gap:4px;margin-bottom:16px;scroll-margin-top:96px}
+[data-guided] .fwh b{font-size:clamp(20px,2vw,26px);font-weight:900;letter-spacing:-.02em;color:var(--ink);line-height:1.15}
+[data-guided] .fwh span{font-size:15px;font-weight:600;color:var(--ink);opacity:.75}
+[data-guided] .tabs{align-items:center;gap:6px}
+[data-guided] .tabs button{display:inline-flex;align-items:center;gap:8px;padding:0 16px 0 6px;position:relative}
+[data-guided] .tabs button:not(:last-child){margin-right:26px}
+[data-guided] .tabs button:not(:last-child)::after{content:"→";position:absolute;right:-22px;top:50%;transform:translateY(-50%);font-weight:900;color:var(--ink);opacity:.45;pointer-events:none}
+[data-guided] .tabs .tn{font-style:normal;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:#ffffff40;font-size:13px;font-weight:900}
+[data-guided] .tabs button[aria-selected=true] .tn{background:var(--ink);color:#fff}
+[data-guided] .tabs button.seen:not([aria-selected=true]) .tn{background:#ffffff80;color:var(--ink)}
+[data-guided] .tabs button.seen:not([aria-selected=true]) .tn::before{content:"✓"}
+[data-guided] .tabs button.seen:not([aria-selected=true]) .tn{font-size:0}
+[data-guided] .tabs button.seen:not([aria-selected=true]) .tn::before{font-size:14px}
+[data-guided] .tabs button.nudge{animation:fwpulse 1.8s ease-out infinite}
+@keyframes fwpulse{0%{box-shadow:0 0 0 0 #ffffffcc}70%{box-shadow:0 0 0 12px #ffffff00}100%{box-shadow:0 0 0 0 #ffffff00}}
+@media (prefers-reduced-motion:reduce){[data-guided] .tabs button.nudge{animation:none;outline:2px solid #fff;outline-offset:2px}}
+.fwnav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:28px;padding-top:20px;border-top:1px solid #00000022}
+.fwnav .fwstep{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);opacity:.7}
+.fwnav .fwgo{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 24px;border-radius:999px;background:var(--ink);color:#fff;font-size:16px;font-weight:800;cursor:pointer;transition:transform .15s}
+.fwnav .fwgo:hover{transform:translateX(3px)}
+.fwnav .fwdone{display:inline-flex;align-items:center;height:52px;padding:0 22px;border-radius:999px;background:#fff;color:var(--ink);font-size:15px;font-weight:800}
+@media (max-width:600px){[data-guided] .tabs button:not(:last-child){margin-right:0}[data-guided] .tabs button:not(:last-child)::after{display:none}[data-guided] .tabs button{height:40px;font-size:13px}.fwnav{flex-direction:column;align-items:stretch;text-align:center}.fwnav .fwgo,.fwnav .fwdone{justify-content:center;text-align:center}.fwnav .fwgo{height:auto;min-height:52px;padding:12px 20px;font-size:15px;line-height:1.3}}
 .lng{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}
 .rt{display:flex;align-items:center;gap:8px;margin-left:auto}header .pill+.brand{margin-left:12px}
 @media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
@@ -416,9 +439,9 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
     <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
   </button>
   <div class="xp-body" id="b-team"><div class="in"><div class="pad">
-    <div data-tabset>
-      <p class="phint">Four views of how we worked. Click each tab to see more.</p>
-      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-rit">Rituals</button><button role="tab" aria-selected="false" data-p="p-week">A sprint week</button><button role="tab" aria-selected="false" data-p="p-dev">Design → development</button><button role="tab" aria-selected="false" data-p="p-team">The team</button></div>
+    <div data-tabset data-guided>
+      <div class="fwh"><b>Explore the framework in 4 steps</b><span>Go through each tab, from the rituals to the team.</span></div>
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-rit"><i class="tn">1</i>Rituals</button><button role="tab" aria-selected="false" data-p="p-week"><i class="tn">2</i>A sprint week</button><button role="tab" aria-selected="false" data-p="p-dev"><i class="tn">3</i>Design → development</button><button role="tab" aria-selected="false" data-p="p-team"><i class="tn">4</i>The team</button></div>
 
       <div class="tpanel on" id="p-rit" role="tabpanel">
         <div class="rit" role="tablist" aria-label="Rituals">
@@ -797,6 +820,32 @@ footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
   }
   imgs.forEach(function(im){ im.addEventListener('load',apply); });
   apply();
+})();
+</script>
+<script id="fwguide">
+(function(){
+  var es=(document.documentElement.lang||'').slice(0,2)==='es';
+  var T=es?{next:'Siguiente: ',step:'Paso ',of:' de ',done:'Has visto el framework completo ✓'}:{next:'Next: ',step:'Step ',of:' of ',done:'You’ve seen the whole framework ✓'};
+  document.querySelectorAll('[data-guided]').forEach(function(set){
+    var bs=[].slice.call(set.querySelectorAll(':scope > .tabs button'));
+    var name=function(b){var c=b.cloneNode(true);var n=c.querySelector('.tn');if(n)n.remove();return c.textContent.trim();};
+    var nudge=function(){var cur=bs.findIndex(function(b){return b.getAttribute('aria-selected')==='true';});
+      bs.forEach(function(b){b.classList.remove('nudge');});
+      var nx=bs.find(function(b,i){return i>cur&&!b.classList.contains('seen');})||bs.find(function(b){return !b.classList.contains('seen')&&b.getAttribute('aria-selected')!=='true';});
+      if(nx) nx.classList.add('nudge');};
+    bs.forEach(function(b,i){
+      var p=document.getElementById(b.dataset.p); if(!p) return;
+      var nav=document.createElement('div'); nav.className='fwnav';
+      var st=document.createElement('span'); st.className='fwstep'; st.textContent=T.step+(i+1)+T.of+bs.length; nav.appendChild(st);
+      if(i<bs.length-1){var g=document.createElement('button'); g.type='button'; g.className='fwgo'; g.textContent=T.next+name(bs[i+1])+'\u00a0→';
+        g.addEventListener('click',function(){bs[i+1].click(); var h=set.querySelector('.fwh')||set; h.scrollIntoView({behavior:'smooth',block:'start'});}); nav.appendChild(g);}
+      else {var d=document.createElement('span'); d.className='fwdone'; d.textContent=T.done; nav.appendChild(d);}
+      p.appendChild(nav);
+      b.addEventListener('click',function(){b.classList.add('seen'); nudge();});
+    });
+    bs.forEach(function(b){ if(b.getAttribute('aria-selected')==='true') b.classList.add('seen'); });
+    nudge();
+  });
 })();
 </script>
 <script>
