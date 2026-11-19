@@ -1,6 +1,3 @@
 {
-  "trailingSlash": true,
-  "redirects": [
-    { "source": "/", "destination": "/digital/", "permanent": false }
-  ]
+  "trailingSlash": true
 }
