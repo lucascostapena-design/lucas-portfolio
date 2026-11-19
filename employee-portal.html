@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucas Costa Pena — Employee Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF8; --card:#EFEFEC; --card2:#F5F5F2; --white:#FFFFFF;
+  --ink:#141414; --muted:#6B6B66; --line:#E2E2DD;
+  --r:24px; --rs:16px; --w:1140px;
+  /* block colours */
+  --c-blue:#2F4BE0; --c-coral:#FF7457; --c-yellow:#FFD23F; --c-mint:#5FD3A0; --c-lilac:#8E6CFF; --c-ink:#141414;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Lato,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+a{color:inherit}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 28px}
+em{font-style:normal;color:var(--muted)}
+.label{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+p{max-width:68ch}
+p + p{margin-top:14px}
+p.big{font-size:clamp(20px,2vw,24px);line-height:1.45;font-weight:400}
+h2{font-size:clamp(30px,3.6vw,44px);line-height:1.1;font-weight:900;letter-spacing:-.02em;margin:10px 0 18px;max-width:22ch}
+h3{font-weight:900;font-size:19px;line-height:1.3;letter-spacing:-.01em}
+
+/* top */
+.top{position:sticky;top:0;z-index:30;background:rgba(250,250,248,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;font-size:14px}
+.pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:999px;background:var(--card);font-weight:700;text-decoration:none}
+.brand{font-weight:900}
+.top nav{display:flex;gap:4px}
+.top nav a{text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:999px}
+.top nav a:hover{background:var(--card);color:var(--ink)}
+.prog{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--ink)}
+
+/* hero */
+.hero{padding-top:56px}
+.hero h1{font-size:clamp(42px,6.2vw,80px);line-height:1.02;font-weight:900;letter-spacing:-.035em;margin:16px 0 22px;max-width:15ch}
+.hero .lede{font-size:clamp(18px,1.7vw,21px);color:var(--muted);max-width:62ch}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:40px}
+.meta div{background:var(--card);border-radius:var(--rs);padding:18px 20px}
+.meta dt{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.meta dd{font-size:15px;line-height:1.45;font-weight:700}
+.stage{margin-top:12px;background:var(--card);border-radius:28px;padding:44px 44px 0;overflow:hidden}
+.stage img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top;border-radius:12px 12px 0 0;cursor:zoom-in}
+.stage{position:relative}
+.stamp{position:absolute;right:36px;bottom:32px;z-index:2;width:236px;background:var(--c-yellow);color:var(--ink);border-radius:20px;padding:16px 18px 15px;transform:rotate(3deg) scale(.9);opacity:0;box-shadow:0 24px 50px -24px rgba(0,0,0,.45);transition:transform .8s cubic-bezier(.2,.9,.2,1.2),opacity .5s}
+.stage.is-in .stamp{transform:rotate(3deg);opacity:1;transition-delay:.5s}
+.stamp:hover{transform:rotate(0) scale(1.03)!important}
+.stamp .tk{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.stamp .tk i{width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--c-yellow);display:grid;place-items:center;font-style:normal;font-size:11px}
+.stamp p{font-size:12.5px;line-height:1.4;margin-top:8px;max-width:none}
+.stamp b{display:block;font-size:16px;font-weight:900;line-height:1.15;letter-spacing:-.02em;margin-top:12px}
+@media (max-width:900px){.stamp{display:none}}
+@media (prefers-reduced-motion:reduce){.stamp{opacity:1;transform:rotate(3deg);transition:none}}
+.figcap{font-size:14px;color:var(--muted);margin-top:14px;max-width:80ch}
+.note{display:flex;gap:12px;align-items:flex-start;margin-top:16px;background:var(--card2);border-radius:var(--rs);padding:16px 20px;font-size:15px}
+.note svg{flex:none;margin-top:3px}
+.note p{max-width:none}
+
+/* sections */
+.sec{padding-top:96px}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
+.nums > div{background:var(--card);border-radius:var(--rs);padding:22px 22px 20px;min-height:150px;display:flex;flex-direction:column;justify-content:flex-start}
+.nums b{font-size:clamp(44px,5vw,64px);font-weight:900;line-height:1;letter-spacing:-.03em}
+.nums span{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.4}
+
+/* ===== expandable blocks ===== */
+.xp{margin-top:96px;border-radius:32px;background:var(--card);transition:background .45s ease,color .45s ease;scroll-margin-top:84px}
+.xp + .xp{margin-top:16px}
+.xp-head{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end;width:100%;padding:44px 48px;border-radius:32px}
+.xp-head .label{transition:color .45s}
+.xp-head h2{margin-bottom:14px}
+.xp-head p{color:var(--muted);transition:color .45s}
+.xp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.xp-tags span{font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--white);transition:background .45s,color .45s}
+.xp-cta{display:flex;flex-direction:column;align-items:center;gap:10px}
+.xp-dot{width:84px;height:84px;border-radius:50%;background:var(--accent);display:grid;place-items:center;transition:transform .4s cubic-bezier(.2,.8,.2,1),background .45s}
+.xp-dot svg{transition:transform .4s}
+.xp-cta small{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.xp-head:hover .xp-dot{transform:scale(1.08)}
+.xp-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s cubic-bezier(.2,.8,.2,1)}
+.xp-body > .in{overflow:hidden}
+.xp-body .pad{padding:0 48px 48px}
+.xp.open{background:var(--accent);color:var(--on)}
+.xp.open .xp-head .label,.xp.open .xp-head p{color:var(--on-muted)}
+.xp.open .xp-head em{color:var(--on-muted)}
+.xp.open .xp-tags span{background:var(--on-chip);color:var(--on)}
+.xp.open .xp-dot{background:var(--on);}
+.xp.open .xp-dot svg{transform:rotate(45deg);stroke:var(--accent)}
+.xp.open .xp-body{grid-template-rows:1fr}
+.xp[data-c=blue]{--accent:var(--c-blue);--on:#fff;--on-muted:#ffffffbf;--on-chip:#ffffff26}
+.xp[data-c=coral]{--accent:var(--c-coral);--on:#141414;--on-muted:#141414b3;--on-chip:#14141419}
+.xp[data-c=yellow]{--accent:var(--c-yellow);--on:#141414;--on-muted:#141414b3;--on-chip:#1414141a}
+.xp[data-c=mint]{--accent:var(--c-mint);--on:#141414;--on-muted:#141414b3;--on-chip:#1414141a}
+.xp[data-c=lilac]{--accent:var(--c-lilac);--on:#fff;--on-muted:#ffffffc7;--on-chip:#ffffff29}
+.xp[data-c=ink]{--accent:var(--c-ink);--on:#fff;--on-muted:#ffffffad;--on-chip:#ffffff1f}
+.xp:not(.open) .xp-dot svg{stroke:#fff}
+.xp[data-c=yellow]:not(.open) .xp-dot svg,.xp[data-c=mint]:not(.open) .xp-dot svg,.xp[data-c=coral]:not(.open) .xp-dot svg{stroke:#141414}
+
+/* white cards inside coloured panels */
+.wc{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:24px}
+.wc p{color:var(--muted)}
+.ptxt{color:var(--on);max-width:68ch}
+.ptxt + .ptxt{margin-top:14px}
+.phint{font-size:13px;font-weight:700;color:var(--on-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.phint::before{content:"";width:18px;height:2px;background:var(--on-muted)}
+.ph3{font-size:24px;font-weight:900;letter-spacing:-.01em;margin:40px 0 14px;color:var(--on)}
+
+/* constraints */
+.cons{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.con{display:grid;gap:10px;align-content:start}
+.con .q{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.con b{font-size:19px;font-weight:900;line-height:1.3}
+.con .ar{width:34px;height:34px;border-radius:50%;background:var(--c-blue);color:#fff;display:grid;place-items:center;font-weight:900}
+.con p{font-size:15px}
+
+/* tabs (inside panels) */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tabs button{height:42px;padding:0 18px;border-radius:999px;font-size:14px;font-weight:700;background:var(--on-chip);color:var(--on);transition:background .2s,color .2s}
+.tabs button[aria-selected=true]{background:var(--white);color:var(--ink)}
+.tpanel{display:none;animation:fade .35s ease}
+.tpanel.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* rituals */
+.rit{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rit button{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:18px;display:flex;flex-direction:column;gap:8px;outline:3px solid transparent;transition:outline-color .2s,transform .2s}
+.rit button:hover{transform:translateY(-2px)}
+.rit button[aria-selected=true]{outline-color:var(--ink)}
+.rit .em{font-size:24px;line-height:1}
+.rit .when{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rit h3{font-size:20px}
+.rit .q{font-size:14px;color:var(--muted);line-height:1.4}
+.rit .open{font-size:13px;font-weight:900;margin-top:auto;padding-top:6px}
+.inv{margin-top:10px;background:var(--white);color:var(--ink);border-radius:var(--rs);display:grid;grid-template-columns:1fr 1.35fr;overflow:hidden}
+.inv .im{padding:24px;border-right:1px solid var(--line)}
+.inv .tt{font-weight:900;font-size:18px;line-height:1.3;margin:0 0 14px}
+.inv .rw{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted);margin:8px 0}
+.inv .pp{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.inv .pp span{display:flex;align-items:center;gap:7px;background:var(--card);border-radius:999px;padding:3px 10px 3px 3px;font-size:12.5px}
+.inv .pp i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:900;background:var(--c-coral);color:var(--ink)}
+.inv .pp .me i{background:var(--ink);color:#fff}
+.inv .ib{padding:24px 28px;font-size:15px;line-height:1.6}
+.inv .ib p{max-width:none;margin:0 0 12px;color:var(--ink)}
+.inv .ib p + p{margin-top:0}
+.inv .ib em{color:var(--ink);font-weight:900}
+.inv .ib ol{margin:4px 0 12px;padding-left:20px}
+.inv .ib li{margin:4px 0}
+.rnote{font-size:13px;color:var(--on-muted);margin-top:10px}
+.motto{font-size:clamp(24px,3vw,36px);font-weight:900;line-height:1.15;letter-spacing:-.02em;margin:32px 0 6px;max-width:none;color:var(--on)}
+.motto + span{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--on-muted)}
+
+.week{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.week > div{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:16px}
+.week b{display:block;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.week span{display:block;font-size:14px;line-height:1.4;padding:8px 10px;border-radius:10px;background:var(--card);margin-bottom:6px}
+.week span.c{background:#FFE1D9}
+.week span.d{background:transparent;border:1.5px dashed #BDBDB7;color:var(--muted)}
+.leg{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13px;color:var(--on-muted)}
+.leg i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-right:6px;background:var(--card)}
+.leg i.c{background:#FFE1D9}.leg i.d{background:transparent;border:1.5px dashed currentColor}
+.tracks{overflow-x:auto;background:var(--white);border-radius:var(--rs);padding:20px;color:var(--ink);margin-top:14px}
+.tg{display:grid;grid-template-columns:110px repeat(6,minmax(84px,1fr));gap:8px;min-width:640px;align-items:center}
+.tg .h{font-size:12px;font-weight:900;color:var(--muted);text-align:center}
+.tg .lb{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.tg .m{border-radius:10px;padding:10px 8px;font-size:13px;line-height:1.3;text-align:center;min-height:54px;display:grid;place-items:center}
+.tg .m.ds{background:var(--ink);color:#fff}
+.tg .m.dv{background:var(--card)}
+.tg .br{grid-column:2/-1;display:flex;justify-content:space-around;font-weight:900;color:var(--c-coral);font-size:18px;line-height:1}
+.bridge{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.bridge b{display:block;color:var(--ink);margin-bottom:4px;font-size:15px}
+.bridge div{font-size:14.5px}
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.team .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.team b{display:block;font-size:17px;font-weight:900;margin:8px 0 6px}
+.team p{font-size:15px}
+.team i{display:inline-block;margin-top:12px;font-style:normal;font-weight:900;font-size:14px;background:#FFE1D9;padding:4px 10px;border-radius:999px}
+.grow{display:grid;grid-template-columns:220px 1fr;gap:24px;margin-top:10px}
+.grow .n{font-size:64px;font-weight:900;line-height:1;letter-spacing:-.03em}
+.grow .n + span{display:block;font-size:14px;color:var(--muted);margin-top:8px}
+.grow p{color:var(--ink)}
+.kd2{display:grid;grid-template-columns:1fr 1.5fr;gap:24px;align-items:start}
+.kd2 + .kd2{margin-top:10px}
+.kd2 p{color:var(--ink)}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.mini div{background:var(--card);border-radius:12px;padding:14px}
+.mini b{display:block;font-size:34px;font-weight:900;line-height:1}
+.mini span{display:block;margin-top:8px;font-size:13px;line-height:1.4;color:var(--muted)}
+
+/* sprints */
+.sp{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:22px 24px;display:grid;gap:8px}
+.sp .row{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center}
+.sp .n{font-size:20px;font-weight:900}
+.sp .bar{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:10px;overflow:hidden;min-height:44px}
+.sp .fill{height:44px;width:0;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;padding:0 14px;font-size:12px;font-weight:900;white-space:nowrap;flex:none;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.sp .fill.x{background:var(--c-coral);color:var(--ink)}
+.sp .mods{font-size:14.5px;padding-right:12px}
+.sp sup{color:var(--c-coral);font-weight:900}
+.spn{font-size:14px;color:var(--on-muted);margin-top:12px;max-width:68ch}
+.spcount{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}
+.spcount div{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:16px}
+.spcount b{display:block;font-size:34px;font-weight:900;line-height:1}
+.spcount span{display:block;margin-top:8px;font-size:13px;line-height:1.4;color:var(--muted)}
+
+/* board + matrix */
+.board{background:var(--white);color:var(--ink);border-radius:var(--rs);overflow:hidden}
+.board .bh{background:var(--ink);color:#fff;padding:12px 18px;font-weight:900;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.board .bh small{font-size:12px;opacity:.7;font-weight:400}
+.bgrid{display:grid;grid-template-columns:1fr 1.2fr;font-size:14px}
+.bgrid > div{padding:12px 16px;border-bottom:1px solid var(--line)}
+.bgrid > div:nth-child(odd){border-right:1px solid var(--line)}
+.bgrid .th{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;background:var(--card)}
+.bgrid .th.qq{background:#FFE9A6}
+.bgrid .qq2{background:#FFF6D6}
+.levels{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:22px 0 10px;font-size:14px;color:var(--on)}
+.levels span{background:var(--white);color:var(--ink);border-radius:999px;padding:8px 16px;font-weight:700}
+.levels i{font-style:normal}
+.matrix{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:10px 16px 16px;overflow-x:auto}
+.matrix table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+.matrix th,.matrix td{border-bottom:1px solid var(--line);padding:10px;text-align:center}
+.matrix th{font-size:10.5px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.matrix td:first-child,.matrix th:first-child{text-align:left}
+.matrix td:first-child{font-weight:900}
+.ck{display:inline-block;width:15px;height:15px;border-radius:4px;background:var(--ink)}
+.ck.p{background:transparent;border:2px solid var(--ink)}
+.ck.n{background:var(--card)}
+.matrix .leg{color:var(--muted)}
+.matrix .leg i.lk{background:var(--ink)}.matrix .leg i.lk.p{background:transparent;border:2px solid var(--ink)}.matrix .leg i.lk.n{background:var(--card)}
+
+/* journey stepper */
+.jr{display:grid;grid-template-columns:330px 1fr;gap:12px;align-items:start}
+.jl{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:10px}
+.jl .ph{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 12px 6px}
+.jl button{display:grid;grid-template-columns:28px 1fr;gap:10px;width:100%;padding:10px 12px;border-radius:12px;font-size:14px;line-height:1.4;color:var(--muted);transition:background .2s,color .2s}
+.jl button b{width:26px;height:26px;border-radius:8px;background:var(--card);display:grid;place-items:center;font-size:12px;font-weight:900;color:var(--ink)}
+.jl button[aria-selected=true]{background:var(--card);color:var(--ink);font-weight:700}
+.jl button[aria-selected=true] b{background:var(--c-lilac);color:#fff}
+.jv{background:var(--white);border-radius:var(--rs);padding:18px;position:sticky;top:84px}
+.jv img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;box-shadow:0 0 0 1px var(--line);cursor:zoom-in}
+.jv .cap{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:14px;color:var(--ink);font-size:15px}
+.jv .nav{display:flex;gap:6px;flex:none}
+.jv .nav button{width:40px;height:40px;border-radius:50%;background:var(--card);display:grid;place-items:center}
+
+/* key screens */
+.kd{display:grid;grid-template-columns:1fr 1.45fr;gap:28px;align-items:start;background:var(--card);border-radius:var(--r);padding:28px}
+.kd + .kd{margin-top:12px}
+.kd p{color:var(--muted);font-size:16px}
+.kd h3{margin-bottom:10px}
+.kd .why{color:var(--ink);font-size:15px;margin-top:14px;background:var(--white);border-radius:12px;padding:12px 14px}
+.kd .why b{display:block;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.imgs{display:grid;gap:12px}
+.imgs.two{grid-template-columns:1fr 1fr}
+.fig{margin:0}
+.fig img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;background:#fff;box-shadow:0 0 0 1px var(--line);cursor:zoom-in}
+.fig figcaption{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.45}
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.boards .fig img{object-position:top left;background:#1e1e1e}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.xp .fig figcaption{color:var(--on-muted)}
+.xp .g3 .fig{background:var(--white);border-radius:var(--rs);padding:12px}
+.xp .g3 .fig figcaption{color:var(--muted)}
+.xp .g3 .fig img{box-shadow:0 0 0 1px var(--line)}
+
+/* ecosystem / outcome / reflection */
+.eco{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.eco .fig{background:var(--card);border-radius:var(--rs);padding:14px}
+.link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-weight:900;text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:2px}
+.lrn{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:28px}
+.lrn > div{background:var(--card);border-radius:var(--r);padding:28px}
+.lrn b{display:block;font-size:44px;font-weight:900;line-height:1;margin-bottom:18px;letter-spacing:-.02em}
+.lrn h3{margin-bottom:8px}
+.lrn p{color:var(--muted);font-size:15.5px}
+.more{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.more a{display:block;text-decoration:none;background:var(--card);border-radius:var(--r);padding:26px;transition:background .2s}
+.more a:hover{background:#E6E6E2}
+.more h3{font-size:20px;margin:10px 0 18px}
+.cta{font-weight:900;font-size:15px}
+footer{margin-top:96px;background:var(--ink);color:#fff}
+footer .wrap{padding-top:72px;padding-bottom:48px}
+footer .big{font-size:clamp(56px,9vw,112px);font-weight:900;line-height:.95;letter-spacing:-.04em;margin-bottom:28px}
+footer .links{display:flex;flex-wrap:wrap;gap:10px}
+footer .links a{display:inline-flex;height:44px;align-items:center;padding:0 18px;border-radius:999px;background:#ffffff1a;text-decoration:none;font-weight:700}
+footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rv.is-in{opacity:1;transform:none}
+
+/* lightbox */
+.lbx{position:fixed;inset:0;background:rgba(10,10,10,.9);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out;padding:3vw}
+.lbx.on{display:flex}
+.lbx img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+
+@media (max-width:900px){
+  .meta,.nums{grid-template-columns:repeat(2,1fr)}
+  .stage{padding:18px 18px 0}
+  .xp-head{grid-template-columns:1fr;padding:28px 24px;gap:20px}
+  .xp-cta{flex-direction:row}
+  .xp-dot{width:56px;height:56px}
+  .xp-body .pad{padding:0 20px 28px}
+  .cons,.rit,.inv,.week,.bridge,.team,.grow,.kd2,.jr,.kd,.imgs.two,.boards,.g3,.eco,.lrn,.more,.spcount{grid-template-columns:1fr}
+  .inv .im{border-right:0;border-bottom:1px solid var(--line)}
+  .jv{position:static}
+  .top nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.xp,.xp-body,.sp .fill{transition:none}}
+
+/* align card internals across a row (subgrid, desktop only) */
+@media (min-width:901px){
+.people>*,.steps4>*{display:grid;grid-template-rows:subgrid;grid-row:span 4;align-content:start}
+.blocks>*,.more>a{display:grid;grid-template-rows:subgrid;grid-row:span 3;align-content:start}
+.people,.steps4,.blocks,.more{row-gap:0}
+.people>*,.steps4>*,.blocks>*,.more>a{row-gap:0}
+.people .need{margin-top:14px}
+.steps4 ul{align-self:start}
+.more .cta{align-self:end}
+}
+/* pill-center */.meta>div{min-width:0}.meta dd{overflow-wrap:break-word;hyphens:auto}.sp .fill{min-width:max-content}.seg2 button,.tabs button,button[role=tab]{text-align:center;justify-content:center}.five .srcs span{text-align:center}
+.lng{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}
+.rt{display:flex;align-items:center;gap:8px;margin-left:auto}header .pill+.brand{margin-left:12px}
+@media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
+</style>
+</head>
+<body>
+<script>
+/* every page opens at the top (links between pages, back/forward and reloads) */
+(function(){
+  try{ if('scrollRestoration' in history) history.scrollRestoration='manual'; }catch(e){}
+  function top(){ if(!location.hash){ var h=document.documentElement, b=h.style.scrollBehavior; h.style.scrollBehavior='auto'; window.scrollTo(0,0); h.style.scrollBehavior=b; } }
+  top(); document.addEventListener('DOMContentLoaded',top); window.addEventListener('load',top); window.addEventListener('pageshow',top);
+})();
+</script>
+
+
+<header class="top">
+  <div class="wrap">
+    <a class="pill" href="index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All work</a>
+    <span class="brand">Lucas Costa Pena</span>
+    <div class="rt"><nav aria-label="Sections"><a href="#challenge">Challenge</a><a href="#blocks">How we worked</a><a href="#screens">Screens</a><a href="#outcome">Outcome</a></nav><a class="lng" href="employee-portal.es.html" hreflang="es" lang="es" aria-label="Ver en español"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>ES</a></div>
+  </div>
+  <div class="prog" id="prog"></div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="wrap hero">
+  <div class="label">Case study 03 &nbsp;·&nbsp; Public sector · Product ownership · Team leadership</div>
+  <h1>Designing for a hierarchy, <em>one sprint at a time.</em></h1>
+  <p class="lede">A Portuguese regional government needed one employee portal for its whole public administration, on a very short deadline. I led a team of two designers as Lead Product Designer, with Product Owner responsibilities: I built the way we worked, untangled four levels of hierarchy and handed every module to development as it was designed.</p>
+  <dl class="meta">
+    <div><dt>Role</dt><dd>Lead Product Designer<br>with Product Owner responsibilities</dd></div>
+    <div><dt>Team</dt><dd>3 designers<br>5 developers</dd></div>
+    <div><dt>Timeline</dt><dd>Design: 10 weeks, Sep – Dec 2025<br>Development: completed</dd></div>
+    <div><dt>Client</dt><dd>Regional Government, Portugal</dd></div>
+  </dl>
+  <div class="stage rv"><div class="stamp"><span class="tk"><i>✓</i>Approved in round one</span><p>Designed by the mid designer on my API decisions, and approved by the client in the first round.</p><b>Because leading is letting others fly.</b></div><img src="assets/ep/hf-hero.webp" alt="The employee’s workspace: pending items, processes, notifications, latest news, widgets, quick links and the team’s absences." data-zoom></div>
+  <p class="figcap">The employee’s workspace: pending items, processes, notifications, news, widgets, quick links and the team’s absences.</p>
+  <div class="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Not the live product, but almost. Every screen here was redesigned following the real product strictly: same layout, content and flows. Only the visual style (colours, type and icons), names and data were changed, so the client’s product is not exposed.</p></div>
+</section>
+
+<!-- 01 CHALLENGE -->
+<section class="wrap sec" id="challenge">
+  <div class="label">01 · Challenge</div>
+  <h2>Ten modules, four levels, <em>very little time.</em></h2>
+  <p class="big">Every employee of the regional administration needed one place for internal news, documents, colleagues, services and tools. The hard part wasn’t the screens. It was the hierarchy behind them.</p>
+  <p style="margin-top:16px;color:var(--muted)">Government, departments, entities and sub-entities each publish, approve and manage their own people, and each answers to the level above. Who can publish what, who approves it and who gets to see it changed with every level. Understanding that structure, how each level answers to the one above, and turning it into profiles the platform could use was the biggest challenge of the project. It shaped every module.</p>
+  <div class="nums">
+    <div class="rv"><b data-count="10">10</b><span>modules designed and documented</span></div>
+    <div class="rv"><b data-count="4">4</b><span>levels of hierarchy</span></div>
+    <div class="rv"><b data-count="6">6</b><span>core profiles, inherited across levels</span></div>
+    <div class="rv"><b data-count="10">10</b><span>weeks of design</span></div>
+  </div>
+</section>
+
+<div class="wrap" id="blocks">
+
+<!-- 02 CONSTRAINTS (blue) -->
+<section class="xp" data-c="blue" id="decisions">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-cons">
+    <div>
+      <div class="label">02 · Four constraints, four decisions</div>
+      <h2>The constraints <em>designed the process.</em></h2>
+      <p>Before drawing a single screen, we looked at what we were dealing with. Each constraint pointed to a decision about how to work.</p>
+      <div class="xp-tags"><span>Fixed scope</span><span>Short deadline</span><span>Existing design system</span><span>Same ecosystem</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-cons"><div class="in"><div class="pad">
+    <div class="cons">
+      <div class="wc con"><span class="q">Constraint</span><b>A scope fixed by public tender</b><span class="ar">↓</span><span class="q">Decision</span><b>Turn requirements into questions</b><p>In public procurement the scope can’t grow or shrink. Every session with the client was about understanding each requirement well, not negotiating it.</p></div>
+      <div class="wc con"><span class="q">Constraint</span><b>A very short deadline</b><span class="ar">↓</span><span class="q">Decision</span><b>Work in design sprints</b><p>One or two modules per sprint, a fixed weekly rhythm, a clear Definition of Done and a client approval at the end of every sprint.</p></div>
+      <div class="wc con"><span class="q">Constraint</span><b>An existing design system</b><span class="ar">↓</span><span class="q">Decision</span><b>Go straight to hi-fi</b><p>The Services Portal design system already covered most components, so wireframes would only slow us down.</p></div>
+      <div class="wc con"><span class="q">Constraint</span><b>Same users, same ecosystem</b><span class="ar">↓</span><span class="q">Decision</span><b>Reuse before designing</b><p>User management, permissions and notifications followed the Services Portal patterns instead of being reinvented.</p></div>
+    </div>
+  </div></div></div>
+</section>
+
+<!-- 03 TEAM (coral) -->
+<section class="xp" data-c="coral" id="method">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-team">
+    <div>
+      <div class="label">03 · How I ran the team</div>
+      <h2>A framework of my own, <em>three questions per ritual.</em></h2>
+      <p>Besides leading the design, I took on Product Owner responsibilities: I set up the framework, the cadence and the rituals, managed the team day to day, wrote the user stories and followed every development sprint. Every ritual had one purpose and three questions, so meetings stayed short and always ended with something decided.</p>
+      <div class="xp-tags"><span>Rituals</span><span>A sprint week</span><span>Design → development</span><span>The team</span><span>Product Owner responsibilities</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-team"><div class="in"><div class="pad">
+    <div data-tabset>
+      <p class="phint">Four views of how we worked. Click each tab to see more.</p>
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-rit">Rituals</button><button role="tab" aria-selected="false" data-p="p-week">A sprint week</button><button role="tab" aria-selected="false" data-p="p-dev">Design → development</button><button role="tab" aria-selected="false" data-p="p-team">The team</button></div>
+
+      <div class="tpanel on" id="p-rit" role="tabpanel">
+        <div class="rit" role="tablist" aria-label="Rituals">
+          <button role="tab" aria-selected="true" data-k="plan"><span class="em" aria-hidden="true">🚀</span><span class="when">Day 1 · 30 min</span><h3>Sprint Planning</h3><span class="q">What is our North Star for this sprint?</span><span class="open">Open the invite →</span></button>
+          <button role="tab" aria-selected="false" data-k="am"><span class="em" aria-hidden="true">☀️</span><span class="when">Every morning · 30 min</span><h3>Morning Kick&#8209;off</h3><span class="q">What’s my top focus today?</span><span class="open">Open the invite →</span></button>
+          <button role="tab" aria-selected="false" data-k="pm"><span class="em" aria-hidden="true">🔄</span><span class="when">Every evening · 30 min</span><h3>Evening Wrap&#8209;up</h3><span class="q">What did I get done today that I’m proud of?</span><span class="open">Open the invite →</span></button>
+          <button role="tab" aria-selected="false" data-k="rev"><span class="em" aria-hidden="true">🌟</span><span class="when">Last day · 30 min</span><h3>Sprint Review</h3><span class="q">What did we actually deliver this sprint?</span><span class="open">Open the invite →</span></button>
+        </div>
+        <div class="inv" id="inv" aria-live="polite"></div>
+        <p class="rnote">Invites recreated from the originals I sent the team. Team names changed for privacy.</p>
+        <p class="motto">“Keep it fun, keep it fast, keep it clear. Every module is a small win.”</p>
+        <span>The team’s kick-off guide</span>
+      </div>
+
+      <div class="tpanel" id="p-week" role="tabpanel">
+        <div class="week">
+          <div><b>Mon</b><span class="d">Dev sprint planning on last week’s module</span><span>Sprint Planning</span><span class="c">Requirements session with the client</span></div>
+          <div><b>Tue</b><span>Morning Kick-off</span><span>Design &amp; write user stories</span><span>Evening Wrap-up</span></div>
+          <div><b>Wed</b><span>Morning Kick-off</span><span>Build, review, repeat</span><span class="d">Design × dev sync</span><span>Evening Wrap-up</span></div>
+          <div><b>Thu</b><span>Morning Kick-off</span><span class="c">Co-creation &amp; journey alignment with the client</span><span>Evening Wrap-up</span></div>
+          <div><b>Fri</b><span>Incorporate feedback</span><span>Sprint Review + handover to dev</span></div>
+        </div>
+        <div class="leg"><span><i></i>Design team</span><span><i class="c"></i>With the client</span><span><i class="d"></i>With development</span></div>
+      </div>
+
+      <div class="tpanel" id="p-dev" role="tabpanel">
+        <p class="ptxt">Design and development ran as two tracks. Every Sprint Review doubled as a handover: developers received the module’s documentation and started their own sprint planning on the next working day, while the design team moved on to the next module.</p>
+        <div class="tracks" role="img" aria-label="Two-track diagram: each module is designed in one sprint and developed in the next">
+          <div class="tg">
+            <span></span><span class="h">S1</span><span class="h">S2</span><span class="h">S3</span><span class="h">S4</span><span class="h">S5</span><span class="h">S6</span>
+            <span class="lb">Design</span><div class="m ds">Content &amp; comms</div><div class="m ds">Directory · Back office</div><div class="m ds">Search · Feedback</div><div class="m ds">Notifications · Documents</div><div class="m ds">Dashboards · Service desk</div><div class="m ds">Quick links</div>
+            <span></span><div class="br"><span>↘</span><span>↘</span><span>↘</span><span>↘</span><span>↘</span><span>↘</span></div>
+            <span class="lb">Development</span><div></div><div class="m dv">Content &amp; comms</div><div class="m dv">Directory · Back office</div><div class="m dv">Search · Feedback</div><div class="m dv">Notifications · Documents</div><div class="m dv">Dashboards · Service desk</div>
+          </div>
+        </div>
+        <div class="bridge">
+          <div class="wc"><b>Friday · handover</b>Sprint Review with developers in the room, documentation delivered.</div>
+          <div class="wc"><b>Monday · their planning</b>I joined the development sprint planning to answer questions on the spot.</div>
+          <div class="wc"><b>Monday · our planning</b>Then the design team planned the next module, with dev feedback fresh.</div>
+        </div>
+      </div>
+
+      <div class="tpanel" id="p-team" role="tabpanel">
+        <div class="team">
+          <div class="wc"><span class="k">Me</span><b>Lead Product Designer, with PO responsibilities</b><p>Led the team and the design decisions, ran the rituals, wrote the requirements and user stories, made the product calls and bridged with development.</p><i>“Requirements Master”</i></div>
+          <div class="wc"><span class="k">UX/UI designer · mid</span><b>Screens, prototypes, ownership</b><p>Built the hi-fi screens on the existing design system and, sprint after sprint, made more of the design calls herself.</p><i>“Screen Builder”</i></div>
+          <div class="wc"><span class="k">UX/UI designer · junior (intern)</span><b>Interface &amp; requirements</b><p>Hired for this project. Worked between the interface and requirements gathering, alongside me, to grow on both sides.</p><i>“Hybrid Explorer”</i></div>
+        </div>
+        <div class="wc grow">
+          <div><h3>Growing the team, not just the product</h3><div style="margin-top:16px"><span class="n" data-count="3">3</span><span>critique sessions</span></div></div>
+          <div>
+            <p>We held three critique sessions. Both designers shared how they felt about the framework and the method, critiqued each other’s work and, above all, my role as lead. I wanted them to follow the whole process and grow with it.</p>
+            <p>The mid designer took real ownership: by the later sprints many decisions no longer needed me, built on lessons from earlier sprints, which freed me to consolidate the documentation. She designed the whole employee workspace on top of the API decisions I had made, presented it to the client and got it approved in the first round. After the project, with my feedback to management, she was promoted.</p>
+            <p>The junior designer, an intern hired for this project, met real product work in a demanding sprint rhythm and finished with sharper critical thinking and a solid start to her career. The feedback I got in those sessions was about holding both sides at once: leading the work and still being one of the team.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="ph3">Product Owner responsibilities</h3>
+    <div class="wc kd2"><div><h3>Saying no, with a roadmap</h3></div><div><p>I made the product decisions facing both the client and development. The scope was fixed by the tender, but what went into the first version wasn’t. I learned to say no, keep the scope tight and put the platform working as a whole first, then agree with the client what each following version would bring.</p></div></div>
+    <div class="wc kd2"><div><h3>Employees first, then the APIs</h3><div class="mini"><div><b data-count="80" data-suffix="%">80%</b><span>of integrations had to be built</span></div><div><b data-count="20" data-suffix="%">20%</b><span>could reuse existing APIs</span></div></div></div><div><p>The dashboard and other modules depended on data from many other government entities. I met each one to find out whether an API already existed or had to be created. Only about one in five existed.</p><p>We didn’t design around the APIs we found. We started from what employees needed to see and do, and then defined how each API had to be built or consolidated so the data matched that need.</p></div></div>
+    <div class="wc kd2"><div><h3>One source, two audiences, with AI in the loop</h3></div><div><p>In the public sector, design work is paid against evidence: formal Word reports that the client signs off before each invoice. Every sprint I fed a detailed report for the client, and every week I released it to development.</p><p>To avoid writing everything twice, I built AI into the framework: from the client report, it turned each module into user stories and documentation in Jira for the developers. One source of truth served both audiences, the client got the final report when design closed, and development never waited for a ticket.</p></div></div>
+  </div></div></div>
+</section>
+
+<!-- 04 SPRINTS (yellow) -->
+<section class="xp" data-c="yellow" id="sprints">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-sp">
+    <div>
+      <div class="label">04 · Six sprints, ten weeks</div>
+      <h2>Sprint length followed <em>the complexity.</em></h2>
+      <p>Not every module needed the same time. Simple modules got one-week sprints; modules with heavy rules or integrations got two.</p>
+      <div class="xp-tags"><span>S1 → S6</span><span>Sessions with the client</span><span>Demos &amp; releases</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-sp"><div class="in"><div class="pad">
+    <div class="sp">
+      <div class="row"><span class="n">S1</span><div class="bar"><span class="fill" data-w="30%">2 weeks</span><span class="mods">Content &amp; communication · personas and permissions matrix</span></div></div>
+      <div class="row"><span class="n">S2</span><div class="bar"><span class="fill" data-w="30%">2 weeks</span><span class="mods">Institutional directory · back office</span></div></div>
+      <div class="row"><span class="n">S3</span><div class="bar"><span class="fill" data-w="15%">1 week</span><span class="mods">Smart search · internal feedback</span></div></div>
+      <div class="row"><span class="n">S4</span><div class="bar"><span class="fill" data-w="15%">1 week</span><span class="mods">Notifications · document library</span></div></div>
+      <div class="row"><span class="n">S5</span><div class="bar"><span class="fill x" data-w="45%">3 weeks</span><span class="mods">Dashboards &amp; metrics · internal service desk <sup>*</sup></span></div></div>
+      <div class="row"><span class="n">S6</span><div class="bar"><span class="fill" data-w="15%">1 week</span><span class="mods">Quick links &amp; apps</span></div></div>
+    </div>
+    <p class="spn">* Planned for two weeks. The client couldn’t make the alignment session in week two, so we moved it to week three instead of handing over something unvalidated.</p>
+    <p class="ptxt" style="margin-top:22px">Around the sprints: 8 requirement sessions and 8 co-creation sessions with the client, about 110 kick-offs and wrap-ups, a final presentation and a formal handover. In development, 2 demos and 7 environment releases.</p>
+    <div class="spcount">
+      <div><b data-count="8">8</b><span>requirement sessions</span></div>
+      <div><b data-count="8">8</b><span>co-creation sessions</span></div>
+      <div><b data-count="110" data-prefix="~">~110</b><span>kick-offs and wrap-ups</span></div>
+      <div><b data-count="2">2</b><span>demos</span></div>
+      <div><b data-count="7">7</b><span>environment releases</span></div>
+    </div>
+  </div></div></div>
+</section>
+
+<!-- 05 HIERARCHY (mint) -->
+<section class="xp" data-c="mint" id="profiles">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-hi">
+    <div>
+      <div class="label">05 · Requirements, questions, profiles</div>
+      <h2>Every requirement became <em>a question for Monday.</em></h2>
+      <p>For each module I built the same board: the tender’s requirement, the questions it raised, and then description, features, profiles and integrations, filled in with the client during the week.</p>
+      <div class="xp-tags"><span>The module board</span><span>Four levels</span><span>Six core profiles</span><span>Permissions matrix</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-hi"><div class="in"><div class="pad">
+    <div class="board" aria-label="Recreated module board">
+      <div class="bh">Document library<small>Sprint 4 · recreated</small></div>
+      <div class="bgrid">
+        <div class="th">Requirement in the tender</div><div class="th qq">Questions we took to the client</div>
+        <div>A dedicated area to view files, integrated with the document management system.</div><div class="qq2">Which documents will employees see? Inside the portal, or redirected to the source system?</div>
+        <div>Documents shown according to each user’s access.</div><div class="qq2">What does an admin see that an employee doesn’t?</div>
+        <div>A library per entity and one per user.</div><div class="qq2">Who manages each entity’s library? Which documents go to entities and which to employees?</div>
+      </div>
+    </div>
+    <p class="ptxt big" style="margin-top:32px">The turning point came with the institutional directory. When the client sent us the real posts, reporting lines and heads of every unit, we saw the hierarchy for what it was, and our job became translating the government’s real structure into a structure of platform profiles.</p>
+    <p class="ptxt">Most answers came back to that hierarchy. There were six core profiles, and they were cumulative: a manager at department level was also a manager of every entity and sub-entity below it, and the government admin was an admin at every level. Assigned per organisational unit, that added up to around fifteen combinations, and every journey had to work for each of them.</p>
+    <div class="levels"><span>Government</span><i>→</i><span>Department</span><i>→</i><span>Entity</span><i>→</i><span>Sub-entity</span><i style="margin-left:6px">profiles inherit downwards</i></div>
+    <div class="matrix"><table><thead><tr><th>Core profile</th><th>Content</th><th>Directory</th><th>Back office</th><th>Search</th><th>Documents</th><th>Notifications</th><th>Dashboards</th></tr></thead><tbody><tr><td>Employee</td><td><i class="ck p"></i></td><td><i class="ck p"></i></td><td><i class="ck n"></i></td><td><i class="ck p"></i></td><td><i class="ck p"></i></td><td><i class="ck p"></i></td><td><i class="ck n"></i></td></tr><tr><td>Manager</td><td><i class="ck"></i></td><td><i class="ck p"></i></td><td><i class="ck p"></i></td><td><i class="ck p"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck p"></i></td></tr><tr><td>Communication</td><td><i class="ck"></i></td><td><i class="ck n"></i></td><td><i class="ck n"></i></td><td><i class="ck p"></i></td><td><i class="ck n"></i></td><td><i class="ck"></i></td><td><i class="ck n"></i></td></tr><tr><td>Admin</td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck p"></i></td></tr><tr><td>Government admin</td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td><td><i class="ck"></i></td></tr><tr><td>Auditor</td><td><i class="ck p"></i></td><td><i class="ck p"></i></td><td><i class="ck p"></i></td><td><i class="ck p"></i></td><td><i class="ck p"></i></td><td><i class="ck n"></i></td><td><i class="ck"></i></td></tr></tbody></table>
+      <div class="leg"><span><i class="lk"></i>Manage</span><span><i class="lk p"></i>View / limited</span><span><i class="lk n"></i>No access</span><span>Illustrative, recreated</span></div></div>
+  </div></div></div>
+</section>
+
+<!-- 06 JOURNEY (lilac) -->
+<section class="xp" data-c="lilac" id="journey">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-jr">
+    <div>
+      <div class="label">06 · One journey, end to end</div>
+      <h2>Publishing a piece of news <em>through the hierarchy.</em></h2>
+      <p>The journey that shows the hierarchy best. An entity’s communication team publishes for the whole government, so the content climbs every level before anyone sees it.</p>
+      <div class="xp-tags"><span>Author</span><span>Approvers</span><span>Every employee in scope</span><span>9 steps</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-jr"><div class="in"><div class="pad">
+    <div class="jr">
+      <div class="jl" id="jl" role="tablist" aria-label="Journey steps">
+        <p class="ph">Author · a communication profile at entity level</p>
+        <button role="tab" data-img="j-type" aria-selected="true"><b>1</b>Pick the content type: news, guidelines, FAQs, wikis, legislation, events or trainings.</button>
+        <button role="tab" data-img="g-bo-publish" aria-selected="false"><b>2</b>Publish as a unit and choose who sees it: from one sub-entity up to the whole government.</button>
+        <button role="tab" data-img="g-bo-builder" aria-selected="false"><b>3</b>Title, description and the content itself, with a read-confirmation option when it matters.</button>
+        <button role="tab" data-img="g-bo-flow" aria-selected="false"><b>4</b>Submitted: the author sees where it stands in the approval chain, level by level.</button>
+        <p class="ph">Approvers · one administrator per level</p>
+        <button role="tab" data-img="g-ap-list" aria-selected="false"><b>5</b>Each administrator gets the request in their own inbox, filtered by level.</button>
+        <button role="tab" data-img="g-ap-detail" aria-selected="false"><b>6</b>Four decisions: reject, ask for changes, approve and forward to the level above, or approve.</button>
+        <button role="tab" data-img="g-ap-history" aria-selected="false"><b>7</b>Before deciding, they see who approved before them and why.</button>
+        <p class="ph">Every employee in scope</p>
+        <button role="tab" data-img="g-feed" aria-selected="false"><b>8</b>Published: it shows up in the feed of everyone at the chosen level.</button>
+        <button role="tab" data-img="g-detail" aria-selected="false"><b>9</b>The publication, with read confirmation when it matters.</button>
+      </div>
+      <div class="jv">
+        <img id="jimg" src="assets/ep/j-type.webp" alt="" data-zoom>
+        <div class="cap"><span id="jcap"></span><span class="nav"><button id="jp" aria-label="Previous step"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button id="jn" aria-label="Next step"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></span></div>
+      </div>
+    </div>
+    <div class="wc kd2" style="margin-top:12px"><div><h3>The approval ladder, rules and exceptions</h3></div><div><p>None of these flows came from the tender: we designed every one of them with the client. There was an approval ladder to respect, and cumulative profiles meant some steps could be skipped: when the author already held a profile higher up, the steps they covered didn’t apply. Defining every rule, and above all every exception, was the biggest puzzle we solved with the client.</p><p style="color:var(--muted)">All of it went into the documentation for development, because it shaped the permission architecture behind every profile.</p></div></div>
+  </div></div></div>
+</section>
+
+</div>
+
+<!-- 07 KEY SCREENS -->
+<section class="wrap sec" id="screens">
+  <div class="label">07 · Key screens</div>
+  <h2>Straight to high fidelity, <em>with a reason for each.</em></h2>
+  <p style="color:var(--muted)">With the design system in place, every sprint produced production-ready screens. The Figma file grew to ten front-office and six back-office boards.</p>
+  <div class="boards">
+    <figure class="fig"><img src="assets/ep/figma-front.webp" alt="Front office: ten module boards" loading="lazy" data-zoom><figcaption>Front office: ten module boards</figcaption></figure>
+    <figure class="fig"><img src="assets/ep/figma-back.webp" alt="Back office: six module boards" loading="lazy" data-zoom><figcaption>Back office: six module boards</figcaption></figure>
+  </div>
+  <p style="color:var(--muted);margin-bottom:24px">What follows is a selection. It gives a picture of each area, but many screens and journey steps stay out.</p>
+
+  <div class="kd rv"><div><h3>One page, every level</h3><p>Guidelines, FAQs, wikis, legislation, events and trainings share one template, with tabs for government, departments, entities and sub-entities.</p><p class="why"><b>Why</b>Employees answer to more than one level at once. One page per content type, split by level, beats a separate area for each part of the hierarchy.</p></div><div class="imgs"><figure class="fig"><img src="assets/ep/k-levels.webp" alt="Internal guidelines, filtered by level and category" loading="lazy" data-zoom><figcaption>Internal guidelines, filtered by level and category</figcaption></figure></div></div>
+  <div class="kd rv"><div><h3>Trainings people actually open</h3><p>Courses from the HR platform with dates, format and seats, and a detail page with a direct way to enrol.</p><p class="why"><b>Why</b>Trainings are where employees act, not just read, so each card carries what they need to decide: dates, format and how to enrol.</p></div><div class="imgs two"><figure class="fig"><img src="assets/ep/g-trainings.webp" alt="Trainings" loading="lazy" data-zoom><figcaption>Trainings</figcaption></figure><figure class="fig"><img src="assets/ep/g-training.webp" alt="Training detail" loading="lazy" data-zoom><figcaption>Training detail</figcaption></figure></div></div>
+  <div class="kd rv"><div><h3>A dashboard each person builds</h3><p>The dashboard starts empty and each employee adds widgets from a catalogue.</p><p class="why"><b>Why</b>With so many profiles, any fixed dashboard would be wrong for most people. Letting them choose was simpler and fairer.</p></div><div class="imgs two"><figure class="fig"><img src="assets/ep/k-dash-empty.webp" alt="Empty state" loading="lazy" data-zoom><figcaption>Empty state</figcaption></figure><figure class="fig"><img src="assets/ep/k-widgets.webp" alt="Widget catalogue" loading="lazy" data-zoom><figcaption>Widget catalogue</figcaption></figure></div></div>
+  <div class="kd rv"><div><h3>Documents stay where they live</h3><p>Employees browse the documents they have access to, and open them in the document management system.</p><p class="why"><b>Why</b>Copying documents into the portal would create a second source of truth. Within a fixed scope, linking was the honest answer.</p></div><div class="imgs"><figure class="fig"><img src="assets/ep/g-docs.webp" alt="Documents, for consultation only" loading="lazy" data-zoom><figcaption>Documents, for consultation only</figcaption></figure></div></div>
+  <div class="kd rv"><div><h3>Profiles by level, in one place</h3><p>Admins add a profile and a level together; every combination a person holds is listed in their record.</p><p class="why"><b>Why</b>Cumulative profiles are hard to picture. Showing every combination made the hierarchy visible to the people managing it.</p></div><div class="imgs"><figure class="fig"><img src="assets/ep/g-user-profiles.webp" alt="User detail with every profile combination" loading="lazy" data-zoom><figcaption>User detail with every profile combination</figcaption></figure></div></div>
+</section>
+
+<!-- MORE SCREENS (ink) -->
+<div class="wrap">
+<section class="xp" data-c="ink" id="more-screens" style="margin-top:16px">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-ms">
+    <div>
+      <div class="label">More screens</div>
+      <h2>Four areas, <em>21 more screens.</em></h2>
+      <p>Four areas. Click each tab to see more, and any screen to enlarge it.</p>
+      <div class="xp-tags"><span>Personal</span><span>Content</span><span>Services &amp; directory</span><span>Back office</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-ms"><div class="in"><div class="pad">
+    <div data-tabset>
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-ps">Personal</button><button role="tab" aria-selected="false" data-p="p-ct">Content</button><button role="tab" aria-selected="false" data-p="p-sv">Services &amp; directory</button><button role="tab" aria-selected="false" data-p="p-bo">Back office</button></div>
+      <div class="tpanel on" id="p-ps"><div class="g3"><figure class="fig"><img src="assets/ep/g-dash-custom.webp" alt="A dashboard, once built" loading="lazy" data-zoom><figcaption>A dashboard, once built</figcaption></figure><figure class="fig"><img src="assets/ep/g-notif.webp" alt="Notifications, with priority" loading="lazy" data-zoom><figcaption>Notifications, with priority</figcaption></figure><figure class="fig"><img src="assets/ep/g-notif-pref.webp" alt="Notification preferences" loading="lazy" data-zoom><figcaption>Notification preferences</figcaption></figure><figure class="fig"><img src="assets/ep/g-notif-creator.webp" alt="The same area for a notification creator" loading="lazy" data-zoom><figcaption>The same area for a notification creator</figcaption></figure><figure class="fig"><img src="assets/ep/g-notif-new.webp" alt="Creating a notification for a unit" loading="lazy" data-zoom><figcaption>Creating a notification for a unit</figcaption></figure></div></div>
+      <div class="tpanel" id="p-ct"><div class="g3"><figure class="fig"><img src="assets/ep/g-event.webp" alt="Event detail" loading="lazy" data-zoom><figcaption>Event detail</figcaption></figure><figure class="fig"><img src="assets/ep/g-link-detail.webp" alt="A quick link with support content: the onboarding guide" loading="lazy" data-zoom><figcaption>A quick link with support content: the onboarding guide</figcaption></figure></div></div>
+      <div class="tpanel" id="p-sv"><div class="g3"><figure class="fig"><img src="assets/ep/g-services.webp" alt="Internal services directory" loading="lazy" data-zoom><figcaption>Internal services directory</figcaption></figure><figure class="fig"><img src="assets/ep/g-service.webp" alt="Service detail" loading="lazy" data-zoom><figcaption>Service detail</figcaption></figure><figure class="fig"><img src="assets/ep/g-request-form.webp" alt="Requesting a service" loading="lazy" data-zoom><figcaption>Requesting a service</figcaption></figure><figure class="fig"><img src="assets/ep/g-my-requests.webp" alt="My requests" loading="lazy" data-zoom><figcaption>My requests</figcaption></figure><figure class="fig"><img src="assets/ep/g-request.webp" alt="A request and its timeline" loading="lazy" data-zoom><figcaption>A request and its timeline</figcaption></figure><figure class="fig"><img src="assets/ep/g-directory.webp" alt="Institutional directory" loading="lazy" data-zoom><figcaption>Institutional directory</figcaption></figure><figure class="fig"><img src="assets/ep/g-person.webp" alt="A colleague’s record" loading="lazy" data-zoom><figcaption>A colleague’s record</figcaption></figure><figure class="fig"><img src="assets/ep/g-org.webp" alt="Organisation chart" loading="lazy" data-zoom><figcaption>Organisation chart</figcaption></figure></div></div>
+      <div class="tpanel" id="p-bo"><div class="g3"><figure class="fig"><img src="assets/ep/g-categories.webp" alt="Categories per unit" loading="lazy" data-zoom><figcaption>Categories per unit</figcaption></figure><figure class="fig"><img src="assets/ep/g-users.webp" alt="Users and their state" loading="lazy" data-zoom><figcaption>Users and their state</figcaption></figure><figure class="fig"><img src="assets/ep/g-user-log.webp" alt="Admin activity log" loading="lazy" data-zoom><figcaption>Admin activity log</figcaption></figure><figure class="fig"><img src="assets/ep/g-links.webp" alt="Creating a quick link" loading="lazy" data-zoom><figcaption>Creating a quick link</figcaption></figure><figure class="fig"><img src="assets/ep/g-app-new.webp" alt="Creating an app" loading="lazy" data-zoom><figcaption>Creating an app</figcaption></figure><figure class="fig"><img src="assets/ep/g-chatbot.webp" alt="Chatbot knowledge base and system instructions" loading="lazy" data-zoom><figcaption>Chatbot knowledge base and system instructions</figcaption></figure></div></div>
+    </div>
+  </div></div></div>
+</section>
+</div>
+
+<!-- 08 ECOSYSTEM -->
+<section class="wrap sec" id="ecosystem">
+  <div class="label">08 · One ecosystem, two products</div>
+  <h2>The same people, <em>one front door.</em></h2>
+  <p style="color:var(--muted)">The employee portal lives next to the citizen-facing Services Portal I also led. Same users, same design system and the same patterns for users, permissions and notifications. An employee who works as an operator on the Services Portal starts the day here and jumps straight to their requests; HR and the rest of the digital ecosystem are one click away.</p>
+  <div class="eco">
+    <figure class="fig rv"><img src="assets/ep/g-eco-requests.webp" alt="Request management: a gateway to the Services Portal for employees who are operators there." loading="lazy" data-zoom><figcaption>Request management: a gateway to the Services Portal for employees who are operators there.</figcaption></figure>
+    <figure class="fig rv"><img src="assets/ep/g-eco-hr.webp" alt="HR self-service: a gateway to the HR platform." loading="lazy" data-zoom><figcaption>HR self-service: a gateway to the HR platform.</figcaption></figure>
+    <figure class="fig rv"><img src="assets/ep/g-eco-apps.webp" alt="Links and apps: quick access to the whole digital ecosystem." loading="lazy" data-zoom><figcaption>Links and apps: quick access to the whole digital ecosystem.</figcaption></figure>
+  </div>
+  <a class="link" href="services-portal.html">See the Services Portal case →</a>
+</section>
+
+<!-- 09 OUTCOME -->
+<section class="wrap sec" id="outcome">
+  <div class="label">09 · Outcome</div>
+  <h2>Approved sprint by sprint, <em>built in under three months.</em></h2>
+  <p class="big">One of my first decisions, agreed with development on day one: design and development would both run in sprints, and the client would approve every sprint, screen by screen.</p>
+  <p style="margin-top:16px;color:var(--muted)">In public procurement deadlines are fixed. If we had designed the whole product and shown it at the end, a few rejections would have left development with no room to react. With an approval at the end of every sprint, each decision was closed and archived as we went, the client watched the product take shape, and nobody could reopen sprint two in the last week.</p>
+  <p style="color:var(--muted)">That is what made the project work. All ten modules were designed, documented and handed over sprint by sprint, and development finished in under three months, with me alongside the team until the build was done. As far as I know, the client demos that followed went through without changes to journeys, profiles, screens, integrations or APIs. The portal is complete and now waits for the client to schedule its go-live.</p>
+  <div class="nums">
+    <div class="rv"><b data-count="6">6</b><span>sprints approved by the client, one by one</span></div>
+    <div class="rv"><b data-count="3" data-prefix="&lt;">&lt;3</b><span>months of development</span></div>
+    <div class="rv"><b data-count="0">0</b><span>journeys, profiles or screens reopened in the demos</span></div>
+    <div class="rv"><b data-count="16">16</b><span>sessions with the client</span></div>
+  </div>
+</section>
+
+<!-- 10 REFLECTION -->
+<section class="wrap sec" id="reflection">
+  <div class="label">10 · Reflection</div>
+  <h2>What I’d take <em>to the next project.</em></h2>
+  <div class="lrn">
+    <div class="rv"><b>01</b><h3>Constraints design the process</h3><p>The best decision in this project wasn’t a screen. It was looking at the constraints first and designing the way we worked around them.</p></div>
+    <div class="rv"><b>02</b><h3>Approve as you go, protect the deadline</h3><p>A client sign-off at the end of every sprint closed each decision as we went. Nothing could be reopened in the last week, so development never lost its room to react.</p></div>
+    <div class="rv"><b>03</b><h3>Leading means letting go of decisions</h3><p>The more the team owned, the further we went. The mid designer ended up making calls without me, presented her own work to the client and was promoted.</p></div>
+    <div class="rv"><b>04</b><h3>Documentation is a product too</h3><p>One source, two audiences: the client’s report and the developers’ Jira stories came from the same work, with AI in the loop, so nobody waited and nothing was written twice.</p></div>
+  </div>
+</section>
+
+<section class="wrap sec">
+  <div class="label">More work</div>
+  <div class="more">
+    <a href="services-portal.html"><span class="label">01 · Public sector</span><h3>One front door for regional public services</h3><span class="cta">Read case study →</span></a>
+    <a href="batch-selection.html"><span class="label">02 · Agribusiness</span><h3>From five sources to one decision</h3><span class="cta">Read case study →</span></a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big">Let’s talk.</p>
+    <div class="links"><a href="mailto:lucascostapena@gmail.com">lucascostapena@gmail.com</a><a href="https://www.linkedin.com/in/lucascostapena/">LinkedIn</a><a href="cv.html">View CV</a></div>
+    <small>Lucas Costa Pena · Product Designer · © 2026</small>
+  </div>
+</footer>
+
+<div class="lbx" id="lbx"><img alt=""></div>
+
+<script>
+(function(){
+  /* progress */
+  var prog=document.getElementById('prog');
+  function onS(){ var h=document.documentElement; prog.style.width=(h.scrollTop/((h.scrollHeight-h.clientHeight)||1)*100)+'%'; }
+  addEventListener('scroll',onS,{passive:true}); onS();
+
+  /* count-up */
+  var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function count(el){
+    if(el.dataset.done) return; el.dataset.done=1;
+    var to=+el.dataset.count, pre=(el.dataset.prefix||''), suf=el.dataset.suffix||'';
+    if(RM||to===0){ el.textContent=pre+to+suf; return; }
+    var t0=null,d=1100;
+    function st(t){ if(!t0) t0=t; var k=Math.min(1,(t-t0)/d); k=1-Math.pow(1-k,3); el.textContent=pre+Math.round(to*k)+suf; if(k<1) requestAnimationFrame(st); }
+    el.textContent=pre+'0'+suf; requestAnimationFrame(st);
+  }
+  function visibleCounts(root){ root.querySelectorAll('[data-count]').forEach(function(el){ if(el.offsetParent!==null) count(el); }); }
+
+  /* reveal */
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; var el=e.target; el.classList.add('is-in'); if(el.dataset.count) count(el); el.querySelectorAll('[data-count]').forEach(count); io.unobserve(el); }); },{threshold:.2,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+  /* expandable blocks */
+  document.querySelectorAll('.xp').forEach(function(xp){
+    var head=xp.querySelector('.xp-head'), st=xp.querySelector('.xp-st');
+    head.addEventListener('click',function(){
+      var open=!xp.classList.contains('open');
+      xp.classList.toggle('open',open); head.setAttribute('aria-expanded',open?'true':'false'); st.textContent=open?'Close':'Open';
+      if(open){
+        setTimeout(function(){ visibleCounts(xp);
+          xp.querySelectorAll('.sp .fill').forEach(function(f,i){ setTimeout(function(){ f.style.width=f.dataset.w; },i*110); });
+        },350);
+        var top=xp.getBoundingClientRect().top; if(top<0||top>innerHeight*.5) xp.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});
+      }
+    });
+  });
+
+  /* tabs */
+  document.querySelectorAll('[data-tabset]').forEach(function(set){
+    var bs=set.querySelectorAll(':scope > .tabs button');
+    bs.forEach(function(b){ b.addEventListener('click',function(){
+      bs.forEach(function(x){ x.setAttribute('aria-selected','false'); });
+      set.querySelectorAll(':scope > .tpanel').forEach(function(p){ p.classList.remove('on'); });
+      b.setAttribute('aria-selected','true'); var p=document.getElementById(b.dataset.p); p.classList.add('on'); visibleCounts(p);
+    }); });
+  });
+
+  /* rituals (original invites) */
+  var R={
+  plan:{t:'Intranet · 1st Design Sprint Planning 🚀',w:'Day 1 · 09:30 – 10:00',c:'Once per sprint',p:['Marta Rocha','Joana Lemos','Rita Paiva'],
+   b:['Hey dream team,','Time to kick off our sprint like explorers setting course for new lands 🌍.','In this Sprint Planning, we’ll clarify our goals, and align on what “success” really means for this sprint. Think of it as packing our bags with the right tools before the journey.','<b>Module:</b> Content management &amp; communication · <b>Sprint duration:</b> 2 weeks'],
+   q:['What is our <em>North Star</em> for this sprint?','Which tasks look like the biggest mountains to climb?','How will we know we’ve reached the summit (Definition of Done)?'],e:'See ya'},
+  am:{t:'Intranet · Morning Kick-off ☀️',w:'Every day · 09:30 – 10:00',c:'Daily',p:['Marta Rocha','Joana Lemos'],
+   b:['Good morning dream team,','This is our daily fuel-up! Think of it as syncing our compasses before hiking into the day 🧭. Quick, sharp, and energizing so we’re all in the loop and ready to crush it together.'],
+   q:['What’s my top focus today?','What’s blocking me from moving fast?','Where can I collaborate or ask for backup?'],e:'Let’s go!'},
+  pm:{t:'Intranet · Evening Wrap-up 🔄',w:'Every day · 17:00 – 17:30',c:'Daily',p:['Marta Rocha','Joana Lemos','Rita Paiva'],
+   b:['<b>Evening Wrap-up: Reflect &amp; Reset!</b>','Hey dream team,','Before we log off, let’s land the plane smoothly 🛬. Evening Wrap-up is our chance to reflect on progress, close open loops, and set ourselves up for tomorrow with clarity (and maybe a smile).'],
+   q:['What did I get done today that I’m proud of?','What’s still hanging that I’ll pick up tomorrow?','Did we learn something today worth sharing with the team?'],e:'Let’s reset the brain.'},
+  rev:{t:'Intranet · 1st Design Sprint Review 🌟',w:'Last day · 17:00 – 17:30',c:'Once per sprint',p:['Marta Rocha','Joana Lemos','Rita Paiva','Sara Mendes'],
+   b:['<b>Sprint Review: Show &amp; Celebrate!</b>','Hello dream team,','This is our time to shine 🌟. In the Sprint Review, we showcase what we’ve built, get feedback, and celebrate the wins — big or small. It’s like opening night after weeks of rehearsal: lights on, stage ready, audience waiting.'],
+   q:['What did we <em>actually</em> deliver this sprint?','How did it bring value to the users or stakeholders?','What feedback will make the next sprint even sharper?'],e:'Let’s relax.'}};
+  var ic={cal:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',rep:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/></svg>',vid:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="m16 10 5-3v10l-5-3"/></svg>'};
+  function ini(n){ return n.split(' ').map(function(x){ return x[0]; }).join(''); }
+  var box=document.getElementById('inv'), rb=document.querySelectorAll('.rit button');
+  function show(k){ var r=R[k];
+    rb.forEach(function(b){ b.setAttribute('aria-selected',b.dataset.k===k?'true':'false'); });
+    box.innerHTML='<div class="im"><p class="tt">'+r.t+'</p><div class="rw">'+ic.cal+r.w+'</div><div class="rw">'+ic.rep+r.c+'</div><div class="rw">'+ic.vid+'Online meeting</div><div class="pp"><span class="me"><i>LC</i>Lucas Costa · organiser</span>'+r.p.map(function(n){ return '<span><i>'+ini(n)+'</i>'+n+'</span>'; }).join('')+'</div></div>'+
+    '<div class="ib">'+r.b.map(function(x){ return '<p>'+x+'</p>'; }).join('')+'<p style="margin-bottom:0"><b>Key questions</b></p><ol>'+r.q.map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol><p>'+r.e+'<br>Warmly, Lucas</p></div>'; }
+  rb.forEach(function(b){ b.addEventListener('click',function(){ show(b.dataset.k); }); });
+  show('plan');
+
+  /* journey stepper */
+  var jb=[].slice.call(document.querySelectorAll('#jl button')), jimg=document.getElementById('jimg'), jcap=document.getElementById('jcap'), ji=0;
+  function js(i){ ji=(i+jb.length)%jb.length; jb.forEach(function(b,k){ b.setAttribute('aria-selected',k===ji?'true':'false'); });
+    var b=jb[ji]; jimg.src='assets/ep/'+b.dataset.img+'.webp'; jimg.alt=b.textContent.replace(/^\d+/,'').trim(); jcap.textContent='Step '+(ji+1)+' of '+jb.length; }
+  jb.forEach(function(b,k){ b.addEventListener('click',function(){ js(k); }); });
+  document.getElementById('jp').addEventListener('click',function(){ js(ji-1); });
+  document.getElementById('jn').addEventListener('click',function(){ js(ji+1); });
+  js(0);
+
+  /* lightbox */
+  var lb=document.getElementById('lbx'), li=lb.querySelector('img');
+  document.addEventListener('click',function(e){ var t=e.target; if(t.matches && t.matches('img[data-zoom]')){ li.src=t.src; li.alt=t.alt; lb.classList.add('on'); } });
+  lb.addEventListener('click',function(){ lb.classList.remove('on'); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape') lb.classList.remove('on'); });
+})();
+</script>
+<script>
+/* screens never lose their sides, and screens side by side always share one size */
+(function(){
+  function ratio(v){ var m=String(v).match(/([\d.]+)\s*\/\s*([\d.]+)/); return m? m[1]/m[2] : 0; }
+  var imgs=[].slice.call(document.querySelectorAll('img')).filter(function(im){ return !im.closest('.cmp,.lg,.win,.lbx,.ph,.stage'); });
+  imgs.forEach(function(im){ im.dataset.box=ratio(getComputedStyle(im).aspectRatio)||''; });
+  function groupOf(im){ var f=im.closest('figure'); if(!f) return null; var g=f.parentElement; return g && g.querySelectorAll(':scope > figure img').length>1 ? g : null; }
+  function nat(im){ return im.naturalWidth? im.naturalWidth/im.naturalHeight : 0; }
+  function apply(){
+    var seen=new Set();
+    imgs.forEach(function(im){
+      var g=groupOf(im);
+      if(g){ if(seen.has(g)) return; seen.add(g);
+        var list=[].slice.call(g.querySelectorAll(':scope > figure img')), r=0;
+        list.forEach(function(x){ var b=+x.dataset.box||0, n=nat(x); r=Math.max(r, b? Math.max(b,n) : n); });
+        if(r) list.forEach(function(x){ x.style.aspectRatio=String(r); x.style.height='auto'; });
+      } else {
+        var b=+im.dataset.box, n=nat(im); im.style.aspectRatio='';
+        if(b && n>b*1.01) im.style.aspectRatio=String(n);
+      }
+    });
+  }
+  imgs.forEach(function(im){ im.addEventListener('load',apply); });
+  apply();
+})();
+</script>
+<script>
+/* language switch: keep the reader where they were */
+(function(){
+  var K='lcp-lang-pos', SEL='h1,h2,h3,h4,p,figure,li,dt,dd,.hw,.case,.stage';
+  function list(){return [].slice.call(document.querySelectorAll(SEL)).filter(function(el){return el.offsetParent!==null&&!el.closest('header,[role=dialog]');});}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a.lng'); if(!a) return;
+    var L=list(), idx=-1, off=0, y=window.scrollY;
+    for(var i=0;i<L.length;i++){var t=L[i].getBoundingClientRect().top; if(t>=70){idx=i; off=t; break;}}
+    var pos={i:idx,off:off,y:y,open:[].slice.call(document.querySelectorAll('.xp.open[id]')).map(function(x){return x.id;})};
+    try{sessionStorage.setItem(K,JSON.stringify(pos));}catch(err){}
+  },true);
+  var raw=null; try{raw=sessionStorage.getItem(K); sessionStorage.removeItem(K);}catch(err){}
+  if(!raw) return;
+  var pos; try{pos=JSON.parse(raw);}catch(err){return;}
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  var opened=false;
+  function go(){
+    if(!opened){opened=true;(pos.open||[]).forEach(function(id){var x=document.getElementById(id); if(x&&!x.classList.contains('open')){var h=x.querySelector('.xp-head'); if(h) h.click();}});}
+    var L=list(), el=pos.i>=0?L[pos.i]:null;
+    var y=el?el.getBoundingClientRect().top+scrollY-pos.off:pos.y;
+    window.scrollTo({top:Math.max(0,y),behavior:'instant'});
+  }
+  function run(){go(); setTimeout(go,300); setTimeout(go,900);}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+})();
+</script>
+</body>
+</html>

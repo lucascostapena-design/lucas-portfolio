@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucas Costa Pena — Services Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF8; --card:#EFEFEC; --card2:#F5F5F2; --white:#FFFFFF;
+  --ink:#141414; --muted:#6B6B66; --line:#E2E2DD;
+  --r:24px; --rs:16px; --w:1140px;
+  /* block colours */
+  --c-blue:#2F4BE0; --c-coral:#FF7457; --c-yellow:#FFD23F; --c-mint:#5FD3A0; --c-lilac:#8E6CFF; --c-ink:#141414;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Lato,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+a{color:inherit}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 28px}
+em{font-style:normal;color:var(--muted)}
+.label{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+p{max-width:68ch}
+p + p{margin-top:14px}
+p.big{font-size:clamp(20px,2vw,24px);line-height:1.45;font-weight:400}
+h2{font-size:clamp(30px,3.6vw,44px);line-height:1.1;font-weight:900;letter-spacing:-.02em;margin:10px 0 18px;max-width:22ch}
+h3{font-weight:900;font-size:19px;line-height:1.3;letter-spacing:-.01em}
+
+/* top */
+.top{position:sticky;top:0;z-index:30;background:rgba(250,250,248,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;font-size:14px}
+.pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:999px;background:var(--card);font-weight:700;text-decoration:none}
+.brand{font-weight:900}
+.top nav{display:flex;gap:4px}
+.top nav a{text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:999px}
+.top nav a:hover{background:var(--card);color:var(--ink)}
+.prog{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--ink)}
+
+/* hero */
+.hero{padding-top:56px}
+.hero h1{font-size:clamp(42px,6.2vw,80px);line-height:1.02;font-weight:900;letter-spacing:-.035em;margin:16px 0 22px;max-width:15ch}
+.hero .lede{font-size:clamp(18px,1.7vw,21px);color:var(--muted);max-width:62ch}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:40px}
+.meta div{background:var(--card);border-radius:var(--rs);padding:18px 20px}
+.meta dt{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.meta dd{font-size:15px;line-height:1.45;font-weight:700}
+.stage{margin-top:12px;background:var(--card);border-radius:28px;padding:24px;overflow:hidden}
+.stage img{width:100%;height:auto;border-radius:16px;cursor:zoom-in}
+.stage{position:relative}
+.stamp{position:absolute;right:36px;bottom:32px;z-index:2;width:236px;background:var(--c-yellow);color:var(--ink);border-radius:20px;padding:16px 18px 15px;transform:rotate(3deg) scale(.9);opacity:0;box-shadow:0 24px 50px -24px rgba(0,0,0,.45);transition:transform .8s cubic-bezier(.2,.9,.2,1.2),opacity .5s}
+.stage.is-in .stamp{transform:rotate(3deg);opacity:1;transition-delay:.5s}
+.stamp:hover{transform:rotate(0) scale(1.03)!important}
+.stamp .tk{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.stamp .tk i{width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--c-yellow);display:grid;place-items:center;font-style:normal;font-size:11px}
+.stamp p{font-size:12.5px;line-height:1.4;margin-top:8px;max-width:none}
+.stamp b{display:block;font-size:16px;font-weight:900;line-height:1.15;letter-spacing:-.02em;margin-top:12px}
+@media (max-width:900px){.stamp{position:relative;left:auto;bottom:auto;width:auto;margin:16px 0 18px}}
+@media (prefers-reduced-motion:reduce){.stamp{opacity:1;transform:rotate(3deg);transition:none}}
+.figcap{font-size:14px;color:var(--muted);margin-top:14px;max-width:80ch}
+.note{display:flex;gap:12px;align-items:flex-start;margin-top:16px;background:var(--card2);border-radius:var(--rs);padding:16px 20px;font-size:15px}
+.note svg{flex:none;margin-top:3px}
+.note p{max-width:none}
+
+/* sections */
+.sec{padding-top:96px}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
+.nums > div{background:var(--card);border-radius:var(--rs);padding:22px 22px 20px;min-height:150px;display:flex;flex-direction:column;justify-content:flex-start}
+.nums b{font-size:clamp(44px,5vw,64px);font-weight:900;line-height:1;letter-spacing:-.03em}
+.nums span{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.4}
+
+/* ===== expandable blocks ===== */
+.xp{margin-top:96px;border-radius:32px;background:var(--card);transition:background .45s ease,color .45s ease;scroll-margin-top:84px}
+.xp + .xp{margin-top:16px}
+.xp-head{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end;width:100%;padding:44px 48px;border-radius:32px}
+.xp-head .label{transition:color .45s}
+.xp-head h2{margin-bottom:14px}
+.xp-head p{color:var(--muted);transition:color .45s}
+.xp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.xp-tags span{font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--white);transition:background .45s,color .45s}
+.xp-cta{display:flex;flex-direction:column;align-items:center;gap:10px}
+.xp-dot{width:84px;height:84px;border-radius:50%;background:var(--accent);display:grid;place-items:center;transition:transform .4s cubic-bezier(.2,.8,.2,1),background .45s}
+.xp-dot svg{transition:transform .4s}
+.xp-cta small{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.xp-head:hover .xp-dot{transform:scale(1.08)}
+.xp-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s cubic-bezier(.2,.8,.2,1)}
+.xp-body > .in{overflow:hidden}
+.xp-body .pad{padding:0 48px 48px}
+.xp.open{background:var(--accent);color:var(--on)}
+.xp.open .xp-head .label,.xp.open .xp-head p{color:var(--on-muted)}
+.xp.open .xp-head em{color:var(--on-muted)}
+.xp.open .xp-tags span{background:var(--on-chip);color:var(--on)}
+.xp.open .xp-dot{background:var(--on);}
+.xp.open .xp-dot svg{transform:rotate(45deg);stroke:var(--accent)}
+.xp.open .xp-body{grid-template-rows:1fr}
+.xp[data-c=blue]{--accent:var(--c-blue);--on:#fff;--on-muted:#ffffffbf;--on-chip:#ffffff26}
+.xp[data-c=coral]{--accent:var(--c-coral);--on:#141414;--on-muted:#141414b3;--on-chip:#14141419}
+.xp[data-c=yellow]{--accent:var(--c-yellow);--on:#141414;--on-muted:#141414b3;--on-chip:#1414141a}
+.xp[data-c=mint]{--accent:var(--c-mint);--on:#141414;--on-muted:#141414b3;--on-chip:#1414141a}
+.xp[data-c=lilac]{--accent:var(--c-lilac);--on:#fff;--on-muted:#ffffffc7;--on-chip:#ffffff29}
+.xp[data-c=ink]{--accent:var(--c-ink);--on:#fff;--on-muted:#ffffffad;--on-chip:#ffffff1f}
+.xp:not(.open) .xp-dot svg{stroke:#fff}
+.xp[data-c=yellow]:not(.open) .xp-dot svg,.xp[data-c=mint]:not(.open) .xp-dot svg,.xp[data-c=coral]:not(.open) .xp-dot svg{stroke:#141414}
+
+/* white cards inside coloured panels */
+.wc{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:24px}
+.wc p{color:var(--muted)}
+.ptxt{color:var(--on);max-width:68ch}
+.ptxt + .ptxt{margin-top:14px}
+.phint{font-size:13px;font-weight:700;color:var(--on-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.phint::before{content:"";width:18px;height:2px;background:var(--on-muted)}
+.ph3{font-size:24px;font-weight:900;letter-spacing:-.01em;margin:40px 0 14px;color:var(--on)}
+
+/* constraints */
+.cons{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.con{display:grid;gap:10px;align-content:start}
+.con .q{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.con b{font-size:19px;font-weight:900;line-height:1.3}
+.con .ar{width:34px;height:34px;border-radius:50%;background:var(--c-blue);color:#fff;display:grid;place-items:center;font-weight:900}
+.con p{font-size:15px}
+
+/* tabs (inside panels) */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tabs button{height:42px;padding:0 18px;border-radius:999px;font-size:14px;font-weight:700;background:var(--on-chip);color:var(--on);transition:background .2s,color .2s}
+.tabs button[aria-selected=true]{background:var(--white);color:var(--ink)}
+.tpanel{display:none;animation:fade .35s ease}
+.tpanel.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* rituals */
+.rit{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rit button{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:18px;display:flex;flex-direction:column;gap:8px;outline:3px solid transparent;transition:outline-color .2s,transform .2s}
+.rit button:hover{transform:translateY(-2px)}
+.rit button[aria-selected=true]{outline-color:var(--ink)}
+.rit .em{font-size:24px;line-height:1}
+.rit .when{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rit h3{font-size:20px}
+.rit .q{font-size:14px;color:var(--muted);line-height:1.4}
+.rit .open{font-size:13px;font-weight:900;margin-top:auto;padding-top:6px}
+.inv{margin-top:10px;background:var(--white);color:var(--ink);border-radius:var(--rs);display:grid;grid-template-columns:1fr 1.35fr;overflow:hidden}
+.inv .im{padding:24px;border-right:1px solid var(--line)}
+.inv .tt{font-weight:900;font-size:18px;line-height:1.3;margin:0 0 14px}
+.inv .rw{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted);margin:8px 0}
+.inv .pp{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.inv .pp span{display:flex;align-items:center;gap:7px;background:var(--card);border-radius:999px;padding:3px 10px 3px 3px;font-size:12.5px}
+.inv .pp i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:900;background:var(--c-coral);color:var(--ink)}
+.inv .pp .me i{background:var(--ink);color:#fff}
+.inv .ib{padding:24px 28px;font-size:15px;line-height:1.6}
+.inv .ib p{max-width:none;margin:0 0 12px;color:var(--ink)}
+.inv .ib p + p{margin-top:0}
+.inv .ib em{color:var(--ink);font-weight:900}
+.inv .ib ol{margin:4px 0 12px;padding-left:20px}
+.inv .ib li{margin:4px 0}
+.rnote{font-size:13px;color:var(--on-muted);margin-top:10px}
+.motto{font-size:clamp(24px,3vw,36px);font-weight:900;line-height:1.15;letter-spacing:-.02em;margin:32px 0 6px;max-width:24ch;color:var(--on)}
+.motto + span{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--on-muted)}
+
+.week{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.week > div{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:16px}
+.week b{display:block;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.week span{display:block;font-size:14px;line-height:1.4;padding:8px 10px;border-radius:10px;background:var(--card);margin-bottom:6px}
+.week span.c{background:#FFE1D9}
+.week span.d{background:transparent;border:1.5px dashed #BDBDB7;color:var(--muted)}
+.leg{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13px;color:var(--on-muted)}
+.leg i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-right:6px;background:var(--card)}
+.leg i.c{background:#FFE1D9}.leg i.d{background:transparent;border:1.5px dashed currentColor}
+.tracks{overflow-x:auto;background:var(--white);border-radius:var(--rs);padding:20px;color:var(--ink);margin-top:14px}
+.tg{display:grid;grid-template-columns:110px repeat(6,minmax(84px,1fr));gap:8px;min-width:640px;align-items:center}
+.tg .h{font-size:12px;font-weight:900;color:var(--muted);text-align:center}
+.tg .lb{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.tg .m{border-radius:10px;padding:10px 8px;font-size:13px;line-height:1.3;text-align:center;min-height:54px;display:grid;place-items:center}
+.tg .m.ds{background:var(--ink);color:#fff}
+.tg .m.dv{background:var(--card)}
+.tg .br{grid-column:2/-1;display:flex;justify-content:space-around;font-weight:900;color:var(--c-coral);font-size:18px;line-height:1}
+.bridge{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.bridge b{display:block;color:var(--ink);margin-bottom:4px;font-size:15px}
+.bridge div{font-size:14.5px}
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.team .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.team b{display:block;font-size:17px;font-weight:900;margin:8px 0 6px}
+.team p{font-size:15px}
+.team i{display:inline-block;margin-top:12px;font-style:normal;font-weight:900;font-size:14px;background:#FFE1D9;padding:4px 10px;border-radius:999px}
+.grow{display:grid;grid-template-columns:220px 1fr;gap:24px;margin-top:10px}
+.grow .n{font-size:64px;font-weight:900;line-height:1;letter-spacing:-.03em}
+.grow .n + span{display:block;font-size:14px;color:var(--muted);margin-top:8px}
+.grow p{color:var(--ink)}
+.kd2{display:grid;grid-template-columns:1fr 1.5fr;gap:24px;align-items:start}
+.kd2 + .kd2{margin-top:10px}
+.kd2 p{color:var(--ink)}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.mini div{background:var(--card);border-radius:12px;padding:14px}
+.mini b{display:block;font-size:34px;font-weight:900;line-height:1}
+.mini span{font-size:13px;color:var(--muted)}
+
+/* sprints */
+.sp{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:22px 24px;display:grid;gap:8px}
+.sp .row{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center}
+.sp .n{font-size:20px;font-weight:900}
+.sp .bar{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:10px;overflow:hidden;min-height:44px}
+.sp .fill{height:44px;width:0;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;padding:0 14px;font-size:12px;font-weight:900;white-space:nowrap;flex:none;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.sp .fill.x{background:var(--c-coral);color:var(--ink)}
+.sp .mods{font-size:14.5px;padding-right:12px}
+.sp sup{color:var(--c-coral);font-weight:900}
+.spn{font-size:14px;color:var(--on-muted);margin-top:12px;max-width:68ch}
+.spcount{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}
+.spcount div{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:16px}
+.spcount b{display:block;font-size:34px;font-weight:900;line-height:1}
+.spcount span{display:block;margin-top:8px;font-size:13px;line-height:1.4;color:var(--muted)}
+
+/* board + matrix */
+.board{background:var(--white);color:var(--ink);border-radius:var(--rs);overflow:hidden}
+.board .bh{background:var(--ink);color:#fff;padding:12px 18px;font-weight:900;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.board .bh small{font-size:12px;opacity:.7;font-weight:400}
+.bgrid{display:grid;grid-template-columns:1fr 1.2fr;font-size:14px}
+.bgrid > div{padding:12px 16px;border-bottom:1px solid var(--line)}
+.bgrid > div:nth-child(odd){border-right:1px solid var(--line)}
+.bgrid .th{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;background:var(--card)}
+.bgrid .th.qq{background:#FFE9A6}
+.bgrid .qq2{background:#FFF6D6}
+.levels{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:22px 0 10px;font-size:14px;color:var(--on)}
+.levels span{background:var(--white);color:var(--ink);border-radius:999px;padding:8px 16px;font-weight:700}
+.levels i{font-style:normal}
+.matrix{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:10px 16px 16px;overflow-x:auto}
+.matrix table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+.matrix th,.matrix td{border-bottom:1px solid var(--line);padding:10px;text-align:center}
+.matrix th{font-size:10.5px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.matrix td:first-child,.matrix th:first-child{text-align:left}
+.matrix td:first-child{font-weight:900}
+.ck{display:inline-block;width:15px;height:15px;border-radius:4px;background:var(--ink)}
+.ck.p{background:transparent;border:2px solid var(--ink)}
+.ck.n{background:var(--card)}
+.matrix .leg{color:var(--muted)}
+.matrix .leg i.lk{background:var(--ink)}.matrix .leg i.lk.p{background:transparent;border:2px solid var(--ink)}.matrix .leg i.lk.n{background:var(--card)}
+
+/* journey stepper */
+.jr{display:grid;grid-template-columns:330px 1fr;gap:12px;align-items:start}
+.jl{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:10px}
+.jl .ph{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 12px 6px}
+.jl button{display:grid;grid-template-columns:28px 1fr;gap:10px;width:100%;padding:10px 12px;border-radius:12px;font-size:14px;line-height:1.4;color:var(--muted);transition:background .2s,color .2s}
+.jl button b{width:26px;height:26px;border-radius:8px;background:var(--card);display:grid;place-items:center;font-size:12px;font-weight:900;color:var(--ink)}
+.jl button[aria-selected=true]{background:var(--card);color:var(--ink);font-weight:700}
+.jl button[aria-selected=true] b{background:var(--c-lilac);color:#fff}
+.jv{background:var(--white);border-radius:var(--rs);padding:18px;position:sticky;top:84px}
+.jv img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;box-shadow:0 0 0 1px var(--line);cursor:zoom-in}
+.jv .cap{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:14px;color:var(--ink);font-size:15px}
+.jv .nav{display:flex;gap:6px;flex:none}
+.jv .nav button{width:40px;height:40px;border-radius:50%;background:var(--card);display:grid;place-items:center}
+
+/* key screens */
+.kd{display:grid;grid-template-columns:1fr 1.45fr;gap:28px;align-items:start;background:var(--card);border-radius:var(--r);padding:28px}
+.kd + .kd{margin-top:12px}
+.kd p{color:var(--muted);font-size:16px}
+.kd h3{margin-bottom:10px}
+.kd .why{color:var(--ink);font-size:15px;margin-top:14px;background:var(--white);border-radius:12px;padding:12px 14px}
+.kd .why b{display:block;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.imgs{display:grid;gap:12px}
+.imgs.two{grid-template-columns:1fr 1fr}
+.fig{margin:0}
+.fig img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;background:#fff;box-shadow:0 0 0 1px var(--line);cursor:zoom-in}
+.fig figcaption{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.45}
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.boards .fig img{object-position:top left;background:#1e1e1e}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.xp .fig figcaption{color:var(--on-muted)}
+.xp .g3 .fig{background:var(--white);border-radius:var(--rs);padding:12px}
+.xp .g3 .fig figcaption{color:var(--muted)}
+.xp .g3 .fig img{box-shadow:0 0 0 1px var(--line)}
+
+/* ecosystem / outcome / reflection */
+.eco{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.eco .fig{background:var(--card);border-radius:var(--rs);padding:14px}
+.link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-weight:900;text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:2px}
+.lrn{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:28px}
+.lrn > div{background:var(--card);border-radius:var(--r);padding:28px}
+.lrn b{display:block;font-size:44px;font-weight:900;line-height:1;margin-bottom:18px;letter-spacing:-.02em}
+.lrn h3{margin-bottom:8px}
+.lrn p{color:var(--muted);font-size:15.5px}
+.more{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.more a{display:block;text-decoration:none;background:var(--card);border-radius:var(--r);padding:26px;transition:background .2s}
+.more a:hover{background:#E6E6E2}
+.more h3{font-size:20px;margin:10px 0 18px}
+.cta{font-weight:900;font-size:15px}
+footer{margin-top:96px;background:var(--ink);color:#fff}
+footer .wrap{padding-top:72px;padding-bottom:48px}
+footer .big{font-size:clamp(56px,9vw,112px);font-weight:900;line-height:.95;letter-spacing:-.04em;margin-bottom:28px}
+footer .links{display:flex;flex-wrap:wrap;gap:10px}
+footer .links a{display:inline-flex;height:44px;align-items:center;padding:0 18px;border-radius:999px;background:#ffffff1a;text-decoration:none;font-weight:700}
+footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rv.is-in{opacity:1;transform:none}
+
+/* lightbox */
+.lbx{position:fixed;inset:0;background:rgba(10,10,10,.9);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out;padding:3vw}
+.lbx.on{display:flex}
+.lbx img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+
+@media (max-width:900px){
+  .meta,.nums{grid-template-columns:repeat(2,1fr)}
+  .stage{padding:10px}
+  .xp-head{grid-template-columns:1fr;padding:28px 24px;gap:20px}
+  .xp-cta{flex-direction:row}
+  .xp-dot{width:56px;height:56px}
+  .xp-body .pad{padding:0 20px 28px}
+  .cons,.rit,.inv,.week,.bridge,.team,.grow,.kd2,.jr,.kd,.imgs.two,.boards,.g3,.eco,.lrn,.more,.spcount{grid-template-columns:1fr}
+  .inv .im{border-right:0;border-bottom:1px solid var(--line)}
+  .jv{position:static}
+  .top nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.xp,.xp-body,.sp .fill{transition:none}}
+/* ---- case additions ---- */
+.five{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin-top:32px}
+.five .srcs{display:grid;gap:8px}
+.five .srcs span{background:var(--card);border-radius:12px;padding:12px 16px;font-size:15px;color:var(--muted);border:1.5px dashed #D3D3CE}
+.five .arr{width:56px;height:56px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
+.five .one{background:var(--c-blue);color:#fff;border-radius:24px;padding:32px;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end}
+.five .one b{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.1}
+.five .one p{color:#ffffffc4;margin-top:8px}
+.fig.wf{background:var(--white);border-radius:var(--rs);padding:14px}
+.fig.wf img{aspect-ratio:auto;max-height:640px;object-fit:contain;object-position:center;box-shadow:none;border-radius:8px}
+.fig.wf.tall img{aspect-ratio:4/3;height:auto}
+.fig.wf.wide img{max-height:none}
+.xp .fig.wf figcaption{color:var(--muted)}
+.g2s{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.g3s{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.blocks{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.blocks .bn{font-size:12px;font-weight:900;color:var(--muted)}
+.blocks b{display:block;font-size:17px;font-weight:900;line-height:1.25;margin:10px 0 8px}
+.blocks p{font-size:14px}
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.people .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.people h3{margin:10px 0 6px;font-size:20px}
+.people p{font-size:15px}
+.people .need{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink)!important;font-weight:700}
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.steps4 .sn{font-size:12px;font-weight:900;color:var(--muted)}
+.steps4 h3{font-size:24px;margin:8px 0 6px;letter-spacing:-.02em}
+.steps4 p{font-size:14.5px}
+.steps4 ul{list-style:none;margin-top:14px;display:grid;gap:6px}
+.steps4 li{font-size:14px;background:var(--card);border-radius:8px;padding:7px 10px}
+/* compare slider */
+.cmp{position:relative;background:var(--white);border-radius:var(--rs);overflow:hidden;aspect-ratio:16/9;user-select:none}
+.cmp > img,.cmp .cl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.cmp .cl{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--p,50%)) 0 0)}
+.cmp .cl img{background:#fff}
+.cmp .h{position:absolute;top:0;bottom:0;left:var(--p,50%);width:3px;margin-left:-1.5px;background:var(--ink);pointer-events:none}
+.cmp .h i{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:900;font-size:14px;letter-spacing:2px;box-shadow:0 10px 24px -8px rgba(0,0,0,.4)}
+.cmp .lt,.cmp .rt{position:absolute;top:14px;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:999px;pointer-events:none}
+.cmp .lt{left:14px;background:var(--ink);color:#fff}
+.cmp .rt{right:14px;background:var(--c-coral);color:var(--ink)}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.caps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.caps p{background:var(--white);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--muted);max-width:none;margin:0}
+.caps p + p{margin-top:0}
+.caps b{display:block;color:var(--ink);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+/* decisions */
+.dk{display:grid;grid-template-columns:1fr 1.45fr;gap:28px;align-items:start;background:var(--card);border-radius:var(--r);padding:28px;margin-top:12px}
+.dk .dn{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;font-weight:900;margin-bottom:16px}
+.dk h3{font-size:22px;margin-bottom:10px;letter-spacing:-.02em}
+.dk p{color:var(--muted);font-size:16px}
+.dk .why{color:var(--ink);font-size:15px;margin-top:14px;background:var(--white);border-radius:12px;padding:12px 14px}
+.dk .why b{display:block;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.dk .fig img{aspect-ratio:16/10;object-fit:cover;object-position:top}
+.seg2{display:inline-flex;gap:4px;background:var(--white);border-radius:999px;padding:4px;margin-bottom:10px}
+.seg2 button{height:36px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:700;color:var(--muted);transition:background .25s,color .25s}
+.seg2 button[aria-selected=true]{background:var(--ink);color:#fff}
+.seg2 button[data-img=s01-dashboard][aria-selected=true]{background:var(--c-yellow);color:var(--ink)}
+.crop-sw img{transition:opacity .3s}
+/* testing, story, quote, learned */
+.changed{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+.changed > div{background:var(--card);border-radius:var(--r);padding:28px}
+.changed .k{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;background:var(--c-mint);border-radius:999px;padding:5px 12px;margin-bottom:14px}
+.changed h3{margin-bottom:8px}
+.changed p{color:var(--muted)}
+.story .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.story .us{font-size:clamp(20px,2vw,26px);line-height:1.35;color:var(--ink)!important;margin:12px 0 18px;max-width:none;letter-spacing:-.01em}
+.story .us b{color:var(--c-blue)}
+.story ul{list-style:none;display:grid;gap:8px}
+.story li{background:var(--card);border-radius:10px;padding:10px 14px;font-size:15px;display:flex;gap:10px}
+.story li::before{content:"✓";font-weight:900;color:var(--c-blue)}
+.proj{display:inline-block;font-style:normal;font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;background:var(--white);border-radius:999px;padding:2px 8px;margin-left:4px;color:var(--muted)}
+.quote{margin:12px 0 24px;background:var(--c-yellow);border-radius:var(--r);padding:32px}
+.quote p{font-size:clamp(20px,2.2vw,28px);font-weight:900;line-height:1.25;letter-spacing:-.02em;max-width:36ch;color:var(--ink)}
+.quote span{display:block;margin-top:14px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.learned{background:var(--ink);color:#fff;border-radius:32px;padding:48px;margin-top:14px}
+.learned h2{color:#fff}
+.learned h2 em{color:#ffffff80}
+.learned p{color:#ffffffc4;font-size:19px}
+@media (max-width:900px){
+  .five{grid-template-columns:1fr}.five .arr{transform:rotate(90deg);justify-self:center}
+  .g2s,.g3s,.blocks,.people,.steps4,.caps,.dk,.changed{grid-template-columns:1fr}
+  .learned{padding:28px}
+}
+/* ---- Services Portal additions ---- */
+.meta.m5{grid-template-columns:repeat(5,1fr)}
+.ba{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:28px}
+.ba > div{background:var(--card);border-radius:var(--r);padding:28px;display:flex;flex-direction:column}
+.ba .k{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ba h3{font-size:24px;letter-spacing:-.02em;margin:14px 0 10px}
+.ba p{color:var(--muted);font-size:15.5px}
+.ba .goal{background:var(--c-blue);color:#fff}
+.ba .goal .k,.ba .goal p{color:#ffffffc4}
+.prods{margin-top:12px;background:var(--card);border-radius:var(--r);padding:22px 24px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.prods .pl{font-size:15px;color:var(--muted);max-width:30ch}
+.prods > div{display:flex;flex-wrap:wrap;gap:8px}
+.prods > div span{background:var(--white);border-radius:999px;padding:9px 16px;font-size:14px;font-weight:900}
+/* ecosystem */
+.eco2{margin-top:24px;background:var(--card);border-radius:28px;padding:28px}
+.eco2 .tier{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center}
+.eco2 .tl{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.chs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.chs.two{grid-template-columns:1fr 1fr}
+.ch,.box{background:var(--white);border-radius:var(--rs);padding:16px;display:flex;flex-direction:column;gap:4px;text-align:left;transition:background .3s,color .3s,transform .3s}
+.ch b,.box b,.core b{font-size:16px;font-weight:900}
+.ch small,.box small,.core small{font-size:13px;color:var(--muted)}
+.ch:hover{transform:translateY(-2px)}
+.ch.on{background:var(--c-blue);color:#fff}
+.ch.on small{color:#ffffffc4}
+.box.full{width:100%}
+.core{background:var(--ink);color:#fff;border-radius:var(--rs);padding:20px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline}
+.core b{font-size:20px}
+.core small{color:#ffffffa6}
+.core .from{margin-left:auto;font-size:13px;font-weight:900;background:var(--c-yellow);color:var(--ink);border-radius:999px;padding:5px 12px;transition:opacity .3s}
+.rail{position:relative;height:30px;margin-left:126px;border-left:2px dashed #CFCFCA}
+.rail .dotf{position:absolute;left:-6px;top:0;width:10px;height:10px;border-radius:50%;background:var(--c-blue);animation:fall 1.6s ease-in infinite}
+.rail .d2{animation-delay:.4s}.rail .d3{animation-delay:.8s}
+@keyframes fall{0%{top:-4px;opacity:0}20%{opacity:1}100%{top:26px;opacity:0}}
+/* low-fi grid */
+.lg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.lg .fig{background:var(--white);border-radius:var(--rs);padding:12px}
+.lg .fig img{aspect-ratio:3/4;object-fit:cover;object-position:top;box-shadow:0 0 0 1px var(--line)}
+.lg .fig figcaption{color:var(--muted)}
+.lead2{margin-bottom:12px}
+.spcount.c3{grid-template-columns:repeat(3,1fr)}
+/* journey hot */
+.jl button.hot b{background:var(--c-coral);color:var(--ink)}
+.jl button.hot[aria-selected=true] b{background:var(--c-coral);color:var(--ink)}
+.jv img{aspect-ratio:16/11}
+/* switch images */
+.sw .fig img{transition:opacity .25s}
+.sw .seg2{flex-wrap:wrap}
+.xp .sw .seg2{background:var(--on-chip)}
+.xp .sw .seg2 button{color:var(--on)}
+.xp .sw .seg2 button[aria-selected=true]{background:var(--white);color:var(--ink)}
+.xp .sw .fig.wf img{max-height:none}
+/* phones */
+.phones{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+.phones figure{margin:0;background:var(--card);border-radius:var(--r);padding:24px 24px 16px;text-align:center}
+.phones .ph{background:none;border-radius:0;padding:0;max-width:220px;margin:0 auto;box-shadow:none}
+.phones .ph img{border-radius:0;width:100%;cursor:zoom-in;background:none;filter:drop-shadow(0 18px 28px rgba(20,20,20,.12))}
+.phones figcaption{font-size:13px;color:var(--muted);margin-top:14px;font-weight:700}
+/* backlog */
+.bl{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;align-items:start;margin-top:8px}
+.bl p{color:var(--muted)}
+/* roadmap */
+.road{margin-top:24px;background:var(--card);border-radius:28px;padding:28px}
+.lab2{font-size:12px;font-weight:700;color:var(--muted)}
+.road .bars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:end;margin-top:18px}
+.road .r{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;min-height:250px}
+.road .r b{font-size:36px;font-weight:900;letter-spacing:-.03em;line-height:1}
+.road .r i{display:block;height:0;border-radius:14px;background:#DADAD5;transition:height 1.1s cubic-bezier(.2,.7,.2,1)}
+.road .r:first-child i{background:var(--c-blue)}
+.road.go .r i{height:calc(var(--v) / 300 * 190px)}
+.road .r span{font-size:13px;font-weight:700;color:var(--muted);min-height:2.7em;line-height:1.35}
+.stage2{margin-top:12px;background:var(--ink);color:#fff;border-radius:28px;padding:40px;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:start}
+.stage2 .yr{font-size:clamp(64px,8vw,110px);font-weight:900;line-height:.9;letter-spacing:-.05em}
+.stage2 h3{font-size:clamp(24px,2.6vw,32px);font-weight:900;letter-spacing:-.02em;margin:10px 0 10px}
+.stage2 p{color:#ffffffb3}
+.flags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.flags span{font-size:13px;font-weight:700;padding:7px 12px;border-radius:999px;background:#ffffff14;transition:background .3s,color .3s}
+.flags span:hover{background:var(--c-yellow);color:var(--ink)}
+@media (max-width:900px){
+  .meta.m5{grid-template-columns:1fr 1fr}
+  .ba,.chs,.chs.two,.lg,.phones,.bl,.stage2,.spcount.c3{grid-template-columns:1fr}
+  .eco2 .tier{grid-template-columns:1fr}
+  .rail{margin-left:20px}
+  .road .bars{gap:8px}.road .r{min-height:200px}.road .r b{font-size:26px}.road.go .r i{height:calc(var(--v) / 300 * 130px)}.road{padding:22px}
+}
+@media (prefers-reduced-motion:reduce){.rail .dotf{animation:none}.road .r i{transition:none}}
+.lg .fig img{aspect-ratio:4/3;object-fit:contain;object-position:center;background:#fff;padding:12px}
+.cmp > img,.cmp .cl img{object-fit:cover;object-position:top}
+.caps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.caps p{background:var(--white);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--muted);max-width:none;margin:0}
+.caps p + p{margin-top:0}
+.caps b{display:block;color:var(--ink);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+@media (max-width:600px){.caps{grid-template-columns:1fr}.cmp .h i{width:40px;height:40px}}
+@media (max-width:900px){.phones{display:flex!important;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;margin-left:-28px;margin-right:-28px;padding:0 28px 6px;scroll-padding:0 28px;scrollbar-width:none}.phones::-webkit-scrollbar{display:none}.phones figure{flex:0 0 72%;scroll-snap-align:start;padding:20px 16px 14px}.phones figcaption{font-size:13px;margin-top:12px}}
+
+/* align card internals across a row (subgrid, desktop only) */
+@media (min-width:901px){
+.people>*,.steps4>*{display:grid;grid-template-rows:subgrid;grid-row:span 4;align-content:start}
+.blocks>*,.more>a{display:grid;grid-template-rows:subgrid;grid-row:span 3;align-content:start}
+.people,.steps4,.blocks,.more{row-gap:0}
+.people>*,.steps4>*,.blocks>*,.more>a{row-gap:0}
+.people .need{margin-top:14px}
+.steps4 ul{align-self:start}
+.more .cta{align-self:end}
+}
+
+@media (max-width:600px){.sw .seg2{flex-wrap:nowrap;max-width:100%;overflow-x:auto;scrollbar-width:none}.sw .seg2::-webkit-scrollbar{display:none}.dk>div,.dk .imgs,.dk .sw{min-width:0}.sw .seg2 button{flex:1 0 auto;height:34px;padding:0 6px;font-size:12.5px;white-space:nowrap}.sw .seg2{display:flex;gap:2px}}
+@media (max-width:374px){.sw .seg2 button{font-size:11.5px;padding:0 4px}}
+@media (max-width:600px){.meta>div{min-width:0}.meta dd{overflow-wrap:anywhere}}
+/* pill-center */.meta>div{min-width:0}.meta dd{overflow-wrap:break-word;hyphens:auto}.seg2 button,.tabs button,button[role=tab]{text-align:center;justify-content:center}.five .srcs span{text-align:center}
+.lng{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}
+.rt{display:flex;align-items:center;gap:8px;margin-left:auto}header .pill+.brand{margin-left:12px}
+@media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
+</style>
+</head>
+<body>
+<script>
+/* every page opens at the top (links between pages, back/forward and reloads) */
+(function(){
+  try{ if('scrollRestoration' in history) history.scrollRestoration='manual'; }catch(e){}
+  function top(){ if(!location.hash){ var h=document.documentElement, b=h.style.scrollBehavior; h.style.scrollBehavior='auto'; window.scrollTo(0,0); h.style.scrollBehavior=b; } }
+  top(); document.addEventListener('DOMContentLoaded',top); window.addEventListener('load',top); window.addEventListener('pageshow',top);
+})();
+</script>
+
+<header class="top">
+  <div class="wrap">
+    <a class="pill" href="index.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All work</a>
+    <span class="brand">Lucas Costa Pena</span>
+    <div class="rt"><nav aria-label="Sections"><a href="#challenge">Challenge</a><a href="#ecosystem">Ecosystem</a><a href="#decisions">Decisions</a><a href="#outcome">Outcome</a></nav><a class="lng" href="services-portal.es.html" hreflang="es" lang="es" aria-label="Ver en español"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>ES</a></div>
+  </div>
+  <div class="prog" id="prog"></div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="wrap hero">
+  <div class="label">Case study 01 &nbsp;·&nbsp; Public sector</div>
+  <h1>One front door for <em>regional public services.</em></h1>
+  <p class="lede">Every resident of the region, wherever they live, should be able to request any public service in one place, whichever of the government’s 50+ entities owns it. I led product design, with Product Owner responsibilities, on the platform behind it: citizen portal, mobile app, assisted-service desk and the back office that runs it all.</p>
+  <dl class="meta">
+    <div><dt>Role</dt><dd>Lead Product Designer<br>with Product Owner responsibilities</dd></div>
+    <div><dt>Team</dt><dd>6 designers<br>12 developers</dd></div>
+    <div><dt>Timeline</dt><dd>Dec 2024 – May 2026<br>Launch: Jan 2027</dd></div>
+    <div><dt>Client</dt><dd>Regional Government, Portugal</dd></div>
+  </dl>
+  <div class="stage rv"><img src="assets/sp/hf-hero.webp" alt="The public portal on desktop and the citizen app, built on the same design system." data-zoom></div>
+  <p class="figcap">The public portal on desktop and the citizen app, built on the same design system.</p>
+  <div class="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Not the live product, but almost. Every screen here was redesigned following the real product strictly: same layout, content and flows. Only the visual style (colours, type and icons), names and data were changed, so the client’s product is not exposed.</p></div>
+</section>
+
+<!-- 01 CHALLENGE -->
+<section class="wrap sec" id="challenge">
+  <div class="label">01 · Challenge</div>
+  <h2>Citizens had to know <em>who</em> owned their problem.</h2>
+  <div class="quote rv"><p>“On an island, the service you need is often on another island. And the boat or the plane doesn’t always leave when you need it. So our idea was simple: let the information travel, not the people. One portal, online, for every regional public service, wherever you live.”</p><span>From my talk at the Islands Digital Summit · Oct 2026</span></div>
+  <div class="ba">
+    <div class="rv"><span class="k">Before · for citizens</span><h3>Fifty doors, no map</h3><p>Each regional body ran its own services, its own forms and its own way of handling a request. To get anything done, a citizen first had to work out which department to ask.</p></div>
+    <div class="rv"><span class="k">Before · behind the counter</span><h3>Email, paper and blind spots</h3><p>Requests moved between entities by email and paper. Nobody had a single view of where a case stood, and every new digital service meant a new development project.</p></div>
+    <div class="goal rv"><span class="k">The goal</span><h3>One platform, one model</h3><p>One place to request a service, one way to track it, and one model every entity can plug its services into without starting from scratch.</p></div>
+  </div>
+</section>
+
+<!-- 02 NUMBERS -->
+<section class="wrap sec" id="numbers">
+  <div class="label">02 · In numbers</div>
+  <h2>A platform, not <em>a website.</em></h2>
+  <div class="nums">
+    <div class="rv"><b data-count="150">150</b><span>digitised public services at launch, January 2027</span></div>
+    <div class="rv"><b data-count="300">300</b><span>services on the roadmap by January 2028</span></div>
+    <div class="rv"><b data-count="50" data-suffix="+">50+</b><span>government entities connected to one platform</span></div>
+    <div class="rv"><b data-count="7">7</b><span>user profiles with their own journeys and permissions</span></div>
+  </div>
+  <div class="prods rv"><span class="pl">For every resident, wherever they live, across six connected products</span><div><span>Portal</span><span>Mobile app</span><span>Chatbot</span><span>Assisted-service desk</span><span>Back office</span><span>Form builder</span></div></div>
+</section>
+
+<div class="wrap">
+<!-- 03 USERS (lilac) -->
+<section class="xp" data-c="lilac" id="users">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-users">
+    <div>
+      <div class="label">03 · Who I designed for</div>
+      <h2>Three sides of <em>the same request.</em></h2>
+      <p>Every request has someone asking, someone helping and someone deciding. A great citizen form is useless if the person processing it is stuck in a bad back office.</p>
+      <div class="xp-tags"><span>Citizens &amp; businesses</span><span>Assisted-service operators</span><span>Back-office teams &amp; admins</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-users"><div class="in"><div class="pad">
+    <div class="people">
+      <div class="wc"><span class="k">Outside</span><h3>Citizens &amp; businesses</h3><p>Want to solve something quickly, often on a phone, without learning how government is organised.</p><p class="need">Needs: find the service, submit once, always know the status.</p></div>
+      <div class="wc"><span class="k">At the counter</span><h3>Assisted-service operators</h3><p>Help people who can’t or won’t go digital, in person or by phone, on behalf of many entities.</p><p class="need">Needs: start a request for someone else and hand it over cleanly.</p></div>
+      <div class="wc"><span class="k">Behind it</span><h3>Back-office teams &amp; admins</h3><p>Operators, team managers, entity managers and platform admins who process, approve and configure.</p><p class="need">Needs: clear queues, the right permissions, full history of every decision.</p></div>
+    </div>
+  </div></div></div>
+</section>
+</div>
+
+<!-- 04 ECOSYSTEM -->
+<section class="wrap sec" id="ecosystem">
+  <div class="label">04 · The ecosystem</div>
+  <h2>Every channel, <em>one request lifecycle.</em></h2>
+  <p style="color:var(--muted)">The core idea: a request is the same object wherever it starts. Online, in the app or at a desk, it follows the same states and keeps the same history. Pick a channel.</p>
+  <div class="eco2 rv" id="eco">
+    <div class="tier"><span class="tl">Channels</span>
+      <div class="chs">
+        <button class="ch on" data-i="0"><b>Services Portal</b><small>Responsive web, citizens &amp; businesses</small></button>
+        <button class="ch" data-i="1"><b>Mobile app</b><small>Request &amp; track on the go</small></button>
+        <button class="ch" data-i="2"><b>Chatbot</b><small>Find the right service</small></button>
+        <button class="ch" data-i="3"><b>Assisted desk</b><small>Operators acting for citizens</small></button>
+      </div>
+    </div>
+    <div class="rail" aria-hidden="true"><i class="dotf"></i></div>
+    <div class="tier"><span class="tl">Core</span><div class="core"><b>One request lifecycle</b><small>Shared states, rules, documents and history</small><span class="from" id="ecofrom">Started on the Services Portal</span></div></div>
+    <div class="rail" aria-hidden="true"><i class="dotf d2"></i></div>
+    <div class="tier"><span class="tl">Operate</span><div class="chs two"><div class="box"><b>Back office</b><small>Queues, decisions, approvals</small></div><div class="box"><b>Form builder</b><small>Entities publish services by configuration</small></div></div></div>
+    <div class="rail" aria-hidden="true"><i class="dotf d3"></i></div>
+    <div class="tier"><span class="tl">Integrate</span><div class="box full"><b>Government systems</b><small>Digital identity, document management, workflow</small></div></div>
+  </div>
+  <figure class="fig wf" style="margin-top:12px"><img src="assets/sp/hf-req-flow.webp" alt="Publishing a service, mapped across six systems: from the request to the form, the portal and the audit trail." loading="lazy" data-zoom><figcaption>Publishing a service, mapped across six systems: from the request to the form, the portal and the audit trail.</figcaption></figure>
+</section>
+
+<div class="wrap">
+<!-- 05 PROCESS (yellow) -->
+<section class="xp" data-c="yellow" id="process">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-proc">
+    <div>
+      <div class="label">05 · Process</div>
+      <h2>From workshops <em>to production.</em></h2>
+      <div class="xp-tags"><span>12 workshops</span><span>8 co-creation sessions</span><span>22 sprints</span><span>60+ refinements</span><span>WCAG testing</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-proc"><div class="in"><div class="pad">
+    <div class="steps4">
+      <div class="wc"><span class="sn">01</span><h3>Discover</h3><p>Mapped how services really worked across entities.</p><ul><li>12 requirements workshops</li><li>Process mapping</li><li>Stakeholder &amp; systems map</li></ul></div>
+      <div class="wc"><span class="sn">02</span><h3>Co-create</h3><p>Designed with the people who would use and run it.</p><ul><li>Sitemap &amp; journeys</li><li>8 hi-fi co-creation sessions</li><li>Prototype validation</li></ul></div>
+      <div class="wc"><span class="sn">03</span><h3>Specify</h3><p>Turned designs into something developers could build.</p><ul><li>User stories &amp; acceptance criteria</li><li>Business rules &amp; states</li><li>Profiles &amp; permissions</li></ul></div>
+      <div class="wc"><span class="sn">04</span><h3>Deliver</h3><p>Stayed with the team until it was live.</p><ul><li>22 sprints, planning &amp; demos</li><li>60+ refinement sessions</li><li>Accessibility testing (WCAG)</li><li>Training &amp; launch support</li></ul></div>
+    </div>
+    <div data-tabset style="margin-top:28px">
+      <p class="phint">The artefacts behind the work. Click a tab, and any image to enlarge it.</p>
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-a1">Requirements sessions</button><button role="tab" aria-selected="false" data-p="p-a2">Requirements matrix</button></div>
+      <div class="tpanel on" id="p-a1"><figure class="fig wf"><img src="assets/sp/hf-req-sessions.webp" alt="Requirements sessions" loading="lazy" data-zoom><figcaption>Requirements sessions: goals and a short intro for each stakeholder before going through every requirement.</figcaption></figure></div>
+      <div class="tpanel" id="p-a2"><figure class="fig wf"><img src="assets/sp/hf-req-matrix.webp" alt="Requirements matrix" loading="lazy" data-zoom><figcaption>Requirements matrix: each tender requirement mapped to features per profile, and marked when it reached the requirements document.</figcaption></figure></div>
+    </div>
+  </div></div></div>
+</section>
+
+<!-- 06 LOW-FI (ink) -->
+<section class="xp" data-c="ink" id="lowfi">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-lofi">
+    <div>
+      <div class="label">06 · Low-fi</div>
+      <h2>Built from <em>a blank canvas.</em></h2>
+      <p>Before any visual design, my team sketched every journey in low-fi and linked them into flows, alongside the requirements workshops. Every screen was reviewed with the client before hi-fi. This is where the product’s structure was decided.</p>
+      <div class="xp-tags"><span>~90 screens</span><span>7 product areas</span><span>100% reviewed with the client</span><span>Drag to compare</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-lofi"><div class="in"><div class="pad">
+    <div class="spcount c3">
+      <div><b data-count="90" data-prefix="~">~90</b><span>low-fi screens, designed from scratch</span></div>
+      <div><b data-count="7">7</b><span>product areas, from the public portal to the back office</span></div>
+      <div><b data-count="100" data-suffix="%">100%</b><span>of the screens reviewed with the client</span></div>
+    </div>
+    <figure class="fig wf" style="margin-top:12px"><img src="assets/sp/lofi-board-flows.webp" alt="Part of the low-fi board" loading="lazy" data-zoom><figcaption>Part of the low-fi board: public portal, citizen area and operator workspace, annotated and linked by flows.</figcaption></figure>
+    <div data-tabset style="margin-top:28px">
+      <p class="phint">Explore the screens by area. Click any screen to enlarge it.</p>
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-p="lp-pub">Public portal · 7</button><button role="tab" aria-selected="false" data-p="lp-cit">Citizen area · 3</button><button role="tab" aria-selected="false" data-p="lp-op">Operator workspace · 7</button><button role="tab" aria-selected="false" data-p="lp-bo">Back office · 3</button><button role="tab" aria-selected="false" data-p="lp-cfg">Configuration · 7</button><button role="tab" aria-selected="false" data-p="lp-psr">Audit (PSR) · 1</button><button role="tab" aria-selected="false" data-p="lp-forms">Forms manager · 2</button>
+      </div>
+      <div class="tpanel on" id="lp-pub"><p class="ptxt lead2">Anyone can find a service and how to get it, without logging in.</p><div class="lg">
+        <figure class="fig"><img src="assets/sp/lofi-pub-homepage.webp" alt="" loading="lazy" data-zoom><figcaption>Homepage: search first, featured services and quick answers.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-pub-search.webp" alt="" loading="lazy" data-zoom><figcaption>Search by intent: categories and sub-categories narrow the list.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-pub-results.webp" alt="" loading="lazy" data-zoom><figcaption>Results while typing, with alerts and a direct way to request.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-pub-directory.webp" alt="" loading="lazy" data-zoom><figcaption>Services directory with filters by category and entity.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-pub-service.webp" alt="" loading="lazy" data-zoom><figcaption>Service detail: who it is for, documents, channels and a simulator.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-pub-channels.webp" alt="" loading="lazy" data-zoom><figcaption>Service channels: offices on a map and digital queue tickets.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-pub-help.webp" alt="" loading="lazy" data-zoom><figcaption>Help centre: FAQs by theme and a path to the chatbot.</figcaption></figure>
+      </div></div>
+      <div class="tpanel" id="lp-cit"><p class="ptxt lead2">Once logged in, every request lives in one place.</p><div class="lg">
+        <figure class="fig"><img src="assets/sp/lofi-cit-requests.webp" alt="" loading="lazy" data-zoom><figcaption>My requests: open and past requests, with status at a glance.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-cit-new-request.webp" alt="" loading="lazy" data-zoom><figcaption>New request in four steps: service, description, form, summary.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-cit-tracking.webp" alt="" loading="lazy" data-zoom><figcaption>Tracking: a timeline shows where the request is.</figcaption></figure>
+      </div></div>
+      <div class="tpanel" id="lp-op"><p class="ptxt lead2">Public servants handle the same requests from the other side.</p><div class="lg">
+        <figure class="fig"><img src="assets/sp/lofi-op-dashboard.webp" alt="" loading="lazy" data-zoom><figcaption>Dashboard: new, pending and priority requests, plus contacts and schedule.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-op-requests.webp" alt="" loading="lazy" data-zoom><figcaption>Requests list with filters, requester and status.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-op-timeline.webp" alt="" loading="lazy" data-zoom><figcaption>Request timeline, with the sub-steps of each stage.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-op-search.webp" alt="" loading="lazy" data-zoom><figcaption>Search by service, citizen, process ID, contact or tax number.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-op-directory.webp" alt="" loading="lazy" data-zoom><figcaption>Services directory to request on behalf of a citizen.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-op-contacts.webp" alt="" loading="lazy" data-zoom><figcaption>Contacts log: in person, phone and web in one list.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-op-activities.webp" alt="" loading="lazy" data-zoom><figcaption>Activities: weekly schedule and appointments.</figcaption></figure>
+      </div></div>
+      <div class="tpanel" id="lp-bo"><p class="ptxt lead2">Managers follow performance by person, service and team.</p><div class="lg">
+        <figure class="fig"><img src="assets/sp/lofi-bo-operator.webp" alt="" loading="lazy" data-zoom><figcaption>Performance by operator: volume, resolution time and satisfaction.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-bo-service.webp" alt="" loading="lazy" data-zoom><figcaption>The same view, filtered by a single service.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-bo-team.webp" alt="" loading="lazy" data-zoom><figcaption>Team view: operators compared on one service.</figcaption></figure>
+      </div></div>
+      <div class="tpanel" id="lp-cfg"><p class="ptxt lead2">Admins change the portal without code.</p><div class="lg">
+        <figure class="fig"><img src="assets/sp/lofi-cfg-map.webp" alt="" loading="lazy" data-zoom><figcaption>Configuration map: everything an admin can set, by area.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-cfg-users.webp" alt="" loading="lazy" data-zoom><figcaption>Internal users and their profiles.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-cfg-groups.webp" alt="" loading="lazy" data-zoom><figcaption>Groups, one per area.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-cfg-templates.webp" alt="" loading="lazy" data-zoom><figcaption>Notification and communication templates.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-cfg-frontend.webp" alt="" loading="lazy" data-zoom><figcaption>Front-end management: menus, contacts, highlights and FAQs.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-cfg-publish.webp" alt="" loading="lazy" data-zoom><figcaption>Services approved and ready to publish.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-cfg-service.webp" alt="" loading="lazy" data-zoom><figcaption>Service settings: SLA, payment, keywords and who handles requests.</figcaption></figure>
+      </div></div>
+      <div class="tpanel" id="lp-psr"><p class="ptxt lead2">An auditor sees compliance across every entity.</p><div class="lg">
+        <figure class="fig"><img src="assets/sp/lofi-psr-dashboard.webp" alt="" loading="lazy" data-zoom><figcaption>Audit dashboard: SLA compliance by entity, overdue processes and common causes.</figcaption></figure>
+      </div></div>
+      <div class="tpanel" id="lp-forms"><p class="ptxt lead2">Each service form is created and versioned in the portal.</p><div class="lg">
+        <figure class="fig"><img src="assets/sp/lofi-forms-requests.webp" alt="" loading="lazy" data-zoom><figcaption>Requests to create, change, suspend or archive a form.</figcaption></figure>
+        <figure class="fig"><img src="assets/sp/lofi-forms-builder.webp" alt="" loading="lazy" data-zoom><figcaption>Form builder: drag-and-drop fields, layouts and data.</figcaption></figure>
+      </div></div>
+    </div>
+
+    <h3 class="ph3">From low-fi to final</h3>
+    <div data-tabset>
+      <p class="phint">Drag the handle to go from low-fi to the final design.</p>
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-cm3">Operator dashboard</button><button role="tab" aria-selected="false" data-p="p-cm1">Service detail</button><button role="tab" aria-selected="false" data-p="p-cm2">Request tracking</button><button role="tab" aria-selected="false" data-p="p-cm4">Help centre</button><button role="tab" aria-selected="false" data-p="p-cm0">Search</button></div>
+      <div class="tpanel on" id="p-cm3"><div class="cmp" data-cmp style="aspect-ratio:1400/868"><img src="assets/sp/cmp-operator-hi.webp" alt="Final: The same blocks, plus SLA per request, a calendar and team updates."><div class="cl"><img src="assets/sp/cmp-operator-lo.webp" alt="Low-fi: Counters, a request table and the week’s schedule."></div><span class="h" aria-hidden="true"><i>‹ ›</i></span><span class="lt">Low-fi</span><span class="rt">Final</span><input type="range" min="0" max="100" value="50" aria-label="Compare low-fi and final: Operator dashboard"></div>
+        <div class="caps"><p><b>Low-fi</b>Counters, a request table and the week’s schedule.</p><p><b>Final</b>The same blocks, plus SLA per request, a calendar and team updates.</p></div></div><div class="tpanel" id="p-cm1"><div class="cmp" data-cmp style="aspect-ratio:1400/868"><img src="assets/sp/cmp-service-hi.webp" alt="Final: Same structure, with request, appointment, simulator and representation in one bar."><div class="cl"><img src="assets/sp/cmp-service-lo.webp" alt="Low-fi: Description, accordions and three actions."></div><span class="h" aria-hidden="true"><i>‹ ›</i></span><span class="lt">Low-fi</span><span class="rt">Final</span><input type="range" min="0" max="100" value="50" aria-label="Compare low-fi and final: Service detail"></div>
+        <div class="caps"><p><b>Low-fi</b>Description, accordions and three actions.</p><p><b>Final</b>Same structure, with request, appointment, simulator and representation in one bar.</p></div></div><div class="tpanel" id="p-cm2"><div class="cmp" data-cmp style="aspect-ratio:1400/868"><img src="assets/sp/cmp-tracking-hi.webp" alt="Final: A vertical timeline with each step, its owner and the actions available."><div class="cl"><img src="assets/sp/cmp-tracking-lo.webp" alt="Low-fi: A linear progress bar and an empty detail area."></div><span class="h" aria-hidden="true"><i>‹ ›</i></span><span class="lt">Low-fi</span><span class="rt">Final</span><input type="range" min="0" max="100" value="50" aria-label="Compare low-fi and final: Request tracking"></div>
+        <div class="caps"><p><b>Low-fi</b>A linear progress bar and an empty detail area.</p><p><b>Final</b>A vertical timeline with each step, its owner and the actions available.</p></div></div><div class="tpanel" id="p-cm4"><div class="cmp" data-cmp style="aspect-ratio:1400/868"><img src="assets/sp/cmp-help-hi.webp" alt="Final: FAQs grouped by theme on the left, answers on the right, useful links below."><div class="cl"><img src="assets/sp/cmp-help-lo.webp" alt="Low-fi: Themes, questions and cards to other channels."></div><span class="h" aria-hidden="true"><i>‹ ›</i></span><span class="lt">Low-fi</span><span class="rt">Final</span><input type="range" min="0" max="100" value="50" aria-label="Compare low-fi and final: Help centre"></div>
+        <div class="caps"><p><b>Low-fi</b>Themes, questions and cards to other channels.</p><p><b>Final</b>FAQs grouped by theme on the left, answers on the right, useful links below.</p></div></div><div class="tpanel" id="p-cm0"><div class="cmp" data-cmp style="aspect-ratio:1400/1050"><img src="assets/sp/cmp-search-hi.webp" alt="Final: Featured services up top, then a directory with filters and quick actions on each row."><div class="cl"><img src="assets/sp/cmp-search-lo.webp" alt="Low-fi: Search by intent: categories, sub-categories and a flat list."></div><span class="h" aria-hidden="true"><i>‹ ›</i></span><span class="lt">Low-fi</span><span class="rt">Final</span><input type="range" min="0" max="100" value="50" aria-label="Compare low-fi and final: Search"></div>
+        <div class="caps"><p><b>Low-fi</b>Search by intent: categories, sub-categories and a flat list.</p><p><b>Final</b>Featured services up top, then a directory with filters and quick actions on each row.</p></div></div>
+    </div>
+  </div></div></div>
+</section>
+
+<!-- 07 JOURNEY (coral) -->
+<section class="xp" data-c="coral" id="journey">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-jr">
+    <div>
+      <div class="label">07 · One citizen journey</div>
+      <h2>From finding a service <em>to a closed request.</em></h2>
+      <p>One request, end to end. The hardest moment isn’t the form: it’s when a document is rejected and the citizen has to fix it without calling anyone.</p>
+      <div class="xp-tags"><span>8 steps</span><span>Pre-filled data</span><span>Document vault</span><span>Fix a rejected document</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-jr"><div class="in"><div class="pad">
+    <div class="jr">
+      <div class="jl" id="jl" role="tablist" aria-label="Journey steps">
+        <p class="ph">Request</p>
+        <button role="tab" data-img="hf-cj-1-service" aria-selected="true"><b>1</b>Service detail: who it is for, documents, channels and a clear way to start.</button>
+        <button role="tab" data-img="hf-cj-2-docs" aria-selected="false"><b>2</b>Form with data pre-filled from the citizen profile and documents reused from the document vault.</button>
+        <button role="tab" data-img="hf-cj-3-summary" aria-selected="false"><b>3</b>Summary before submitting: everything in one place, editable step by step.</button>
+        <p class="ph">Follow</p>
+        <button role="tab" data-img="hf-cj-4-requests" aria-selected="false"><b>4</b>My requests: each with its current state, and a menu to get a copy by email, print or message the operator.</button>
+        <button role="tab" data-img="hf-cj-5-timeline" aria-selected="false"><b>5</b>Timeline tab: where it is now, who is handling it and what comes next.</button>
+        <button role="tab" data-img="hf-cj-6-order" aria-selected="false"><b>6</b>Request tab: the full summary of what was submitted, documents and payment included.</button>
+        <p class="ph">The hard moment</p>
+        <button role="tab" data-img="hf-cj-5-replace" aria-selected="false" class="hot"><b>7</b>Documentation tab: a rejected document, with the reason, replaced on the spot.</button>
+        <button role="tab" data-img="hf-cj-6-done" aria-selected="false"><b>8</b>Request concluded: the full history stays available.</button>
+      </div>
+      <div class="jv">
+        <img id="jimg" src="assets/sp/hf-cj-1-service.webp" alt="" data-zoom>
+        <div class="cap"><span id="jcap"></span><span class="nav"><button id="jp" aria-label="Previous step"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button id="jn" aria-label="Next step"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></span></div>
+      </div>
+    </div>
+  </div></div></div>
+</section>
+</div>
+
+<!-- 08 DECISIONS -->
+<section class="wrap sec" id="decisions">
+  <div class="label">08 · Key decisions</div>
+  <h2>The calls that <em>shaped the product.</em></h2>
+
+  <div class="dk rv"><div><span class="dn">1</span><h3>Same request, same states, every channel</h3><p>Instead of separate flows for web, app and desk, we defined one set of request states and one history, shared by every channel.</p><p class="why"><b>Why</b>A citizen who starts at a desk and checks status on their phone should see the same story.</p></div>
+    <div class="imgs"><div class="sw" data-sw><div class="seg2" role="tablist"><button role="tab" aria-selected="true" data-img="hf-cj-5-timeline" data-cap="Citizen: where the request is and what comes next.">Citizen</button><button role="tab" aria-selected="false" data-img="hf-st-operator" data-cap="Operator: the same states, plus the checklist and actions.">Operator</button><button role="tab" aria-selected="false" data-img="hf-st-backoffice" data-cap="Back office: states, what the citizen sees and the checklist per state.">Back office</button></div><figure class="fig"><img src="assets/sp/hf-cj-5-timeline.webp" alt="" loading="lazy" data-zoom><figcaption>Citizen: where the request is and what comes next.</figcaption></figure></div></div></div>
+
+  <div class="dk rv"><div><span class="dn">2</span><h3>Configure services, don’t build them</h3><p>A form builder lets each entity publish a new service with its own fields, rules and approval steps, inside a shared pattern.</p><p class="why"><b>Why</b>Going from 150 to 300 services in a year only works if adding a service is configuration, not a development project.</p></div>
+    <div class="imgs"><div class="sw" data-sw><div class="seg2" role="tablist"><button role="tab" aria-selected="true" data-img="hf-cfg-service" data-cap="Service settings: homepage highlight, SLAs and alerts.">Settings</button><button role="tab" aria-selected="false" data-img="hf-cfg-builder" data-cap="Form builder: drag-and-drop fields, with named editors.">Form builder</button><button role="tab" aria-selected="false" data-img="hf-cfg-frontend" data-cap="Front-end management with a live preview of the portal.">Front-end</button></div><figure class="fig"><img src="assets/sp/hf-cfg-service.webp" alt="" loading="lazy" data-zoom><figcaption>Service settings: homepage highlight, SLAs and alerts.</figcaption></figure></div></div></div>
+
+  <div class="dk rv"><div><span class="dn">3</span><h3>Permissions that mirror the real organisation</h3><p>Seven profiles, from citizen to platform admin, each with its own journeys, data access and segregation of duties.</p><p class="why"><b>Why</b>Public data and legal accountability: every action needs the right person and a full audit trail.</p></div>
+    <div class="imgs"><div class="sw" data-sw><div class="seg2" role="tablist"><button role="tab" aria-selected="true" data-img="hf-op-route" data-cap="Operator dashboard: requests by state, SLA in days and actions per request.">Requests</button><button role="tab" aria-selected="false" data-img="hf-op-validate" data-cap="Document validation, one by one, with a reason when rejected.">Validation</button><button role="tab" aria-selected="false" data-img="hf-op-dashboard" data-cap="Operation view: requests, calendar and quick access in one screen.">Operation</button></div><figure class="fig"><img src="assets/sp/hf-op-route.webp" alt="" loading="lazy" data-zoom><figcaption>Operator dashboard: requests by state, SLA in days and actions per request.</figcaption></figure></div></div></div>
+
+  <div class="dk rv"><div><span class="dn">4</span><h3>Extend the design system, don’t replace it</h3><p>We evolved the government’s existing design system with a UI kit of new reusable components, built for accessibility from the start.</p><p class="why"><b>Why</b>Citizens recognise the regional government’s look, and the next team can keep building on it.</p></div>
+    <div class="imgs"><figure class="fig"><img src="assets/sp/hf-ds-search.webp" alt="" loading="lazy" data-zoom><figcaption>The same search, built from the same components, on desktop and in the app.</figcaption></figure></div></div>
+</section>
+
+<!-- 09 MOBILE -->
+<section class="wrap sec" id="mobile">
+  <div class="label">09 · Mobile</div>
+  <h2>The same portal, <em>in your pocket.</em></h2>
+  <p style="color:var(--muted)">Besides the responsive web, a native app covers the moments on the go: finding a service, checking notifications, following a request.</p>
+  <div class="phones">
+    <figure class="rv"><div class="ph"><img src="assets/sp/hf-phone-mob-search.webp" alt="Search by category" loading="lazy" data-zoom></div><figcaption>Search by category</figcaption></figure>
+    <figure class="rv"><div class="ph"><img src="assets/sp/hf-phone-mob-notifications.webp" alt="Notifications" loading="lazy" data-zoom></div><figcaption>Notifications</figcaption></figure>
+    <figure class="rv"><div class="ph"><img src="assets/sp/hf-phone-mob-menu.webp" alt="Menu, with the citizen / entity switch" loading="lazy" data-zoom></div><figcaption>Menu, with the citizen / entity switch</figcaption></figure>
+    <figure class="rv"><div class="ph"><img src="assets/sp/hf-phone-mob-unavailable.webp" alt="Unavailable state" loading="lazy" data-zoom></div><figcaption>Unavailable state</figcaption></figure>
+  </div>
+  <div class="dk rv" style="margin-top:16px"><div><span class="dn">↳</span><h3>Even the downtime is designed</h3><p>The app’s unavailable message is managed by an admin in the back office, with dates and an image.</p></div><div class="imgs"><figure class="fig"><img src="assets/sp/hf-mob-admin.webp" alt="Back office: app unavailable message." loading="lazy" data-zoom><figcaption>Back office: app unavailable message.</figcaption></figure></div></div>
+</section>
+
+<div class="wrap">
+<!-- 10 GOVERNANCE (blue) -->
+<section class="xp" data-c="blue" id="governance">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-gov">
+    <div>
+      <div class="label">10 · Governance</div>
+      <h2>Someone has to <em>watch the whole system.</em></h2>
+      <p>An audit layer gives auditors and admins one view of every entity: SLA compliance, overdue processes, integrations, availability and alerts.</p>
+      <div class="xp-tags"><span>System</span><span>Processes</span><span>Integrations</span><span>Alert rules</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-gov"><div class="in"><div class="pad">
+    <div class="sw" data-sw><div class="seg2" role="tablist"><button role="tab" aria-selected="true" data-img="hf-psr-system" data-cap="System: access, availability, latest errors, integrations and active alerts.">System</button><button role="tab" aria-selected="false" data-img="hf-psr-processes" data-cap="Processes: compliance by entity, reasons for pending action and trends.">Processes</button></div><figure class="fig wf"><img src="assets/sp/hf-psr-system.webp" alt="" loading="lazy" data-zoom><figcaption>System: access, availability, latest errors, integrations and active alerts.</figcaption></figure></div>
+  </div></div></div>
+</section>
+
+<!-- 11 MORE SCREENS (mint) -->
+<section class="xp" data-c="mint" id="screens">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-ms">
+    <div>
+      <div class="label">11 · More screens</div>
+      <h2>The rest of <em>the product.</em></h2>
+      <p>Six areas, 21 more final screens. Click any screen to enlarge it.</p>
+      <div class="xp-tags"><span>Public portal</span><span>Citizen area</span><span>Operator</span><span>Back office</span><span>Forms</span><span>Audit</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Open</small></div>
+  </button>
+  <div class="xp-body" id="b-ms"><div class="in"><div class="pad">
+    <div data-tabset>
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="gp-pub">Public portal · 3</button><button role="tab" aria-selected="false" data-p="gp-cit">Citizen area · 5</button><button role="tab" aria-selected="false" data-p="gp-op">Operator · 6</button><button role="tab" aria-selected="false" data-p="gp-cfg">Back office · 3</button><button role="tab" aria-selected="false" data-p="gp-frm">Forms · 2</button><button role="tab" aria-selected="false" data-p="gp-psr">Audit · 2</button></div>
+      <div class="tpanel on" id="gp-pub"><div class="g3"><figure class="fig"><img src="assets/sp/hf-g-pub-services.webp" alt="Services directory" loading="lazy" data-zoom><figcaption>Services directory</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-pub-channels.webp" alt="Service channels and offices" loading="lazy" data-zoom><figcaption>Service channels and offices</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-pub-help.webp" alt="Help centre" loading="lazy" data-zoom><figcaption>Help centre</figcaption></figure></div></div>
+      <div class="tpanel" id="gp-cit"><div class="g3"><figure class="fig"><img src="assets/sp/hf-g-cit-calendar.webp" alt="Appointments" loading="lazy" data-zoom><figcaption>Appointments</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-cit-booking.webp" alt="Booking confirmation" loading="lazy" data-zoom><figcaption>Booking confirmation</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-cit-representation.webp" alt="Digital representation" loading="lazy" data-zoom><figcaption>Digital representation</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-cit-preferences.webp" alt="Subscriptions" loading="lazy" data-zoom><figcaption>Subscriptions</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-cit-ratings.webp" alt="Ratings" loading="lazy" data-zoom><figcaption>Ratings</figcaption></figure></div></div>
+      <div class="tpanel" id="gp-op"><div class="g3"><figure class="fig"><img src="assets/sp/hf-g-op-performance.webp" alt="Personal performance" loading="lazy" data-zoom><figcaption>Personal performance</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-op-records.webp" alt="Request records" loading="lazy" data-zoom><figcaption>Request records</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-op-alert.webp" alt="Raising an alert on a request" loading="lazy" data-zoom><figcaption>Raising an alert on a request</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-op-search.webp" alt="Search by citizen" loading="lazy" data-zoom><figcaption>Search by citizen</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-op-calendar.webp" alt="Rooms, vehicles and equipment" loading="lazy" data-zoom><figcaption>Rooms, vehicles and equipment</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-op-comms.webp" alt="Communications" loading="lazy" data-zoom><figcaption>Communications</figcaption></figure></div></div>
+      <div class="tpanel" id="gp-cfg"><div class="g3"><figure class="fig"><img src="assets/sp/hf-g-cfg-services.webp" alt="Services to configure and approve" loading="lazy" data-zoom><figcaption>Services to configure and approve</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-cfg-payments.webp" alt="Payments, simulation and appointments" loading="lazy" data-zoom><figcaption>Payments, simulation and appointments</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-cfg-template.webp" alt="Communication template builder" loading="lazy" data-zoom><figcaption>Communication template builder</figcaption></figure></div></div>
+      <div class="tpanel" id="gp-frm"><div class="g3"><figure class="fig"><img src="assets/sp/hf-g-frm-list.webp" alt="Forms by state and version" loading="lazy" data-zoom><figcaption>Forms by state and version</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-frm-associate.webp" alt="Linking a form to a service" loading="lazy" data-zoom><figcaption>Linking a form to a service</figcaption></figure></div></div>
+      <div class="tpanel" id="gp-psr"><div class="g3"><figure class="fig"><img src="assets/sp/hf-g-psr-integrations.webp" alt="Integrations approval" loading="lazy" data-zoom><figcaption>Integrations approval</figcaption></figure><figure class="fig"><img src="assets/sp/hf-g-psr-alert.webp" alt="Alert rules" loading="lazy" data-zoom><figcaption>Alert rules</figcaption></figure></div></div>
+    </div>
+  </div></div></div>
+</section>
+</div>
+
+<!-- 12 BACKLOG -->
+<section class="wrap sec" id="backlog">
+  <div class="label">12 · Design meets backlog</div>
+  <h2>Designer with <em>Product Owner responsibilities.</em></h2>
+  <div class="bl">
+    <div class="rv">
+      <p>With a design team of six and twelve developers, the line between design and product ownership disappeared. I kept the product vision, wrote and prioritised the backlog, and turned every screen into user stories, acceptance criteria and business rules developers could build without guessing.</p>
+      <p>After launch I kept running change requests: analysing each one, agreeing with the client what went first, designing it and following it to production.</p>
+      <div class="wc story" style="margin-top:20px;background:var(--card)">
+        <span class="k">Example (simplified)</span>
+        <p class="us"><b>As</b> an assisted-service operator, <b>I want</b> to submit a request on behalf of a citizen <b>so that</b> people without digital access get the same service.</p>
+        <ul style="--li:#fff">
+          <li style="background:#fff">The request is linked to the citizen, not to the operator.</li>
+          <li style="background:#fff">The citizen can follow its status in the portal afterwards.</li>
+          <li style="background:#fff">The history records which operator submitted it and when.</li>
+        </ul>
+      </div>
+    </div>
+    <figure class="fig wf rv" style="background:var(--card)"><img src="assets/sp/hf-req-auth.webp" alt="From the requirements sessions to a documented feature." loading="lazy" data-zoom style="max-height:none"><figcaption>From the requirements sessions to a documented feature: each requirement, its description and the features it became.</figcaption></figure>
+  </div>
+</section>
+
+<!-- 13 OUTCOME -->
+<section class="wrap sec" id="outcome">
+  <div class="label">13 · Outcome</div>
+  <h2>Launching 2027, <em>built to scale.</em></h2>
+  <p style="color:var(--muted)">The portal launches in January 2027 with 150 services already digitised. From there, the same model lets the region keep adding services without redesigning the platform each time.</p>
+  <div class="road rv" id="road" role="img" aria-label="Services roadmap: 150 in January 2027, 200 in June 2027, 250 in September 2027, 300 in January 2028">
+    <span class="lab2">Projected roadmap · entities bring their services into the portal in waves</span>
+    <div class="bars">
+      <div class="r"><b data-count="150">150</b><i style="--v:150"></i><span>Jan 2027 · Launch</span></div>
+      <div class="r"><b data-count="200">200</b><i style="--v:200"></i><span>Jun 2027</span></div>
+      <div class="r"><b data-count="250">250</b><i style="--v:250"></i><span>Sep 2027</span></div>
+      <div class="r"><b data-count="300">300</b><i style="--v:300"></i><span>Jan 2028</span></div>
+    </div>
+  </div>
+  <div class="stage2 rv">
+    <span class="yr">2026</span>
+    <div><span class="label" style="color:#ffffff99">Islands Digital Summit</span><h3>Invited to present the portal, live.</h3><p>I walked through one citizen journey for government delegations from nine regions and countries.</p>
+      <div class="flags"><span>Mallorca</span><span>Madeira</span><span>Germany</span><span>Netherlands</span><span>Denmark</span><span>Greece</span><span>Croatia</span><span>Finland</span><span>Sweden</span></div></div>
+  </div>
+</section>
+
+<!-- 14 LEARNED -->
+<section class="wrap sec" id="learned">
+  <div class="label">14 · What I learned</div>
+  <div class="learned rv">
+    <h2>Design the <em>system</em>, not just the screens.</h2>
+    <p>In government, the hard part is rarely the interface. It’s agreeing on one way of doing things across many bodies. My most valuable artefacts weren’t mockups: they were shared states, rules and permissions everyone could sign off on.</p>
+  </div>
+</section>
+
+<section class="wrap sec">
+  <div class="label">More work</div>
+  <div class="more">
+    <a href="batch-selection.html"><span class="label">02 · Agribusiness</span><h3>From five sources to one decision</h3><span class="cta">Read case study →</span></a>
+    <a href="employee-portal.html"><span class="label">03 · Leadership</span><h3>Six design sprints, one bridge to development</h3><span class="cta">Read case study →</span></a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big">Let’s talk.</p>
+    <div class="links"><a href="mailto:lucascostapena@gmail.com">lucascostapena@gmail.com</a><a href="https://www.linkedin.com/in/lucascostapena/">LinkedIn</a><a href="cv.html">View CV</a></div>
+    <small>Lucas Costa Pena · Product Designer · © 2026</small>
+  </div>
+</footer>
+
+<div class="lbx" id="lbx"><img alt=""></div>
+<script>
+(function(){
+  var prog=document.getElementById('prog');
+  function onS(){ var h=document.documentElement; prog.style.width=(h.scrollTop/((h.scrollHeight-h.clientHeight)||1)*100)+'%'; }
+  addEventListener('scroll',onS,{passive:true}); onS();
+  var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function count(el){
+    if(el.dataset.done) return; el.dataset.done=1;
+    var to=+el.dataset.count, pre=(el.dataset.prefix||''), suf=el.dataset.suffix||'';
+    if(RM||to===0){ el.textContent=pre+to+suf; return; }
+    var t0=null,d=1100;
+    function st(t){ if(!t0) t0=t; var k=Math.min(1,(t-t0)/d); k=1-Math.pow(1-k,3); el.textContent=pre+Math.round(to*k)+suf; if(k<1) requestAnimationFrame(st); }
+    el.textContent=pre+'0'+suf; requestAnimationFrame(st);
+  }
+  function visibleCounts(root){ root.querySelectorAll('[data-count]').forEach(function(el){ if(el.offsetParent!==null) count(el); }); }
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; var el=e.target; el.classList.add('is-in'); if(el.id==='road') el.classList.add('go'); el.querySelectorAll('[data-count]').forEach(count); io.unobserve(el); }); },{threshold:.2,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+  document.querySelectorAll('.xp').forEach(function(xp){
+    var head=xp.querySelector('.xp-head'), st=xp.querySelector('.xp-st');
+    head.addEventListener('click',function(){
+      var open=!xp.classList.contains('open');
+      xp.classList.toggle('open',open); head.setAttribute('aria-expanded',open?'true':'false'); st.textContent=open?'Close':'Open';
+      if(open){ setTimeout(function(){ visibleCounts(xp); },350); var top=xp.getBoundingClientRect().top; if(top<0||top>innerHeight*.5) xp.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); }
+    });
+  });
+
+  document.querySelectorAll('[data-tabset]').forEach(function(set){
+    var bs=set.querySelectorAll(':scope > .tabs button');
+    bs.forEach(function(b){ b.addEventListener('click',function(){
+      bs.forEach(function(x){ x.setAttribute('aria-selected','false'); });
+      set.querySelectorAll(':scope > .tpanel').forEach(function(p){ p.classList.remove('on'); });
+      b.setAttribute('aria-selected','true'); document.getElementById(b.dataset.p).classList.add('on');
+    }); });
+  });
+
+  /* image switches */
+  document.querySelectorAll('[data-sw]').forEach(function(w){
+    var bs=w.querySelectorAll('.seg2 button'), im=w.querySelector('img'), cap=w.querySelector('figcaption');
+    bs.forEach(function(b){ b.addEventListener('click',function(){
+      bs.forEach(function(x){ x.setAttribute('aria-selected',x===b?'true':'false'); });
+      im.style.opacity=0; setTimeout(function(){ im.src='assets/sp/'+b.dataset.img+'.webp'; im.alt=b.dataset.cap; cap.textContent=b.dataset.cap; im.style.opacity=1; },180);
+    }); });
+  });
+
+  /* ecosystem channels */
+  var chs=document.querySelectorAll('#eco .ch'), from=document.getElementById('ecofrom');
+  var names=['Services Portal','mobile app','chatbot','assisted desk'];
+  chs.forEach(function(c){ c.addEventListener('click',function(){
+    chs.forEach(function(x){ x.classList.toggle('on',x===c); });
+    from.style.opacity=0; setTimeout(function(){ from.textContent='Started '+(c.dataset.i==='3'?'at the ':'on the ')+names[+c.dataset.i]; from.style.opacity=1; },200);
+  }); });
+
+  /* journey stepper */
+  var jb=[].slice.call(document.querySelectorAll('#jl button')), jimg=document.getElementById('jimg'), jcap=document.getElementById('jcap'), ji=0;
+  function js(i){ ji=(i+jb.length)%jb.length; jb.forEach(function(b,k){ b.setAttribute('aria-selected',k===ji?'true':'false'); });
+    var b=jb[ji]; jimg.src='assets/sp/'+b.dataset.img+'.webp'; jimg.alt=b.textContent.replace(/^\d+/,'').trim(); jcap.textContent='Step '+(ji+1)+' of '+jb.length; }
+  jb.forEach(function(b,k){ b.addEventListener('click',function(){ js(k); }); });
+  document.getElementById('jp').addEventListener('click',function(){ js(ji-1); });
+  document.getElementById('jn').addEventListener('click',function(){ js(ji+1); });
+  js(0);
+
+  var lb=document.getElementById('lbx'), li=lb.querySelector('img');
+  document.addEventListener('click',function(e){ var t=e.target; if(t.matches && t.matches('img[data-zoom]')){ li.src=t.src; li.alt=t.alt; lb.classList.add('on'); } });
+  lb.addEventListener('click',function(){ lb.classList.remove('on'); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape') lb.classList.remove('on'); });
+})();
+</script>
+
+<script>
+/* screens never lose their sides, and screens side by side always share one size */
+(function(){
+  function ratio(v){ var m=String(v).match(/([\d.]+)\s*\/\s*([\d.]+)/); return m? m[1]/m[2] : 0; }
+  var imgs=[].slice.call(document.querySelectorAll('img')).filter(function(im){ return !im.closest('.cmp,.lg,.win,.lbx,.ph,.stage'); });
+  imgs.forEach(function(im){ im.dataset.box=ratio(getComputedStyle(im).aspectRatio)||''; });
+  function groupOf(im){ var f=im.closest('figure'); if(!f) return null; var g=f.parentElement; return g && g.querySelectorAll(':scope > figure img').length>1 ? g : null; }
+  function nat(im){ return im.naturalWidth? im.naturalWidth/im.naturalHeight : 0; }
+  function apply(){
+    var seen=new Set();
+    imgs.forEach(function(im){
+      var g=groupOf(im);
+      if(g){ if(seen.has(g)) return; seen.add(g);
+        var list=[].slice.call(g.querySelectorAll(':scope > figure img')), r=0;
+        list.forEach(function(x){ var b=+x.dataset.box||0, n=nat(x); r=Math.max(r, b? Math.max(b,n) : n); });
+        if(r) list.forEach(function(x){ x.style.aspectRatio=String(r); x.style.height='auto'; });
+      } else {
+        var b=+im.dataset.box, n=nat(im); im.style.aspectRatio='';
+        if(b && n>b*1.01) im.style.aspectRatio=String(n);
+      }
+    });
+  }
+  imgs.forEach(function(im){ im.addEventListener('load',apply); });
+  apply();
+})();
+</script>
+<script>
+document.querySelectorAll('[data-cmp]').forEach(function(c){var r=c.querySelector('input');function s(){c.style.setProperty('--p',r.value+'%')}r.addEventListener('input',s);s();});
+</script>
+<script>
+/* language switch: keep the reader where they were */
+(function(){
+  var K='lcp-lang-pos', SEL='h1,h2,h3,h4,p,figure,li,dt,dd,.hw,.case,.stage';
+  function list(){return [].slice.call(document.querySelectorAll(SEL)).filter(function(el){return el.offsetParent!==null&&!el.closest('header,[role=dialog]');});}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a.lng'); if(!a) return;
+    var L=list(), idx=-1, off=0, y=window.scrollY;
+    for(var i=0;i<L.length;i++){var t=L[i].getBoundingClientRect().top; if(t>=70){idx=i; off=t; break;}}
+    var pos={i:idx,off:off,y:y,open:[].slice.call(document.querySelectorAll('.xp.open[id]')).map(function(x){return x.id;})};
+    try{sessionStorage.setItem(K,JSON.stringify(pos));}catch(err){}
+  },true);
+  var raw=null; try{raw=sessionStorage.getItem(K); sessionStorage.removeItem(K);}catch(err){}
+  if(!raw) return;
+  var pos; try{pos=JSON.parse(raw);}catch(err){return;}
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  var opened=false;
+  function go(){
+    if(!opened){opened=true;(pos.open||[]).forEach(function(id){var x=document.getElementById(id); if(x&&!x.classList.contains('open')){var h=x.querySelector('.xp-head'); if(h) h.click();}});}
+    var L=list(), el=pos.i>=0?L[pos.i]:null;
+    var y=el?el.getBoundingClientRect().top+scrollY-pos.off:pos.y;
+    window.scrollTo({top:Math.max(0,y),behavior:'instant'});
+  }
+  function run(){go(); setTimeout(go,300); setTimeout(go,900);}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+})();
+</script>
+</body>
+</html>

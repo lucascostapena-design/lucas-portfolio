@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lucas Costa Pena — Herramienta de selección de lotes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAFAF8; --card:#EFEFEC; --card2:#F5F5F2; --white:#FFFFFF;
+  --ink:#141414; --muted:#6B6B66; --line:#E2E2DD;
+  --r:24px; --rs:16px; --w:1140px;
+  /* block colours */
+  --c-blue:#2F4BE0; --c-coral:#FF7457; --c-yellow:#FFD23F; --c-mint:#5FD3A0; --c-lilac:#8E6CFF; --c-ink:#141414;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Lato,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:left}
+a{color:inherit}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 28px}
+em{font-style:normal;color:var(--muted)}
+.label{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+p{max-width:68ch}
+p + p{margin-top:14px}
+p.big{font-size:clamp(20px,2vw,24px);line-height:1.45;font-weight:400}
+h2{font-size:clamp(30px,3.6vw,44px);line-height:1.1;font-weight:900;letter-spacing:-.02em;margin:10px 0 18px;max-width:22ch}
+h3{font-weight:900;font-size:19px;line-height:1.3;letter-spacing:-.01em}
+
+/* top */
+.top{position:sticky;top:0;z-index:30;background:rgba(250,250,248,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;font-size:14px}
+.pill{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 16px;border-radius:999px;background:var(--card);font-weight:700;text-decoration:none}
+.brand{font-weight:900}
+.top nav{display:flex;gap:4px}
+.top nav a{text-decoration:none;color:var(--muted);padding:8px 12px;border-radius:999px}
+.top nav a:hover{background:var(--card);color:var(--ink)}
+.prog{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--ink)}
+
+/* hero */
+.hero{padding-top:56px}
+.hero h1{font-size:clamp(42px,6.2vw,80px);line-height:1.02;font-weight:900;letter-spacing:-.035em;margin:16px 0 22px;max-width:15ch}
+.hero .lede{font-size:clamp(18px,1.7vw,21px);color:var(--muted);max-width:62ch}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:40px}
+.meta div{background:var(--card);border-radius:var(--rs);padding:18px 20px}
+.meta dt{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.meta dd{font-size:15px;line-height:1.45;font-weight:700}
+.stage{margin-top:12px;background:var(--card);border-radius:28px;padding:44px 44px 0;overflow:hidden}
+.stage img{width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top;border-radius:12px 12px 0 0;cursor:zoom-in}
+.stage{position:relative}
+.stamp{position:absolute;right:36px;bottom:32px;z-index:2;width:236px;background:var(--c-yellow);color:var(--ink);border-radius:20px;padding:16px 18px 15px;transform:rotate(3deg) scale(.9);opacity:0;box-shadow:0 24px 50px -24px rgba(0,0,0,.45);transition:transform .8s cubic-bezier(.2,.9,.2,1.2),opacity .5s}
+.stage.is-in .stamp{transform:rotate(3deg);opacity:1;transition-delay:.5s}
+.stamp:hover{transform:rotate(0) scale(1.03)!important}
+.stamp .tk{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.stamp .tk i{width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--c-yellow);display:grid;place-items:center;font-style:normal;font-size:11px}
+.stamp p{font-size:12.5px;line-height:1.4;margin-top:8px;max-width:none}
+.stamp b{display:block;font-size:16px;font-weight:900;line-height:1.15;letter-spacing:-.02em;margin-top:12px}
+@media (max-width:900px){.stamp{position:relative;left:auto;bottom:auto;width:auto;margin:16px 0 18px}}
+@media (prefers-reduced-motion:reduce){.stamp{opacity:1;transform:rotate(3deg);transition:none}}
+.figcap{font-size:14px;color:var(--muted);margin-top:14px;max-width:80ch}
+.note{display:flex;gap:12px;align-items:flex-start;margin-top:16px;background:var(--card2);border-radius:var(--rs);padding:16px 20px;font-size:15px}
+.note svg{flex:none;margin-top:3px}
+.note p{max-width:none}
+
+/* sections */
+.sec{padding-top:96px}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:28px}
+.nums > div{background:var(--card);border-radius:var(--rs);padding:22px 22px 20px;min-height:150px;display:flex;flex-direction:column;justify-content:flex-start}
+.nums b{font-size:clamp(44px,5vw,64px);font-weight:900;line-height:1;letter-spacing:-.03em}
+.nums span{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.4}
+
+/* ===== expandable blocks ===== */
+.xp{margin-top:96px;border-radius:32px;background:var(--card);transition:background .45s ease,color .45s ease;scroll-margin-top:84px}
+.xp + .xp{margin-top:16px}
+.xp-head{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end;width:100%;padding:44px 48px;border-radius:32px}
+.xp-head .label{transition:color .45s}
+.xp-head h2{margin-bottom:14px}
+.xp-head p{color:var(--muted);transition:color .45s}
+.xp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.xp-tags span{font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--white);transition:background .45s,color .45s}
+.xp-cta{display:flex;flex-direction:column;align-items:center;gap:10px}
+.xp-dot{width:84px;height:84px;border-radius:50%;background:var(--accent);display:grid;place-items:center;transition:transform .4s cubic-bezier(.2,.8,.2,1),background .45s}
+.xp-dot svg{transition:transform .4s}
+.xp-cta small{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.xp-head:hover .xp-dot{transform:scale(1.08)}
+.xp-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s cubic-bezier(.2,.8,.2,1)}
+.xp-body > .in{overflow:hidden}
+.xp-body .pad{padding:0 48px 48px}
+.xp.open{background:var(--accent);color:var(--on)}
+.xp.open .xp-head .label,.xp.open .xp-head p{color:var(--on-muted)}
+.xp.open .xp-head em{color:var(--on-muted)}
+.xp.open .xp-tags span{background:var(--on-chip);color:var(--on)}
+.xp.open .xp-dot{background:var(--on);}
+.xp.open .xp-dot svg{transform:rotate(45deg);stroke:var(--accent)}
+.xp.open .xp-body{grid-template-rows:1fr}
+.xp[data-c=blue]{--accent:var(--c-blue);--on:#fff;--on-muted:#ffffffbf;--on-chip:#ffffff26}
+.xp[data-c=coral]{--accent:var(--c-coral);--on:#141414;--on-muted:#141414b3;--on-chip:#14141419}
+.xp[data-c=yellow]{--accent:var(--c-yellow);--on:#141414;--on-muted:#141414b3;--on-chip:#1414141a}
+.xp[data-c=mint]{--accent:var(--c-mint);--on:#141414;--on-muted:#141414b3;--on-chip:#1414141a}
+.xp[data-c=lilac]{--accent:var(--c-lilac);--on:#fff;--on-muted:#ffffffc7;--on-chip:#ffffff29}
+.xp[data-c=ink]{--accent:var(--c-ink);--on:#fff;--on-muted:#ffffffad;--on-chip:#ffffff1f}
+.xp:not(.open) .xp-dot svg{stroke:#fff}
+.xp[data-c=yellow]:not(.open) .xp-dot svg,.xp[data-c=mint]:not(.open) .xp-dot svg,.xp[data-c=coral]:not(.open) .xp-dot svg{stroke:#141414}
+
+/* white cards inside coloured panels */
+.wc{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:24px}
+.wc p{color:var(--muted)}
+.ptxt{color:var(--on);max-width:68ch}
+.ptxt + .ptxt{margin-top:14px}
+.phint{font-size:13px;font-weight:700;color:var(--on-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.phint::before{content:"";width:18px;height:2px;background:var(--on-muted)}
+.ph3{font-size:24px;font-weight:900;letter-spacing:-.01em;margin:40px 0 14px;color:var(--on)}
+
+/* constraints */
+.cons{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.con{display:grid;gap:10px;align-content:start}
+.con .q{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.con b{font-size:19px;font-weight:900;line-height:1.3}
+.con .ar{width:34px;height:34px;border-radius:50%;background:var(--c-blue);color:#fff;display:grid;place-items:center;font-weight:900}
+.con p{font-size:15px}
+
+/* tabs (inside panels) */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tabs button{height:42px;padding:0 18px;border-radius:999px;font-size:14px;font-weight:700;background:var(--on-chip);color:var(--on);transition:background .2s,color .2s}
+.tabs button[aria-selected=true]{background:var(--white);color:var(--ink)}
+.tpanel{display:none;animation:fade .35s ease}
+.tpanel.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* rituals */
+.rit{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rit button{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:18px;display:flex;flex-direction:column;gap:8px;outline:3px solid transparent;transition:outline-color .2s,transform .2s}
+.rit button:hover{transform:translateY(-2px)}
+.rit button[aria-selected=true]{outline-color:var(--ink)}
+.rit .em{font-size:24px;line-height:1}
+.rit .when{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rit h3{font-size:20px}
+.rit .q{font-size:14px;color:var(--muted);line-height:1.4}
+.rit .open{font-size:13px;font-weight:900;margin-top:auto;padding-top:6px}
+.inv{margin-top:10px;background:var(--white);color:var(--ink);border-radius:var(--rs);display:grid;grid-template-columns:1fr 1.35fr;overflow:hidden}
+.inv .im{padding:24px;border-right:1px solid var(--line)}
+.inv .tt{font-weight:900;font-size:18px;line-height:1.3;margin:0 0 14px}
+.inv .rw{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--muted);margin:8px 0}
+.inv .pp{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.inv .pp span{display:flex;align-items:center;gap:7px;background:var(--card);border-radius:999px;padding:3px 10px 3px 3px;font-size:12.5px}
+.inv .pp i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:900;background:var(--c-coral);color:var(--ink)}
+.inv .pp .me i{background:var(--ink);color:#fff}
+.inv .ib{padding:24px 28px;font-size:15px;line-height:1.6}
+.inv .ib p{max-width:none;margin:0 0 12px;color:var(--ink)}
+.inv .ib p + p{margin-top:0}
+.inv .ib em{color:var(--ink);font-weight:900}
+.inv .ib ol{margin:4px 0 12px;padding-left:20px}
+.inv .ib li{margin:4px 0}
+.rnote{font-size:13px;color:var(--on-muted);margin-top:10px}
+.motto{font-size:clamp(24px,3vw,36px);font-weight:900;line-height:1.15;letter-spacing:-.02em;margin:32px 0 6px;max-width:24ch;color:var(--on)}
+.motto + span{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--on-muted)}
+
+.week{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.week > div{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:16px}
+.week b{display:block;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.week span{display:block;font-size:14px;line-height:1.4;padding:8px 10px;border-radius:10px;background:var(--card);margin-bottom:6px}
+.week span.c{background:#FFE1D9}
+.week span.d{background:transparent;border:1.5px dashed #BDBDB7;color:var(--muted)}
+.leg{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13px;color:var(--on-muted)}
+.leg i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-right:6px;background:var(--card)}
+.leg i.c{background:#FFE1D9}.leg i.d{background:transparent;border:1.5px dashed currentColor}
+.tracks{overflow-x:auto;background:var(--white);border-radius:var(--rs);padding:20px;color:var(--ink);margin-top:14px}
+.tg{display:grid;grid-template-columns:110px repeat(6,minmax(84px,1fr));gap:8px;min-width:640px;align-items:center}
+.tg .h{font-size:12px;font-weight:900;color:var(--muted);text-align:center}
+.tg .lb{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.tg .m{border-radius:10px;padding:10px 8px;font-size:13px;line-height:1.3;text-align:center;min-height:54px;display:grid;place-items:center}
+.tg .m.ds{background:var(--ink);color:#fff}
+.tg .m.dv{background:var(--card)}
+.tg .br{grid-column:2/-1;display:flex;justify-content:space-around;font-weight:900;color:var(--c-coral);font-size:18px;line-height:1}
+.bridge{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.bridge b{display:block;color:var(--ink);margin-bottom:4px;font-size:15px}
+.bridge div{font-size:14.5px}
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.team .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.team b{display:block;font-size:17px;font-weight:900;margin:8px 0 6px}
+.team p{font-size:15px}
+.team i{display:inline-block;margin-top:12px;font-style:normal;font-weight:900;font-size:14px;background:#FFE1D9;padding:4px 10px;border-radius:999px}
+.grow{display:grid;grid-template-columns:220px 1fr;gap:24px;margin-top:10px}
+.grow .n{font-size:64px;font-weight:900;line-height:1;letter-spacing:-.03em}
+.grow .n + span{display:block;font-size:14px;color:var(--muted);margin-top:8px}
+.grow p{color:var(--ink)}
+.kd2{display:grid;grid-template-columns:1fr 1.5fr;gap:24px;align-items:start}
+.kd2 + .kd2{margin-top:10px}
+.kd2 p{color:var(--ink)}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.mini div{background:var(--card);border-radius:12px;padding:14px}
+.mini b{display:block;font-size:34px;font-weight:900;line-height:1}
+.mini span{font-size:13px;color:var(--muted)}
+
+/* sprints */
+.sp{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:22px 24px;display:grid;gap:8px}
+.sp .row{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center}
+.sp .n{font-size:20px;font-weight:900}
+.sp .bar{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:10px;overflow:hidden;min-height:44px}
+.sp .fill{height:44px;width:0;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;padding:0 14px;font-size:12px;font-weight:900;white-space:nowrap;flex:none;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.sp .fill.x{background:var(--c-coral);color:var(--ink)}
+.sp .mods{font-size:14.5px;padding-right:12px}
+.sp sup{color:var(--c-coral);font-weight:900}
+.spn{font-size:14px;color:var(--on-muted);margin-top:12px;max-width:68ch}
+.spcount{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}
+.spcount div{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:16px}
+.spcount b{display:block;font-size:34px;font-weight:900;line-height:1}
+.spcount span{display:block;margin-top:8px;font-size:13px;line-height:1.4;color:var(--muted)}
+
+/* board + matrix */
+.board{background:var(--white);color:var(--ink);border-radius:var(--rs);overflow:hidden}
+.board .bh{background:var(--ink);color:#fff;padding:12px 18px;font-weight:900;font-size:15px;display:flex;justify-content:space-between;align-items:center}
+.board .bh small{font-size:12px;opacity:.7;font-weight:400}
+.bgrid{display:grid;grid-template-columns:1fr 1.2fr;font-size:14px}
+.bgrid > div{padding:12px 16px;border-bottom:1px solid var(--line)}
+.bgrid > div:nth-child(odd){border-right:1px solid var(--line)}
+.bgrid .th{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;background:var(--card)}
+.bgrid .th.qq{background:#FFE9A6}
+.bgrid .qq2{background:#FFF6D6}
+.levels{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:22px 0 10px;font-size:14px;color:var(--on)}
+.levels span{background:var(--white);color:var(--ink);border-radius:999px;padding:8px 16px;font-weight:700}
+.levels i{font-style:normal}
+.matrix{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:10px 16px 16px;overflow-x:auto}
+.matrix table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+.matrix th,.matrix td{border-bottom:1px solid var(--line);padding:10px;text-align:center}
+.matrix th{font-size:10.5px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.matrix td:first-child,.matrix th:first-child{text-align:left}
+.matrix td:first-child{font-weight:900}
+.ck{display:inline-block;width:15px;height:15px;border-radius:4px;background:var(--ink)}
+.ck.p{background:transparent;border:2px solid var(--ink)}
+.ck.n{background:var(--card)}
+.matrix .leg{color:var(--muted)}
+.matrix .leg i.lk{background:var(--ink)}.matrix .leg i.lk.p{background:transparent;border:2px solid var(--ink)}.matrix .leg i.lk.n{background:var(--card)}
+
+/* journey stepper */
+.jr{display:grid;grid-template-columns:330px 1fr;gap:12px;align-items:start}
+.jl{background:var(--white);color:var(--ink);border-radius:var(--rs);padding:10px}
+.jl .ph{font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:12px 12px 6px}
+.jl button{display:grid;grid-template-columns:28px 1fr;gap:10px;width:100%;padding:10px 12px;border-radius:12px;font-size:14px;line-height:1.4;color:var(--muted);transition:background .2s,color .2s}
+.jl button b{width:26px;height:26px;border-radius:8px;background:var(--card);display:grid;place-items:center;font-size:12px;font-weight:900;color:var(--ink)}
+.jl button[aria-selected=true]{background:var(--card);color:var(--ink);font-weight:700}
+.jl button[aria-selected=true] b{background:var(--c-lilac);color:#fff}
+.jv{background:var(--white);border-radius:var(--rs);padding:18px;position:sticky;top:84px}
+.jv img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;box-shadow:0 0 0 1px var(--line);cursor:zoom-in}
+.jv .cap{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:14px;color:var(--ink);font-size:15px}
+.jv .nav{display:flex;gap:6px;flex:none}
+.jv .nav button{width:40px;height:40px;border-radius:50%;background:var(--card);display:grid;place-items:center}
+
+/* key screens */
+.kd{display:grid;grid-template-columns:1fr 1.45fr;gap:28px;align-items:start;background:var(--card);border-radius:var(--r);padding:28px}
+.kd + .kd{margin-top:12px}
+.kd p{color:var(--muted);font-size:16px}
+.kd h3{margin-bottom:10px}
+.kd .why{color:var(--ink);font-size:15px;margin-top:14px;background:var(--white);border-radius:12px;padding:12px 14px}
+.kd .why b{display:block;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.imgs{display:grid;gap:12px}
+.imgs.two{grid-template-columns:1fr 1fr}
+.fig{margin:0}
+.fig img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;background:#fff;box-shadow:0 0 0 1px var(--line);cursor:zoom-in}
+.fig figcaption{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.45}
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.boards .fig img{object-position:top left;background:#1e1e1e}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.xp .fig figcaption{color:var(--on-muted)}
+.xp .g3 .fig{background:var(--white);border-radius:var(--rs);padding:12px}
+.xp .g3 .fig figcaption{color:var(--muted)}
+.xp .g3 .fig img{box-shadow:0 0 0 1px var(--line)}
+
+/* ecosystem / outcome / reflection */
+.eco{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.eco .fig{background:var(--card);border-radius:var(--rs);padding:14px}
+.link{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-weight:900;text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:2px}
+.lrn{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:28px}
+.lrn > div{background:var(--card);border-radius:var(--r);padding:28px}
+.lrn b{display:block;font-size:44px;font-weight:900;line-height:1;margin-bottom:18px;letter-spacing:-.02em}
+.lrn h3{margin-bottom:8px}
+.lrn p{color:var(--muted);font-size:15.5px}
+.more{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.more a{display:block;text-decoration:none;background:var(--card);border-radius:var(--r);padding:26px;transition:background .2s}
+.more a:hover{background:#E6E6E2}
+.more h3{font-size:20px;margin:10px 0 18px}
+.cta{font-weight:900;font-size:15px}
+footer{margin-top:96px;background:var(--ink);color:#fff}
+footer .wrap{padding-top:72px;padding-bottom:48px}
+footer .big{font-size:clamp(56px,9vw,112px);font-weight:900;line-height:.95;letter-spacing:-.04em;margin-bottom:28px}
+footer .links{display:flex;flex-wrap:wrap;gap:10px}
+footer .links a{display:inline-flex;height:44px;align-items:center;padding:0 18px;border-radius:999px;background:#ffffff1a;text-decoration:none;font-weight:700}
+footer small{display:block;margin-top:48px;color:#ffffff80;font-size:13px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rv.is-in{opacity:1;transform:none}
+
+/* lightbox */
+.lbx{position:fixed;inset:0;background:rgba(10,10,10,.9);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out;padding:3vw}
+.lbx.on{display:flex}
+.lbx img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+
+@media (max-width:900px){
+  .meta,.nums{grid-template-columns:repeat(2,1fr)}
+  .stage{padding:18px 18px 0}
+  .xp-head{grid-template-columns:1fr;padding:28px 24px;gap:20px}
+  .xp-cta{flex-direction:row}
+  .xp-dot{width:56px;height:56px}
+  .xp-body .pad{padding:0 20px 28px}
+  .cons,.rit,.inv,.week,.bridge,.team,.grow,.kd2,.jr,.kd,.imgs.two,.boards,.g3,.eco,.lrn,.more,.spcount{grid-template-columns:1fr}
+  .inv .im{border-right:0;border-bottom:1px solid var(--line)}
+  .jv{position:static}
+  .top nav{display:none}
+}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.xp,.xp-body,.sp .fill{transition:none}}
+/* ---- case additions ---- */
+.five{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin-top:32px}
+.five .srcs{display:grid;gap:8px}
+.five .srcs span{background:var(--card);border-radius:12px;padding:12px 16px;font-size:15px;color:var(--muted);border:1.5px dashed #D3D3CE}
+.five .arr{width:56px;height:56px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
+.five .one{background:var(--c-blue);color:#fff;border-radius:24px;padding:32px;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end}
+.five .one b{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.1}
+.five .one p{color:#ffffffc4;margin-top:8px}
+.fig.wf{background:var(--white);border-radius:var(--rs);padding:14px}
+.fig.wf img{aspect-ratio:auto;max-height:640px;object-fit:contain;object-position:center;box-shadow:none;border-radius:8px}
+.fig.wf.tall img{aspect-ratio:4/3;height:auto}
+.fig.wf.wide img{max-height:none}
+.xp .fig.wf figcaption{color:var(--muted)}
+.g2s{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.g3s{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.blocks{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.blocks .bn{font-size:12px;font-weight:900;color:var(--muted)}
+.blocks b{display:block;font-size:17px;font-weight:900;line-height:1.25;margin:10px 0 8px}
+.blocks p{font-size:14px}
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.people .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.people h3{margin:10px 0 6px;font-size:20px}
+.people p{font-size:15px}
+.people .need{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);color:var(--ink)!important;font-weight:700}
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.steps4 .sn{font-size:12px;font-weight:900;color:var(--muted)}
+.steps4 h3{font-size:24px;margin:8px 0 6px;letter-spacing:-.02em}
+.steps4 p{font-size:14.5px}
+.steps4 ul{list-style:none;margin-top:14px;display:grid;gap:6px}
+.steps4 li{font-size:14px;background:var(--card);border-radius:8px;padding:7px 10px}
+/* compare slider */
+.cmp{position:relative;background:var(--white);border-radius:var(--rs);overflow:hidden;aspect-ratio:16/9;user-select:none}
+.cmp > img,.cmp .cl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.cmp .cl{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--p,50%)) 0 0)}
+.cmp .cl img{background:#fff}
+.cmp .h{position:absolute;top:0;bottom:0;left:var(--p,50%);width:3px;margin-left:-1.5px;background:var(--ink);pointer-events:none}
+.cmp .h i{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:900;font-size:14px;letter-spacing:2px;box-shadow:0 10px 24px -8px rgba(0,0,0,.4)}
+.cmp .lt,.cmp .rt{position:absolute;top:14px;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:999px;pointer-events:none}
+.cmp .lt{left:14px;background:var(--ink);color:#fff}
+.cmp .rt{right:14px;background:var(--c-coral);color:var(--ink)}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.caps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.caps p{background:var(--white);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--muted);max-width:none;margin:0}
+.caps p + p{margin-top:0}
+.caps b{display:block;color:var(--ink);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+/* decisions */
+.dk{display:grid;grid-template-columns:1fr 1.45fr;gap:28px;align-items:start;background:var(--card);border-radius:var(--r);padding:28px;margin-top:12px}
+.dk .dn{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;font-weight:900;margin-bottom:16px}
+.dk h3{font-size:22px;margin-bottom:10px;letter-spacing:-.02em}
+.dk p{color:var(--muted);font-size:16px}
+.dk .why{color:var(--ink);font-size:15px;margin-top:14px;background:var(--white);border-radius:12px;padding:12px 14px}
+.dk .why b{display:block;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.dk .fig img{aspect-ratio:16/10;object-fit:cover;object-position:top}
+.seg2{display:inline-flex;gap:4px;background:var(--white);border-radius:999px;padding:4px;margin-bottom:10px}
+.seg2 button{height:36px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:700;color:var(--muted);transition:background .25s,color .25s}
+.seg2 button[aria-selected=true]{background:var(--ink);color:#fff}
+.seg2 button[data-img=s01-dashboard][aria-selected=true]{background:var(--c-yellow);color:var(--ink)}
+.crop-sw img{transition:opacity .3s}
+/* testing, story, quote, learned */
+.changed{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+.changed > div{background:var(--card);border-radius:var(--r);padding:28px}
+.changed .k{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;background:var(--c-mint);border-radius:999px;padding:5px 12px;margin-bottom:14px}
+.changed h3{margin-bottom:8px}
+.changed p{color:var(--muted)}
+.story .k{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.story .us{font-size:clamp(20px,2vw,26px);line-height:1.35;color:var(--ink)!important;margin:12px 0 18px;max-width:none;letter-spacing:-.01em}
+.story .us b{color:var(--c-blue)}
+.story ul{list-style:none;display:grid;gap:8px}
+.story li{background:var(--card);border-radius:10px;padding:10px 14px;font-size:15px;display:flex;gap:10px}
+.story li::before{content:"✓";font-weight:900;color:var(--c-blue)}
+.nums .proj{align-self:flex-start;margin-top:auto;margin-left:0}
+.nums > div > span + .proj{margin-top:auto}
+.nums > div:has(.proj) span{margin-bottom:12px}
+.proj{display:inline-block;font-style:normal;font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;background:var(--white);border-radius:999px;padding:2px 8px;margin-left:4px;color:var(--muted)}
+.quote{margin:12px 0 24px;background:var(--c-yellow);border-radius:var(--r);padding:32px}
+.quote p{font-size:clamp(20px,2.2vw,28px);font-weight:900;line-height:1.25;letter-spacing:-.02em;max-width:none;color:var(--ink)}
+.quote span{display:block;margin-top:14px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.learned{background:var(--ink);color:#fff;border-radius:32px;padding:48px;margin-top:14px}
+.learned h2{color:#fff}
+.learned h2 em{color:#ffffff80}
+.learned p{color:#ffffffc4;font-size:19px}
+@media (max-width:900px){
+  .five{grid-template-columns:1fr}.five .arr{transform:rotate(90deg);justify-self:center}
+  .g2s,.g3s,.blocks,.people,.steps4,.caps,.dk,.changed{grid-template-columns:1fr}
+  .learned{padding:28px}
+}
+
+/* align card internals across a row (subgrid, desktop only) */
+@media (min-width:901px){
+.people>*,.steps4>*{display:grid;grid-template-rows:subgrid;grid-row:span 4;align-content:start}
+.blocks>*,.more>a{display:grid;grid-template-rows:subgrid;grid-row:span 3;align-content:start}
+.people,.steps4,.blocks,.more{row-gap:0}
+.people>*,.steps4>*,.blocks>*,.more>a{row-gap:0}
+.people .need{margin-top:14px}
+.steps4 ul{align-self:start}
+.more .cta{align-self:end}
+}
+.lofi-board{margin:0 0 32px}
+/* pill-center */.meta>div{min-width:0}.meta dd{overflow-wrap:break-word;hyphens:auto}.seg2 button,.tabs button,button[role=tab]{text-align:center;justify-content:center}.five .srcs span{text-align:center}
+.lng{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}
+.rt{display:flex;align-items:center;gap:8px;margin-left:auto}header .pill+.brand{margin-left:12px}
+@media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
+</style>
+</head>
+<body>
+<script>
+/* every page opens at the top (links between pages, back/forward and reloads) */
+(function(){
+  try{ if('scrollRestoration' in history) history.scrollRestoration='manual'; }catch(e){}
+  function top(){ if(!location.hash){ var h=document.documentElement, b=h.style.scrollBehavior; h.style.scrollBehavior='auto'; window.scrollTo(0,0); h.style.scrollBehavior=b; } }
+  top(); document.addEventListener('DOMContentLoaded',top); window.addEventListener('load',top); window.addEventListener('pageshow',top);
+})();
+</script>
+
+<header class="top">
+  <div class="wrap">
+    <a class="pill" href="index.es.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Proyectos</a>
+    <span class="brand">Lucas Costa Pena</span>
+    <div class="rt"><nav aria-label="Secciones"><a href="#challenge">Reto</a><a href="#blocks">Cómo llegamos</a><a href="#decisions">Decisiones</a><a href="#outcome">Resultado</a></nav><a class="lng" href="batch-selection.html" hreflang="en" lang="en" aria-label="View in English"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>EN</a></div>
+  </div>
+  <div class="prog" id="prog"></div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="wrap hero">
+  <div class="label">Caso 02  ·  Agroalimentario</div>
+  <h1>De cinco fuentes a <em>una sola decisión.</em></h1>
+  <p class="lede">Cada mes, los planificadores de producción de semillas tenían unos dos días para decidir qué lotes podían cubrir la demanda de cada país. La respuesta estaba repartida entre hojas de cálculo, datos del ERP e informes en PDF. Lideré el diseño de una herramienta que lo reúne todo en un solo espacio de trabajo, de la demanda a la mezcla.</p>
+  <dl class="meta">
+    <div><dt>Rol</dt><dd>Lead Product Designer</dd></div>
+    <div><dt>Equipo</dt><dd>3 diseñadores<br>6 desarrolladores</dd></div>
+    <div><dt>Calendario</dt><dd>Mar – Abr 2024 (diseño)<br>Lanzamiento: sep 2024</dd></div>
+    <div><dt>Cliente</dt><dd>Multinacional de semillas<br>Con un partner tecnológico</dd></div>
+  </dl>
+  <div class="stage rv"><img src="assets/bs/s01-dashboard.webp" alt="Panel: stock, estado de calidad y lo que viene, con un aviso cuando llega un nuevo plan mensual." data-zoom></div>
+  <p class="figcap">Panel: stock, estado de calidad y lo que viene, con un aviso cuando llega un nuevo plan mensual.</p>
+  <div class="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>No es el producto real, pero casi. Cada pantalla se rediseñó siguiendo fielmente el producto real: mismo layout, contenidos y flujos. Solo cambian el estilo visual (colores, tipografía e iconos), los nombres y los datos, para no exponer la herramienta del cliente.</p></div>
+</section>
+
+<!-- 01 CHALLENGE -->
+<section class="wrap sec" id="challenge">
+  <div class="label">01 · Reto</div>
+  <h2>La respuesta estaba en <em>cinco sitios</em> a la vez.</h2>
+  <p class="big">Cada mes llega un plan de producción con lo que necesita cada país. Los planificadores de planta tienen que encontrar qué lotes de semilla en stock pueden cubrirlo, con la calidad adecuada y según las reglas de cada país.</p>
+  <p style="margin-top:16px;color:var(--muted)">Para responder, cruzaban una hoja de cálculo mensual, exportaciones de stock del ERP que ya estaban desactualizadas, informes de calidad en PDF, requisitos de cada país y reglas de negocio que vivían en parte en el ERP y en parte en la cabeza de las personas. Cuando ningún lote bastaba por sí solo, tenían que mezclar varios y pedir por email la aprobación de un experto de proceso cuando un lote quedaba fuera de especificación.</p>
+  <div class="five rv" aria-label="Diagrama: cinco fuentes reunidas en un solo espacio de trabajo">
+    <div class="srcs">
+      <span>Plan de producción mensual (hoja de cálculo)</span>
+      <span>Exportaciones de stock del ERP</span>
+      <span>Informes de calidad (PDF)</span>
+      <span>Requisitos de cada país</span>
+      <span>Reglas de negocio y de mezcla</span>
+    </div>
+    <span class="arr" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    <div class="one"><b>Un solo espacio de trabajo</b><p>Demanda, stock, calidad y reglas en el mismo lugar, conectados al ERP.</p></div>
+  </div>
+</section>
+
+<div class="wrap" id="blocks">
+
+<!-- AS-IS (ink) -->
+<section class="xp" data-c="ink" id="asis" style="margin-top:24px">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-asis">
+    <div>
+      <div class="label">El AS-IS, mapeado</div>
+      <h2>Cómo trabajaban <em>de verdad los planificadores.</em></h2>
+      <div class="xp-tags"><span>Proceso AS-IS</span><span>Entradas, actividades, salidas</span><span>Disponibilidad vs. demanda</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Abrir</small></div>
+  </button>
+  <div class="xp-body" id="b-asis"><div class="in"><div class="pad">
+    <figure class="fig wf"><img src="assets/bs/asis-process.webp" alt="Proceso AS-IS mapeado con los planificadores: planificación regional, planificadores de planta y expertos, entre hojas de cálculo, ERP y exportaciones en PDF." loading="lazy" data-zoom><figcaption>Proceso AS-IS mapeado con los planificadores: planificación regional, planificadores de planta y expertos, entre hojas de cálculo, ERP y exportaciones en PDF.</figcaption></figure>
+    <div class="g2s">
+      <figure class="fig wf tall"><img src="assets/bs/inputs-activities-map.webp" alt="Cada entrada, actividad y salida del proceso, y qué datos podían vivir en el ERP." loading="lazy" data-zoom><figcaption>Cada entrada, actividad y salida del proceso, y qué datos podían vivir en el ERP.</figcaption></figure>
+      <figure class="fig wf tall"><img src="assets/bs/asis-variety-demand.webp" alt="Disponibilidad vs. demanda: el árbol de decisión que los planificadores seguían a mano, incluidas mezclas y aprobaciones." loading="lazy" data-zoom><figcaption>Disponibilidad vs. demanda: el árbol de decisión que los planificadores seguían a mano, incluidas mezclas y aprobaciones.</figcaption></figure>
+    </div>
+  </div></div></div>
+</section>
+
+</div>
+
+<!-- 02 NUMBERS -->
+<section class="wrap sec" id="numbers">
+  <div class="label">02 · En cifras</div>
+  <h2>Seis semanas del kick-off <em>al diseño testado.</em></h2>
+  <div class="nums">
+    <div class="rv"><b data-count="6">6</b><span>semanas del kick-off a la entrega a desarrollo</span></div>
+    <div class="rv"><b data-count="40">40</b><span>sesiones con el cliente y el equipo</span></div>
+    <div class="rv"><b data-count="60" data-suffix="+">60+</b><span>user stories detrás de 35 pantallas diseñadas</span></div>
+    <div class="rv"><b data-count="8">8</b><span>países usándola en los primeros meses</span></div>
+  </div>
+</section>
+
+<div class="wrap">
+
+<!-- 03 FOUND (mint) -->
+<section class="xp" data-c="mint" id="insights">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-found">
+    <div>
+      <div class="label">03 · Lo que encontramos</div>
+      <h2>Cinco problemas, <em>una sola raíz.</em></h2>
+      <p>El discovery con el project manager, los planificadores y los responsables territoriales agrupó cada punto de dolor en cinco bloques.</p>
+      <div class="xp-tags"><span>Fuentes desconectadas</span><span>Formas de trabajar distintas</span><span>Verificación manual</span><span>Datos difíciles de leer</span><span>Reglas complejas</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Abrir</small></div>
+  </button>
+  <div class="xp-body" id="b-found"><div class="in"><div class="pad">
+    <div class="blocks">
+      <div class="wc"><span class="bn">01</span><b>Fuentes desconectadas</b><p>Datos repartidos entre hojas de cálculo, ERP y PDF, con un stock rara vez actualizado.</p></div>
+      <div class="wc"><span class="bn">02</span><b>Formas de trabajar distintas</b><p>Cada país tenía su propio proceso y sus propias columnas.</p></div>
+      <div class="wc"><span class="bn">03</span><b>Verificación manual</b><p>Todo se cruzaba a mano con un plazo de dos días.</p></div>
+      <div class="wc"><span class="bn">04</span><b>Datos difíciles de leer</b><p>Grandes volúmenes de datos de stock y calidad sin una visión clara.</p></div>
+      <div class="wc"><span class="bn">05</span><b>Reglas complejas</b><p>Tantas reglas que los nuevos planificadores tardaban mucho en aprenderlas.</p></div>
+    </div>
+    <div class="g2s">
+      <figure class="fig wf tall"><img src="assets/bs/discovery-insights.webp" alt="Hallazgos del discovery: puntos de dolor, herramientas y oportunidades de cada bloque." loading="lazy" data-zoom><figcaption>Hallazgos del discovery: puntos de dolor, herramientas y oportunidades de cada bloque.</figcaption></figure>
+      <figure class="fig wf tall"><img src="assets/bs/journey-map.webp" alt="User journey map, de abrir la herramienta a exportar resultados, con ganancias y dolores en cada paso." loading="lazy" data-zoom><figcaption>User journey map, de abrir la herramienta a exportar resultados, con ganancias y dolores en cada paso.</figcaption></figure>
+    </div>
+  </div></div></div>
+</section>
+
+<!-- 04 USERS (lilac) -->
+<section class="xp" data-c="lilac" id="users">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-users">
+    <div>
+      <div class="label">04 · Para quién diseñé</div>
+      <h2>Dos planificadores y <em>un aprobador.</em></h2>
+      <div class="xp-tags"><span>Planificadores de planta</span><span>Planificadores regionales</span><span>Expertos de proceso</span><span>Arquitectura de información</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Abrir</small></div>
+  </button>
+  <div class="xp-body" id="b-users"><div class="in"><div class="pad">
+    <div class="people">
+      <div class="wc"><span class="k">Usuario principal</span><h3>Planificadores de planta</h3><p>Cruzar cada demanda con el stock, mezclar cuando hace falta y preparar la orden de producción.</p><p class="need">Necesita: una sola vista, datos fiables y las reglas a mano.</p></div>
+      <div class="wc"><span class="k">Supervisión</span><h3>Planificadores regionales</h3><p>Enviar el plan mensual y seguir el stock y el avance en todas las plantas.</p><p class="need">Necesita: una vista más ligera de demanda y stock.</p></div>
+      <div class="wc"><span class="k">Aprobación</span><h3>Expertos de proceso</h3><p>Aprobar o denegar los lotes que quedan fuera de especificación.</p><p class="need">Necesita: el contexto completo de cada solicitud, sin cadenas de emails.</p></div>
+    </div>
+    <figure class="fig wf" style="margin-top:12px"><img src="assets/bs/information-architecture.webp" alt="Arquitectura de información para ambos perfiles: una vista más ligera para los planificadores regionales y el flujo completo para los de planta." loading="lazy" data-zoom><figcaption>Arquitectura de información para ambos perfiles: una vista más ligera para los planificadores regionales y el flujo completo para los de planta.</figcaption></figure>
+  </div></div></div>
+</section>
+
+<!-- 05 PROCESS (yellow) -->
+<section class="xp" data-c="yellow" id="process">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-proc">
+    <div>
+      <div class="label">05 · Proceso</div>
+      <h2>De los talleres <em>a producción.</em></h2>
+      <div class="xp-tags"><span>Descubrir</span><span>Cocrear</span><span>Testar</span><span>Entregar</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Abrir</small></div>
+  </button>
+  <div class="xp-body" id="b-proc"><div class="in"><div class="pad">
+    <div class="steps4">
+      <div class="wc"><span class="sn">01</span><h3>Descubrir</h3><p>Mapeamos el proceso real con 4 personas del cliente.</p><ul><li>3 sesiones de transferencia de conocimiento</li><li>Mapa del proceso AS-IS</li><li>Journey map y hallazgos</li></ul></div>
+      <div class="wc"><span class="sn">02</span><h3>Cocrear</h3><p>Dimos forma al producto con las personas que lo iban a usar.</p><ul><li>Taller de cocreación + seguimiento</li><li>Story map, más de 60 user stories</li><li>Navegación para dos perfiles</li></ul></div>
+      <div class="wc"><span class="sn">03</span><h3>Testar</h3><p>Pusimos un prototipo clicable delante de planificadores reales.</p><ul><li>6 sesiones moderadas en remoto</li><li>Planificadores de 5 países</li><li>12 tareas, jornada completa</li></ul></div>
+      <div class="wc"><span class="sn">04</span><h3>Entregar</h3><p>Seguí con el equipo tras la entrega.</p><ul><li>Entrega a desarrollo</li><li>6 sprints de seguimiento</li><li>Lanzamiento en septiembre de 2024</li></ul></div>
+    </div>
+    <div data-tabset style="margin-top:28px">
+      <p class="phint">Los artefactos detrás de cada paso. Pulsa una pestaña, y cualquier imagen para ampliarla.</p>
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-s1">Tableros de las sesiones</button><button role="tab" aria-selected="false" data-p="p-s2">Flujo de usuario</button><button role="tab" aria-selected="false" data-p="p-s3">Story map</button></div>
+      <div class="tpanel on" id="p-s1"><div class="g2s"><figure class="fig wf"><img src="assets/bs/session-1.webp" alt="Tablero de la sesión de discovery: fases del stock, notas del proceso y primeros puntos de dolor." loading="lazy" data-zoom><figcaption>Tablero de la sesión de discovery: fases del stock, notas del proceso y primeros puntos de dolor.</figcaption></figure><figure class="fig wf"><img src="assets/bs/session-3.webp" alt="Tercera sesión: reglas, propuestas de mezcla y el primer boceto de la nueva herramienta." loading="lazy" data-zoom><figcaption>Tercera sesión: reglas, propuestas de mezcla y el primer boceto de la nueva herramienta.</figcaption></figure></div></div>
+      <div class="tpanel" id="p-s2"><figure class="fig wf"><img src="assets/bs/user-flow.webp" alt="Flujo de usuario TO-BE: demandas → match → mezcla → distribución, más los caminos de órdenes de proceso y derogaciones." loading="lazy" data-zoom><figcaption>Flujo de usuario TO-BE: demandas → match → mezcla → distribución, más los caminos de órdenes de proceso y derogaciones.</figcaption></figure></div>
+      <div class="tpanel" id="p-s3"><figure class="fig wf wide"><img src="assets/bs/story-map-full.webp" alt="User story mapping: seis dominios, de consultar el stock a exportar resultados." loading="lazy" data-zoom><figcaption>User story mapping: seis dominios, de consultar el stock a exportar resultados.</figcaption></figure></div>
+    </div>
+  </div></div></div>
+</section>
+
+<!-- 06 EVOLUTION (coral) -->
+<section class="xp" data-c="coral" id="evolution">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-evo">
+    <div>
+      <div class="label">06 · Evolución</div>
+      <h2>Del boceto <em>a la pantalla final.</em></h2>
+      <p>Las tres pantallas que más cambiaron, de la primera baja fidelidad al diseño final. En medio, una ronda de media fidelidad testada con los planificadores, donde nació la calculadora de mezcla en tiempo real.</p>
+      <div class="xp-tags"><span>Mezcla</span><span>Plan mensual (MPS)</span><span>Match</span><span>Arrastra para comparar</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Abrir</small></div>
+  </button>
+  <div class="xp-body" id="b-evo"><div class="in"><div class="pad">
+    <figure class="fig wf lofi-board"><img src="assets/bs/lofi-map.webp" alt="El mapa en baja fidelidad: cada pantalla, estado y nota en un solo tablero antes de subir de fidelidad." loading="lazy" data-zoom><figcaption>El mapa en baja fidelidad: cada pantalla, estado y nota en un solo tablero antes de subir de fidelidad.</figcaption></figure>
+    <div data-tabset>
+      <p class="phint">Arrastra el control para pasar de baja fidelidad al final.</p>
+      <div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-p="p-e1">Mezcla</button><button role="tab" aria-selected="false" data-p="p-e2">Plan mensual (MPS)</button><button role="tab" aria-selected="false" data-p="p-e3">Match</button></div>
+      <div class="tpanel on" id="p-e1"><div class="cmp" data-cmp><img src="assets/bs/s04-mix.webp" alt="Final: la calculadora en tiempo real, cada parámetro de calidad comprobado con las reglas y un motivo obligatorio para mezclar."><div class="cl"><img src="assets/bs/lofi-mix.webp" alt="Baja fidelidad: lotes lado a lado; la simulación aún era una pregunta abierta."></div><span class="h" aria-hidden="true"><i>‹ ›</i></span><span class="lt">Baja fidelidad</span><span class="rt">Final</span><input type="range" min="0" max="100" value="50" aria-label="Comparar baja fidelidad y final"></div>
+        <div class="caps"><p><b>Baja fidelidad</b>Lotes lado a lado; la simulación aún era una pregunta abierta.</p><p><b>Final</b>La calculadora en tiempo real, cada parámetro de calidad comprobado con las reglas y un motivo obligatorio para mezclar.</p></div></div>
+      <div class="tpanel" id="p-e2"><div class="cmp" data-cmp><img src="assets/bs/s02-mps.webp" alt="Final: tres colas de trabajo, gráficos de resumen, notas y cumplimiento parcial (+2) en una sola demanda."><div class="cl"><img src="assets/bs/lofi-mps.webp" alt="Baja fidelidad: una lista de demandas con tres contadores."></div><span class="h" aria-hidden="true"><i>‹ ›</i></span><span class="lt">Baja fidelidad</span><span class="rt">Final</span><input type="range" min="0" max="100" value="50" aria-label="Comparar baja fidelidad y final"></div>
+        <div class="caps"><p><b>Baja fidelidad</b>Una lista de demandas con tres contadores.</p><p><b>Final</b>Tres colas de trabajo, gráficos de resumen, notas y cumplimiento parcial (+2) en una sola demanda.</p></div></div>
+      <div class="tpanel" id="p-e3"><div class="cmp" data-cmp><img src="assets/bs/s03-match.webp" alt="Final: demanda y stock lado a lado, grupos de columnas para domar más de 30 columnas y calidad comprobada en línea con los requisitos de cada país."><div class="cl"><img src="assets/bs/lofi-match.webp" alt="Baja fidelidad: cabecera de la demanda y tabla de stock con cantidades en línea."></div><span class="h" aria-hidden="true"><i>‹ ›</i></span><span class="lt">Baja fidelidad</span><span class="rt">Final</span><input type="range" min="0" max="100" value="50" aria-label="Comparar baja fidelidad y final"></div>
+        <div class="caps"><p><b>Baja fidelidad</b>Cabecera de la demanda y tabla de stock con cantidades en línea.</p><p><b>Final</b>Demanda y stock lado a lado, grupos de columnas para domar más de 30 columnas y calidad comprobada en línea con los requisitos de cada país.</p></div></div>
+    </div>
+  </div></div></div>
+</section>
+
+</div>
+
+<!-- 07 KEY DECISIONS -->
+<section class="wrap sec" id="decisions">
+  <div class="label">07 · Decisiones clave</div>
+  <h2>Las decisiones que <em>dieron forma al producto.</em></h2>
+  <div class="dk rv"><div><span class="dn">1</span><h3>Empezar por la demanda, no por el stock</h3><p>El primer concepto abría con un panel de stock. Llevamos el punto de partida a la demanda mensual, organizada en colas de trabajo: por cruzar, órdenes de proceso y derogaciones.</p><p class="why"><b>Por qué</b>Los planificadores piensan en pedidos por cumplir, no en lotes por explorar.</p></div><div class="imgs two"><figure class="fig"><img src="assets/bs/lofi1-dashboard.webp" alt="Primer concepto: un panel centrado en el stock." loading="lazy" data-zoom><figcaption>Primer concepto: un panel centrado en el stock.</figcaption></figure><figure class="fig"><img src="assets/bs/s02-mps.webp" alt="Final: la demanda mensual organizada en tres colas de trabajo." loading="lazy" data-zoom><figcaption>Final: la demanda mensual organizada en tres colas de trabajo.</figcaption></figure></div></div>
+  <div class="dk rv"><div><span class="dn">2</span><h3>Simular antes de mezclar</h3><p>Una calculadora proyecta la calidad de la mezcla mientras se añaden lotes, con cada parámetro comprobado con las reglas.</p><p class="why"><b>Por qué</b>La mezcla era el paso más propenso a errores. Ver el resultado primero elimina las conjeturas.</p></div><div class="imgs"><figure class="fig"><img src="assets/bs/s14-mix-calculator.webp" alt="Detalle de la calculadora: la calidad de la mezcla se actualiza al cambiar las cantidades, y cada parámetro indica, lote a lote, si está dentro de especificación, cerca del límite o fuera." loading="lazy" data-zoom><figcaption>Detalle de la calculadora: la calidad de la mezcla se actualiza al cambiar las cantidades, y cada parámetro indica, lote a lote, si está dentro de especificación, cerca del límite o fuera.</figcaption></figure></div></div>
+  <div class="dk rv"><div><span class="dn">3</span><h3>Un lote, muchas demandas</h3><p>Tras un match o una mezcla, las cantidades pueden repartirse entre varias demandas, con un aviso en cualquier celda que incumpla un requisito de país.</p><p class="why"><b>Por qué</b>En la vida real, un buen lote sirve a más de un país.</p></div><div class="imgs two"><figure class="fig"><img src="assets/bs/s05-distribute-warning.webp" alt="Reparto de cinco mezclas entre tres demandas, con un aviso donde una mezcla incumple un requisito." loading="lazy" data-zoom><figcaption>Reparto de cinco mezclas entre tres demandas, con un aviso donde una mezcla incumple un requisito.</figcaption></figure><figure class="fig"><img src="assets/bs/s12-distribute.webp" alt="La misma tabla sin conflictos, lista para preparar las solicitudes." loading="lazy" data-zoom><figcaption>La misma tabla sin conflictos, lista para preparar las solicitudes.</figcaption></figure></div></div>
+  <div class="dk rv"><div><span class="dn">4</span><h3>Aprobaciones dentro del flujo, no por email</h3><p>Los lotes fuera de especificación van a una cola de derogaciones con estados pendiente, aprobada y denegada. Solo las solicitudes aprobadas pasan a producción.</p><p class="why"><b>Por qué</b>Cada decisión conserva su motivo, fecha y responsable, para que nada se pierda en una bandeja de entrada.</p></div><div class="imgs"><div class="imgs two"><figure class="fig"><img src="assets/bs/s06-derogation.webp" alt="Solicitudes de derogación agrupadas por fecha de exportación, con pestañas de pendientes, aprobadas y denegadas." loading="lazy" data-zoom><figcaption>Solicitudes de derogación agrupadas por fecha de exportación, con pestañas de pendientes, aprobadas y denegadas.</figcaption></figure><figure class="fig"><img src="assets/bs/s13-mps-derogation.webp" alt="Cada solicitud se despliega para mostrar los lotes, el motivo, las fechas y quién la aprobó." loading="lazy" data-zoom><figcaption>Cada solicitud se despliega para mostrar los lotes, el motivo, las fechas y quién la aprobó.</figcaption></figure></div><figure class="fig"><img src="assets/bs/s07-process-orders.webp" alt="Solo las solicitudes aprobadas llegan a la lista de órdenes de proceso, agrupadas por tipo y listas para exportar." loading="lazy" data-zoom><figcaption>Solo las solicitudes aprobadas llegan a la lista de órdenes de proceso, agrupadas por tipo y listas para exportar.</figcaption></figure></div></div>
+  <div class="dk rv"><div><span class="dn">5</span><h3>Un color por cultivo</h3><p>La cabecera cambia con el cultivo: en el producto real, amarillo cálido para el girasol y oscuro para el maíz, cada uno con una ilustración sutil. Las pantallas recreadas usan una paleta neutra de ejemplo, azul claro y oscuro, pero mantienen la misma idea.</p><p class="why"><b>Por qué</b>Los planificadores cambian de cultivo todo el día. Basta un vistazo para saber dónde estás.</p></div><div class="imgs"><div class="crop-sw" data-crop><div class="seg2" role="tablist"><button role="tab" aria-selected="true" data-img="s01-dashboard">Girasol</button><button role="tab" aria-selected="false" data-img="s10-dashboard-corn">Maíz</button></div><figure class="fig"><img src="assets/bs/s01-dashboard.webp" alt="Girasol" loading="lazy" data-zoom></figure></div></div></div>
+</section>
+
+<!-- 08 TESTING -->
+<section class="wrap sec" id="testing">
+  <div class="label">08 · Lo que cambiaron los tests</div>
+  <h2>Los tests nos mostraron <em>las excepciones.</em></h2>
+  <p style="color:var(--muted)">Seis sesiones moderadas en remoto con planificadores de España, Italia, Turquía, Ucrania y Rusia, más una sesión interna. Doce tareas cubrieron la jornada completo en un prototipo clicable.</p>
+  <div class="changed">
+    <div class="rv"><span class="k">Cambio 1</span><h3>Restricciones entre países</h3><p>Algunos países no pueden recibir stock de otros concretos. Añadimos condiciones para que esos lotes se señalen antes de cruzarlos.</p></div>
+    <div class="rv"><span class="k">Cambio 2</span><h3>Países que nunca mezclan</h3><p>Algunos países no mezclan lotes en absoluto. La mezcla pasó a ser condicional, así que esos planificadores nunca ven opciones que no pueden usar.</p></div>
+  </div>
+</section>
+
+<div class="wrap">
+<!-- DESIGN MEETS DEV (blue) -->
+<section class="xp" data-c="blue" id="backlog">
+  <button class="xp-head" aria-expanded="false" aria-controls="b-dev">
+    <div>
+      <div class="label">El diseño se encuentra con el desarrollo</div>
+      <h2>Del diseño <em>a la entrega.</em></h2>
+      <p>Además de liderar un equipo de dos diseñadores junto a 6 desarrolladores, escribí la documentación de diseño con la que desarrollo construyó: user stories, criterios de aceptación y reglas de negocio. Tras la entrega seguí 6 sprints de desarrollo, revisando los bugs reportados por el cliente y llevando las correcciones de diseño de vuelta al sprint.</p>
+      <div class="xp-tags"><span>User stories</span><span>Criterios de aceptación</span><span>Reglas de negocio</span><span>6 sprints de seguimiento</span></div>
+    </div>
+    <div class="xp-cta"><span class="xp-dot"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><small class="xp-st">Abrir</small></div>
+  </button>
+  <div class="xp-body" id="b-dev"><div class="in"><div class="pad">
+    <div class="wc story">
+      <span class="k">Ejemplo (simplificado)</span>
+      <p class="us"><b>Como</b> planificador de planta, <b>quiero</b> ver la calidad de la mezcla antes de confirmarla <b>para</b> no enviar a producción un lote fuera de especificación.</p>
+      <ul>
+        <li>Cada parámetro muestra su estado frente a las reglas del país de destino.</li>
+        <li>Las cantidades por encima del stock disponible se bloquean.</li>
+        <li>Hay que indicar un motivo de mezcla antes de continuar.</li>
+      </ul>
+    </div>
+  </div></div></div>
+</section>
+</div>
+
+<!-- 09 OUTCOME -->
+<section class="wrap sec" id="outcome">
+  <div class="label">09 · Resultado</div>
+  <h2>En producción, y <em>solicitado por otros.</em></h2>
+  <p style="color:var(--muted)">La herramienta entró en producción en septiembre de 2024 y en sus primeros meses ya se usaba en ocho países: los cinco de los tests de usabilidad (España, Italia, Turquía, Ucrania y Rusia) más Brasil, Argentina y China. Se espera su adopción global en un año.</p>
+  <div class="nums">
+    <div class="rv"><b data-count="55" data-suffix="%">55%</b><span>menos tiempo para responder al plan mensual</span><em class="proj">previsto</em></div>
+    <div class="rv"><b data-count="45" data-suffix="%">45%</b><span>mezclas más fiables</span><em class="proj">previsto</em></div>
+    <div class="rv"><b data-count="20" data-suffix="%">20%</b><span>menos solicitudes de derogación</span><em class="proj">previsto</em></div>
+    <div class="rv"><b data-count="8">8</b><span>países en los primeros meses</span></div>
+  </div>
+  <div class="quote rv"><p>El project manager del cliente y su responsable para Europa y Oriente Medio confirmaron que el producto estaba cumpliendo las expectativas.</p><span>Feedback del cliente tras el lanzamiento</span></div>
+  <p style="color:var(--muted)">La mejor señal llegó sin pedirla: un país de los tests de usabilidad le habló de la herramienta a un país vecino. Ese país, que trabaja con otras semillas, contactó con el project manager global para pedir una versión propia. Extender la herramienta a más cultivos forma ya parte de los planes de la empresa.</p>
+  <div class="label" style="margin-top:44px">Más pantallas</div>
+  <div class="g3s">
+    <figure class="fig rv"><img src="assets/bs/s09-search.webp" alt="Búsqueda global en stock, demandas y órdenes de proceso." loading="lazy" data-zoom><figcaption>Búsqueda global en stock, MPS y solicitudes de derogación.</figcaption></figure>
+    <figure class="fig rv"><img src="assets/bs/s08-stock.webp" alt="Vista de stock por parámetro de calidad, con filtros por columna para tablas con decenas de columnas." loading="lazy" data-zoom><figcaption>Vista de stock por parámetro de calidad, con filtros por columna para tablas con decenas de columnas.</figcaption></figure>
+    <figure class="fig rv"><img src="assets/bs/s11-sent.webp" alt="Confirmación con un enlace directo a la siguiente cola, y el estado vacío cuando no queda nada por tramitar." loading="lazy" data-zoom><figcaption>Confirmación con un enlace directo a la siguiente cola, y el estado vacío cuando no queda nada por tramitar.</figcaption></figure>
+  </div>
+</section>
+
+<!-- 10 LEARNED -->
+<section class="wrap sec" id="learned">
+  <div class="label">10 · Lo que aprendí</div>
+  <div class="learned rv">
+    <h2>Diseñar para <em>las excepciones.</em></h2>
+    <p>El flujo principal estaba claro tras el discovery. Lo que hizo que el producto funcionara en ocho países fueron las excepciones que solo encontramos testando con planificadores de cada uno. En una herramienta global, la regla es que cada país tiene la suya.</p>
+  </div>
+</section>
+
+<section class="wrap sec">
+  <div class="label">Más proyectos</div>
+  <div class="more">
+    <a href="services-portal.es.html"><span class="label">01 · Sector público</span><h3>Una única puerta de entrada a los servicios públicos regionales</h3><span class="cta">Ver el caso →</span></a>
+    <a href="employee-portal.es.html"><span class="label">03 · Liderazgo</span><h3>Seis design sprints, un puente hacia desarrollo</h3><span class="cta">Ver el caso →</span></a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big">Hablemos.</p>
+    <div class="links"><a href="mailto:lucascostapena@gmail.com">lucascostapena@gmail.com</a><a href="https://www.linkedin.com/in/lucascostapena/">LinkedIn</a><a href="cv.es.html">Ver CV</a></div>
+    <small>Lucas Costa Pena · Product Designer · © 2026</small>
+  </div>
+</footer>
+
+<div class="lbx" id="lbx"><img alt=""></div>
+<script>
+(function(){
+  var prog=document.getElementById('prog');
+  function onS(){ var h=document.documentElement; prog.style.width=(h.scrollTop/((h.scrollHeight-h.clientHeight)||1)*100)+'%'; }
+  addEventListener('scroll',onS,{passive:true}); onS();
+  var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function count(el){
+    if(el.dataset.done) return; el.dataset.done=1;
+    var to=+el.dataset.count, pre=(el.dataset.prefix||''), suf=el.dataset.suffix||'';
+    if(RM||to===0){ el.textContent=pre+to+suf; return; }
+    var t0=null,d=1100;
+    function st(t){ if(!t0) t0=t; var k=Math.min(1,(t-t0)/d); k=1-Math.pow(1-k,3); el.textContent=pre+Math.round(to*k)+suf; if(k<1) requestAnimationFrame(st); }
+    el.textContent=pre+'0'+suf; requestAnimationFrame(st);
+  }
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return; var el=e.target; el.classList.add('is-in'); if(el.dataset.count) count(el); el.querySelectorAll('[data-count]').forEach(count); io.unobserve(el); }); },{threshold:.2,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+  document.querySelectorAll('.xp').forEach(function(xp){
+    var head=xp.querySelector('.xp-head'), st=xp.querySelector('.xp-st');
+    head.addEventListener('click',function(){
+      var open=!xp.classList.contains('open');
+      xp.classList.toggle('open',open); head.setAttribute('aria-expanded',open?'true':'false'); st.textContent=open?'Cerrar':'Abrir';
+      if(open){ var top=xp.getBoundingClientRect().top; if(top<0||top>innerHeight*.5) xp.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'}); }
+    });
+  });
+
+  document.querySelectorAll('[data-tabset]').forEach(function(set){
+    var bs=set.querySelectorAll(':scope > .tabs button');
+    bs.forEach(function(b){ b.addEventListener('click',function(){
+      bs.forEach(function(x){ x.setAttribute('aria-selected','false'); });
+      set.querySelectorAll(':scope > .tpanel').forEach(function(p){ p.classList.remove('on'); });
+      b.setAttribute('aria-selected','true'); document.getElementById(b.dataset.p).classList.add('on');
+    }); });
+  });
+
+  /* compare sliders */
+  document.querySelectorAll('[data-cmp]').forEach(function(c){
+    var r=c.querySelector('input');
+    function set(){ c.style.setProperty('--p',r.value+'%'); }
+    r.addEventListener('input',set); set();
+  });
+
+  /* crop switch */
+  document.querySelectorAll('[data-crop]').forEach(function(w){
+    var bs=w.querySelectorAll('button'), im=w.querySelector('img');
+    bs.forEach(function(b){ b.addEventListener('click',function(){
+      bs.forEach(function(x){ x.setAttribute('aria-selected',x===b?'true':'false'); });
+      im.style.opacity=0; setTimeout(function(){ im.src='assets/bs/'+b.dataset.img+'.webp'; im.alt=b.textContent; im.style.opacity=1; },180);
+    }); });
+  });
+
+  var lb=document.getElementById('lbx'), li=lb.querySelector('img');
+  document.addEventListener('click',function(e){ var t=e.target; if(t.matches && t.matches('img[data-zoom]')){ li.src=t.src; li.alt=t.alt; lb.classList.add('on'); } });
+  lb.addEventListener('click',function(){ lb.classList.remove('on'); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape') lb.classList.remove('on'); });
+})();
+</script>
+
+<script>
+/* screens never lose their sides, and screens side by side always share one size */
+(function(){
+  function ratio(v){ var m=String(v).match(/([\d.]+)\s*\/\s*([\d.]+)/); return m? m[1]/m[2] : 0; }
+  var imgs=[].slice.call(document.querySelectorAll('img')).filter(function(im){ return !im.closest('.cmp,.lg,.win,.lbx,.ph,.stage'); });
+  imgs.forEach(function(im){ im.dataset.box=ratio(getComputedStyle(im).aspectRatio)||''; });
+  function groupOf(im){ var f=im.closest('figure'); if(!f) return null; var g=f.parentElement; return g && g.querySelectorAll(':scope > figure img').length>1 ? g : null; }
+  function nat(im){ return im.naturalWidth? im.naturalWidth/im.naturalHeight : 0; }
+  function apply(){
+    var seen=new Set();
+    imgs.forEach(function(im){
+      var g=groupOf(im);
+      if(g){ if(seen.has(g)) return; seen.add(g);
+        var list=[].slice.call(g.querySelectorAll(':scope > figure img')), r=0;
+        list.forEach(function(x){ var b=+x.dataset.box||0, n=nat(x); r=Math.max(r, b? Math.max(b,n) : n); });
+        if(r) list.forEach(function(x){ x.style.aspectRatio=String(r); x.style.height='auto'; });
+      } else {
+        var b=+im.dataset.box, n=nat(im); im.style.aspectRatio='';
+        if(b && n>b*1.01) im.style.aspectRatio=String(n);
+      }
+    });
+  }
+  imgs.forEach(function(im){ im.addEventListener('load',apply); });
+  apply();
+})();
+</script>
+<script>
+/* language switch: keep the reader where they were */
+(function(){
+  var K='lcp-lang-pos', SEL='h1,h2,h3,h4,p,figure,li,dt,dd,.hw,.case,.stage';
+  function list(){return [].slice.call(document.querySelectorAll(SEL)).filter(function(el){return el.offsetParent!==null&&!el.closest('header,[role=dialog]');});}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a.lng'); if(!a) return;
+    var L=list(), idx=-1, off=0, y=window.scrollY;
+    for(var i=0;i<L.length;i++){var t=L[i].getBoundingClientRect().top; if(t>=70){idx=i; off=t; break;}}
+    var pos={i:idx,off:off,y:y,open:[].slice.call(document.querySelectorAll('.xp.open[id]')).map(function(x){return x.id;})};
+    try{sessionStorage.setItem(K,JSON.stringify(pos));}catch(err){}
+  },true);
+  var raw=null; try{raw=sessionStorage.getItem(K); sessionStorage.removeItem(K);}catch(err){}
+  if(!raw) return;
+  var pos; try{pos=JSON.parse(raw);}catch(err){return;}
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  var opened=false;
+  function go(){
+    if(!opened){opened=true;(pos.open||[]).forEach(function(id){var x=document.getElementById(id); if(x&&!x.classList.contains('open')){var h=x.querySelector('.xp-head'); if(h) h.click();}});}
+    var L=list(), el=pos.i>=0?L[pos.i]:null;
+    var y=el?el.getBoundingClientRect().top+scrollY-pos.off:pos.y;
+    window.scrollTo({top:Math.max(0,y),behavior:'instant'});
+  }
+  function run(){go(); setTimeout(go,300); setTimeout(go,900);}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+})();
+</script>
+</body>
+</html>
