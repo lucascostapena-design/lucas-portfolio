@@ -176,7 +176,10 @@ footer .cv-base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10
 @media (prefers-reduced-motion:reduce){.cv-rv{opacity:1;transform:none;transition:none}.cv-now,.cv-bar i{transition:none}}
 @media (max-width:600px){.cv-hd{flex-direction:column;align-items:flex-start;gap:8px}.cv-hd h2{white-space:nowrap}}
 @media (max-width:900px){.cv-hov{display:none}.cv-now h3{font-size:24px}}
-.lng{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}.rt{display:flex;align-items:center;gap:8px}@media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
+/* pill-center */.meta>div{min-width:0}.meta dd{overflow-wrap:break-word;hyphens:auto}.seg2 button,.tabs button,button[role=tab]{text-align:center;justify-content:center}.five .srcs span{text-align:center}
+.lng{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}
+.rt{display:flex;align-items:center;gap:8px;margin-left:auto}header .pill+.brand{margin-left:12px}
+@media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
 </style>
 </head>
 <body>
@@ -239,7 +242,7 @@ footer .cv-base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10
           <li>User stories, criterios de aceptación, reglas de negocio y documentación funcional para los equipos de desarrollo.</li>
           <li>Diseño de interfaz, y mantenimiento y evolución del sistema de diseño de las tres plataformas.</li>
           <li>Peticiones de cambio desde el análisis y la priorización hasta producción; sprints y ceremonias ágiles; liderazgo del equipo de diseño.</li>
-          <li>Discovery con negocio y usuarios: talleres de requisitos a partir del pliego, recorridos del ciudadano, mapas del sitio, wireframes y validación.</li>
+          <li>Discovery con negocio y usuarios: talleres de requisitos a partir del pliego, jornadas del ciudadano, mapas del sitio, wireframes y validación.</li>
         </ul>
         <div style="display:flex;gap:22px;flex-wrap:wrap"><a class="cv-rd" href="services-portal.html"><i>→</i>Caso portal de servicios</a><a class="cv-rd" href="employee-portal.html"><i>→</i>Caso portal del empleado</a></div>
       </div>
@@ -274,7 +277,7 @@ footer .cv-base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10
 <section class="cv-wrap cv-sec">
   <div class="cv-hd"><h2>Competencias</h2><span class="cv-lab cv-hov">Pasa el cursor por un grupo</span></div>
   <div class="cv-sk">
-    <div class="cv-rv"><h3>Diseño de producto</h3><ul class="cv-chips"><li>Investigación UX</li><li>Recorridos de usuario</li><li>UX/UI</li><li>Prototipado</li><li>Sistemas de diseño</li><li>Tests de usabilidad</li><li>Accesibilidad (WCAG)</li></ul></div>
+    <div class="cv-rv"><h3>Diseño de producto</h3><ul class="cv-chips"><li>Investigación UX</li><li>Jornadas de usuario</li><li>UX/UI</li><li>Prototipado</li><li>Sistemas de diseño</li><li>Tests de usabilidad</li><li>Accesibilidad (WCAG)</li></ul></div>
     <div class="cv-rv"><h3>Product ownership</h3><ul class="cv-chips"><li>Backlog</li><li>User stories y criterios de aceptación</li><li>Reglas de negocio</li><li>Análisis funcional</li><li>Priorización</li><li>Hojas de ruta</li><li>Discovery y MVP</li></ul></div>
     <div class="cv-rv"><h3>Formas de trabajo</h3><ul class="cv-chips"><li>Scrum</li><li>Sprints y ceremonias</li><li>Design Sprint</li><li>Lean UX</li><li>PMO</li></ul></div>
     <div class="cv-rv"><h3>Liderazgo</h3><ul class="cv-chips"><li>Gestión de stakeholders</li><li>Facilitación de talleres</li><li>Liderazgo de equipos</li><li>Formación</li></ul></div>
@@ -320,8 +323,8 @@ footer .cv-base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10
     <span class="cv-yr">2026</span>
     <div>
       <span class="cv-lab">Islands Digital Summit · oct 2026</span>
-      <h3>Ponente invitado: un recorrido del ciudadano, en directo.</h3>
-      <p>Demostración en directo de un recorrido del ciudadano en el portal de servicios públicos de un gobierno regional, ante delegaciones de nueve regiones y países.</p>
+      <h3>Ponente invitado: una jornada del ciudadano, en directo.</h3>
+      <p>Demostración en directo de una jornada del ciudadano en el portal de servicios públicos de un gobierno regional, ante delegaciones de nueve regiones y países.</p>
       <div class="cv-flags"><span>Mallorca</span><span>Madeira</span><span>Alemania</span><span>Países Bajos</span><span>Dinamarca</span><span>Grecia</span><span>Croacia</span><span>Finlandia</span><span>Suecia</span></div>
     </div>
   </div>
@@ -352,6 +355,33 @@ footer .cv-base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10
       return dl.save({filename:'Lucas-Costa-Pena-CV.pdf',data:b});
     }).catch(function(err){ if(err && err.code && err.code!=='declined' && err.code!=='rate_limited'){ location.href=a.getAttribute('href'); } });
   }); });
+})();
+</script>
+<script>
+/* language switch: keep the reader where they were */
+(function(){
+  var K='lcp-lang-pos', SEL='h1,h2,h3,h4,p,figure,li,dt,dd,.hw,.case,.stage';
+  function list(){return [].slice.call(document.querySelectorAll(SEL)).filter(function(el){return el.offsetParent!==null&&!el.closest('header,[role=dialog]');});}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a.lng'); if(!a) return;
+    var L=list(), idx=-1, off=0, y=window.scrollY;
+    for(var i=0;i<L.length;i++){var t=L[i].getBoundingClientRect().top; if(t>=70){idx=i; off=t; break;}}
+    var pos={i:idx,off:off,y:y,open:[].slice.call(document.querySelectorAll('.xp.open[id]')).map(function(x){return x.id;})};
+    try{sessionStorage.setItem(K,JSON.stringify(pos));}catch(err){}
+  },true);
+  var raw=null; try{raw=sessionStorage.getItem(K); sessionStorage.removeItem(K);}catch(err){}
+  if(!raw) return;
+  var pos; try{pos=JSON.parse(raw);}catch(err){return;}
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  var opened=false;
+  function go(){
+    if(!opened){opened=true;(pos.open||[]).forEach(function(id){var x=document.getElementById(id); if(x&&!x.classList.contains('open')){var h=x.querySelector('.xp-head'); if(h) h.click();}});}
+    var L=list(), el=pos.i>=0?L[pos.i]:null;
+    var y=el?el.getBoundingClientRect().top+scrollY-pos.off:pos.y;
+    window.scrollTo({top:Math.max(0,y),behavior:'instant'});
+  }
+  function run(){go(); setTimeout(go,300); setTimeout(go,900);}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
 })();
 </script>
 </body>
