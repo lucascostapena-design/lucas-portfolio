@@ -50,7 +50,7 @@ img{display:block;max-width:100%}
 @keyframes rise{to{opacity:1;transform:none}}
 .lede{font-size:clamp(19px,1.8vw,23px);line-height:1.45;color:var(--muted);max-width:46ch}
 .lede b{color:var(--ink);font-weight:700}
-.wh{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin-top:44px;font-size:17px;line-height:1.45;color:var(--muted);max-width:48ch}
+.wh{display:block;margin-top:44px;font-size:17px;line-height:1.45;color:var(--muted);max-width:48ch}
 .wh dt{font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);padding-top:4px}
 .wh dd{margin:0}
 .chatw{display:none!important}
@@ -269,7 +269,7 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 @media (max-width:600px){.hd{flex-direction:column;align-items:flex-start;gap:8px}.hd h2{font-size:30px}}
 @media (max-width:600px){.hero h1{font-size:clamp(30px,9vw,46px)}.hgrid>div{min-width:0}}
 @media (max-width:600px){.hw{min-height:0}.hw h3{margin-top:28px}}
-@media (max-width:480px){.top nav a{padding:8px 9px}.top nav a[href*="linkedin"]{display:none}}
+@media (max-width:480px){.top nav a{padding:8px 9px}}
 /* pill-center */.seg2 button,.tabs button,button[role=tab]{text-align:center;justify-content:center}.five .srcs span{text-align:center}
 /* hwt */.hsub{color:var(--muted);font-size:16px;margin-top:10px;max-width:46ch}.hwt{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 0;padding:0}.hwt li{font-size:12px;font-weight:700;line-height:1;padding:6px 10px;border-radius:999px;background:#0000000d;color:inherit;opacity:.85;text-align:center;white-space:nowrap}.hw:nth-child(2):hover .hwt li{background:#ffffff26}
 /* hw-compact */.how .hw{min-height:0;padding:24px 24px 26px;border-radius:24px;display:grid;grid-template-rows:auto auto 1fr;row-gap:0}.how .hw .n{font-size:13px}.how .hw h3{margin-top:28px;font-size:clamp(26px,2.2vw,32px);line-height:1}.how .hw p{margin-top:10px;font-size:15px;line-height:1.45}.how .hw .hwt{margin-top:18px;align-self:end}
@@ -293,7 +293,7 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#top"><span class="av"><img src="assets/me-av.webp" alt=""></span>Lucas Costa Pena</a>
-    <div class="rt"><nav aria-label="Principal"><a href="#work">Proyectos</a><a class="hs" href="#about">Sobre mí</a><a href="cv.es.html">CV</a><a href="https://www.linkedin.com/in/lucascostapena/">LinkedIn</a></nav><a class="lng" href="index.html" hreflang="en" lang="en" aria-label="View in English"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>EN</a></div>
+    <div class="rt"><nav aria-label="Principal"><a href="cv.es.html">CV</a><a href="https://www.linkedin.com/in/lucascostapena/">LinkedIn</a></nav><a class="lng" href="index.html" hreflang="en" lang="en" aria-label="View in English"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>EN</a></div>
   </div>
 </header>
 
@@ -305,20 +305,12 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     <div>
       <p class="hello">Hola, soy <span class="me" tabindex="0" aria-label="Lucas — ver foto">Lucas<span class="mepic" aria-hidden="true"><img src="assets/me-sq.webp" alt=""></span></span> <span class="wave" role="img" aria-label="mano saludando">👋🏻</span></p>
       <h1 id="h1"><span>Especialista en</span><span>soluciones simples</span><span class="g">para organizaciones complejas.</span></h1>
-      <dl class="wh"><dt>Trabajo</dt><dd>Product Designer con visión de Product Owner, en Administración Pública y en el sector privado.</dd><dt>Casa</dt><dd>Experto en pasear dos perros a la vez.<br>Empleado a tiempo completo de los deseos de mi hijo.</dd></dl>
+      <p class="wh">Product Designer que se responsabiliza por el resultado, no solo por las pantallas, en la Administración Pública y el sector privado.</p>
     </div>
     <div class="widgets" aria-label="Ahora mismo">
       <div class="wg clock" id="wclock"><span class="city">Badajoz</span><span class="tm" id="clock">--:--</span><span class="ic" id="sky" aria-hidden="true">☀︎</span><span class="sm" id="skyt">De día en España</span></div>
       <div class="wg st"><span class="lb">Estado</span><span class="big">Product Designer, cerca de desarrollo</span><span class="lg"><span class="dot" style="display:inline-block;width:7px;height:7px;margin-right:6px" aria-hidden="true"></span>Disponible</span></div>
-      <div class="wg music wide" aria-label="Sonando: The Less I Know The Better, de Tame Impala">
-        <div class="art" aria-hidden="true"></div>
-        <div class="mi">
-          <span class="np"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>En bucle</span>
-          <p class="song">The Less I Know The Better</p>
-          <p class="artist">Tame Impala</p>
-          <div class="bar" aria-hidden="true"><i></i></div>
-        </div>
-      </div>
+      
     </div>
   </div>
 </section>
@@ -341,7 +333,7 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         </div>
       </div>
       <div class="win"><div class="tb"><i></i><i></i><i></i><span></span></div><div class="vp"><img src="assets/sp-screen.webp" alt="Página de inicio del portal de servicios en escritorio"></div></div>
-      <div class="foot"><div class="roles"><span>Lead Product Designer</span><span>Responsabilidades de Product Owner</span><span>2024–2026</span></div><span class="go"><i>→</i>Ver el caso</span></div>
+      <div class="foot"><div class="roles"><span>Lead Product Designer</span><span>Backlog y prioridades</span><span>2024–2026</span></div><span class="go"><i>→</i>Ver el caso</span></div>
     </a>
 
     <a class="case" data-c="yellow" href="batch-selection.es.html">
@@ -373,7 +365,7 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         </div>
       </div>
       <div class="win"><div class="tb"><i></i><i></i><i></i><span></span></div><div class="vp"><img src="assets/colab-hero.webp" alt="Espacio de trabajo del portal del empleado"></div></div>
-      <div class="foot"><div class="roles"><span>Lead Product Designer</span><span>Responsabilidades de Product Owner</span><span>2025–2026</span></div><span class="go"><i>→</i>Ver el caso</span></div>
+      <div class="foot"><div class="roles"><span>Lead Product Designer</span><span>Prioridades y sprints</span><span>2025–2026</span></div><span class="go"><i>→</i>Ver el caso</span></div>
     </a>
 
   </div>
@@ -396,7 +388,7 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 
 <!-- HOW -->
 <section class="wrap sec">
-  <div class="hd"><div><h2>Cómo trabajo</h2><p class="hsub">Cada proyecto es distinto. El método se adapta al problema, y no al revés.</p></div><span class="lab">Diseñador con visión de PO</span></div>
+  <div class="hd"><div><h2>Cómo trabajo</h2><p class="hsub">Cada proyecto es distinto. El método se adapta al problema, y no al revés.</p></div><span class="lab">De la idea a la entrega</span></div>
   <div class="how">
     <div class="hw rv"><span class="n">01</span><h3>Descubrir</h3><p>Hablar con quien hace el trabajo. Mapear el proceso real, no el oficial.</p></div>
     <div class="hw rv"><span class="n">02</span><h3>Decidir</h3><p>Convertir lo aprendido en arquitectura, prioridades y user stories.</p></div>
@@ -428,12 +420,12 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   <div class="about">
     <div class="photo rv"><img src="assets/me.webp" alt="Lucas Costa Pena" loading="lazy"></div>
     <div class="ab rv">
-      <p class="big">Me importa tanto lo que se construye <span class="g">como su aspecto.</span></p>
-      <p>Consultoría, agencias e in-house. Lo más reciente: Senior Consultant en una consultora de transformación digital, como Product Designer con responsabilidades de Product Owner, para la Administración Pública y empresas multinacionales.</p>
+      <p class="big">Diseño productos <span class="g">como si fueran míos.</span></p>
+      <p>Consultoría, agencias, in-house. Lo más reciente: Consultor Senior en una consultora de transformación digital, donde lideré el diseño de producto y también fui responsable de lo que venía después: qué construir primero, los sprints y la entrega, para la Administración Pública y el sector privado.</p>
       <p>Trabajo con equipos multidisciplinares y con todas las partes implicadas. Mi papel es que se entiendan: comunicación clara, decisiones tomadas a tiempo y planes de acción concretos, con responsables y plazos.</p>
       <p>Antes, años como profesor de UX/UI. Me enseñó a explicar cada decisión: a los stakeholders, a los diseñadores, a desarrollo y a las personas que usan lo que construimos.</p>
       <dl class="facts">
-        <div><dt>Ahora</dt><dd>Abierto a puestos de Product Designer que van más allá del diseño: backlog, sprints y entrega · Remoto o híbrido, España</dd></div>
+        <div><dt>Ahora</dt><dd>Abierto a puestos de Product Designer que van más allá del diseño: prioridades, sprints y entrega · Remoto o híbrido, España</dd></div>
         <div><dt>Idiomas</dt><dd>Portugués, español, inglés (C1)</dd></div>
         <div><dt>Formación</dt><dd>Máster en Diseño, University for the Creative Arts (Reino Unido) · Grado en Diseño, Lusófona · Grado en Filosofía, UFMT</dd></div>
         <div><dt>Docencia</dt><dd>Lisbon School of Design · Universidad Lusófona</dd></div>
