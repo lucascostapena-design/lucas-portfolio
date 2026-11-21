@@ -175,7 +175,7 @@ img{display:block;max-width:100%}
 .ai::after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#ffffff33,transparent 70%)}
 .ai .lab{color:#ffffffb3}
 .ai h3{font-size:clamp(28px,3vw,42px);font-weight:900;line-height:1.08;letter-spacing:-.03em;margin:14px 0 14px}
-.ai h3 span{color:#ffffffb3}
+.ai h3 span{color:#ffffffb3;display:block}
 .ai p{color:#ffffffd9;max-width:48ch}
 .ai-l{list-style:none;display:grid;gap:10px;position:relative;z-index:1}
 .ai-l li{background:#ffffff1f;border-radius:18px;padding:14px 18px}
@@ -275,6 +275,8 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 /* hw-compact */.how .hw{min-height:0;padding:24px 24px 26px;border-radius:24px;display:grid;grid-template-rows:auto auto 1fr;row-gap:0}.how .hw .n{font-size:13px}.how .hw h3{margin-top:28px;font-size:clamp(26px,2.2vw,32px);line-height:1}.how .hw p{margin-top:10px;font-size:15px;line-height:1.45}.how .hw .hwt{margin-top:18px;align-self:end}
 @media (max-width:600px){.how .hw{padding:22px}.how .hw h3{margin-top:18px}}
 .ai-l .aik{display:block;margin-top:6px;color:#fff;font-weight:800}
+.ai .ai-n{margin-top:14px;font-size:13px;line-height:1.45;color:#ffffffb3;padding-left:12px;border-left:2px solid #ffffff59}
+.ai-l .ail{color:#fff;text-decoration:underline;text-underline-offset:3px}
 .lng{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}
 .rt{display:flex;align-items:center;gap:8px;margin-left:auto}header .pill+.brand{margin-left:12px}
 @media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
@@ -405,12 +407,13 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <span class="lab">AI in my process</span>
       <h3>AI does the heavy lifting. <span>I make the calls.</span></h3>
       <p>I use it to read, map and draft faster, so more of my time goes into the product decisions.</p>
+      <p class="ai-n">Client data stays anonymised. Every output is reviewed before it reaches a client or a developer.</p>
     </div>
     <ul class="ai-l">
-      <li><b>Reading data and documents</b><span>Tenders, reports and spreadsheets turned into actionable findings. <strong class="aik">A 130-page tender analysed in 3 days, not 2 weeks.</strong></span></li>
-      <li><b>Flows and processes</b><span>First drafts of AS-IS and TO-BE flows to validate with the client.</span></li>
-      <li><b>From brief to product backlog</b><span>From the client’s brief and workshop notes to epics, user stories and acceptance criteria in Jira, with the functional documentation in Confluence.</span></li>
-      <li><b>Prototyping</b><span>Quick prototypes to validate before detailed design.</span></li>
+      <li><b>User research</b><span>30+ interviews for a consultancy’s new branding and website, transcribed, tagged and synthesised in Dovetail, then turned into the executive summary that defended the research and the first design decisions with the board. <strong class="aik">60% less time.</strong></span></li>
+      <li><b>From tender to backlog</b><span>Tenders and reports turned into AS-IS and TO-BE flows, then epics, user stories and acceptance criteria in Jira, with documentation in Confluence. <strong class="aik">A 130-page tender analysed in a few hours, not 2 weeks.</strong></span></li>
+      <li><b>Design system audits</b><span>The <a class="ail" href="services-portal.html">Services Portal</a>’s design system, inherited from another agency, audited with Claude connected to Figma through MCP: ~15% inconsistencies, from missing button states to typography without variables. <strong class="aik">70% less time from audit to a consolidated system.</strong></span></li>
+      <li><b>Prototypes in code</b><span>Working prototypes with Lovable and Claude Code to test real interactions before detailed design. <strong class="aik">This portfolio was built the same way.</strong></span></li>
     </ul>
   </div>
 </section>

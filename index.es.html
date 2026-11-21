@@ -175,7 +175,7 @@ img{display:block;max-width:100%}
 .ai::after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,#ffffff33,transparent 70%)}
 .ai .lab{color:#ffffffb3}
 .ai h3{font-size:clamp(28px,3vw,42px);font-weight:900;line-height:1.08;letter-spacing:-.03em;margin:14px 0 14px}
-.ai h3 span{color:#ffffffb3}
+.ai h3 span{color:#ffffffb3;display:block}
 .ai p{color:#ffffffd9;max-width:48ch}
 .ai-l{list-style:none;display:grid;gap:10px;position:relative;z-index:1}
 .ai-l li{background:#ffffff1f;border-radius:18px;padding:14px 18px}
@@ -275,6 +275,8 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 /* hw-compact */.how .hw{min-height:0;padding:24px 24px 26px;border-radius:24px;display:grid;grid-template-rows:auto auto 1fr;row-gap:0}.how .hw .n{font-size:13px}.how .hw h3{margin-top:28px;font-size:clamp(26px,2.2vw,32px);line-height:1}.how .hw p{margin-top:10px;font-size:15px;line-height:1.45}.how .hw .hwt{margin-top:18px;align-self:end}
 @media (max-width:600px){.how .hw{padding:22px}.how .hw h3{margin-top:18px}}
 .ai-l .aik{display:block;margin-top:6px;color:#fff;font-weight:800}
+.ai .ai-n{margin-top:14px;font-size:13px;line-height:1.45;color:#ffffffb3;padding-left:12px;border-left:2px solid #ffffff59}
+.ai-l .ail{color:#fff;text-decoration:underline;text-underline-offset:3px}
 .lng{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}
 .rt{display:flex;align-items:center;gap:8px;margin-left:auto}header .pill+.brand{margin-left:12px}
 @media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
@@ -405,12 +407,13 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <span class="lab">IA en mi proceso</span>
       <h3>La IA hace el trabajo pesado. <span>Las decisiones son mías.</span></h3>
       <p>La uso para leer, mapear y redactar más rápido, y así dedicar más tiempo a las decisiones de producto.</p>
+      <p class="ai-n">Los datos de los clientes se anonimizan. Todo se revisa antes de llegar a un cliente o a desarrollo.</p>
     </div>
     <ul class="ai-l">
-      <li><b>Lectura de datos y documentos</b><span>Pliegos, informes y hojas de cálculo convertidos en conclusiones accionables. <strong class="aik">Un pliego de 130 páginas analizado en 3 días, no en 2 semanas.</strong></span></li>
-      <li><b>Flujos y procesos</b><span>Primeras versiones de flujos AS-IS y TO-BE para validar con el cliente.</span></li>
-      <li><b>Del brief al product backlog</b><span>Del brief del cliente y las notas de los talleres a épicas, user stories y criterios de aceptación en Jira, con la documentación funcional en Confluence.</span></li>
-      <li><b>Prototipos</b><span>Prototipos rápidos para validar antes de diseñar en detalle.</span></li>
+      <li><b>User research</b><span>Más de 30 entrevistas para el nuevo branding y la web de una consultora, transcritas, etiquetadas y sintetizadas en Dovetail, y convertidas en el resumen ejecutivo con el que defendimos la investigación y las primeras decisiones de diseño ante el consejo directivo. <strong class="aik">Un 60% menos de tiempo.</strong></span></li>
+      <li><b>Del pliego al backlog</b><span>Pliegos e informes convertidos en flujos AS-IS y TO-BE, y luego en épicas, user stories y criterios de aceptación en Jira, con la documentación en Confluence. <strong class="aik">Un pliego de 130 páginas analizado en pocas horas, no en 2 semanas.</strong></span></li>
+      <li><b>Auditorías de design system</b><span>El design system del <a class="ail" href="services-portal.es.html">Portal de Servicios</a>, heredado de otra agencia, auditado con Claude conectado a Figma por MCP: ~15% de inconsistencias, desde botones sin estados hasta tipografía sin variables. <strong class="aik">Un 70% menos de tiempo entre auditar y consolidar.</strong></span></li>
+      <li><b>Prototipos en código</b><span>Prototipos funcionales con Lovable y Claude Code para probar interacciones reales antes del diseño detallado. <strong class="aik">Este portfolio se construyó de la misma forma.</strong></span></li>
     </ul>
   </div>
 </section>
