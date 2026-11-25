@@ -280,6 +280,47 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 .lng{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 12px;border-radius:999px;background:#EFEFEC;color:#141414;font-size:13px;font-weight:900;letter-spacing:.04em;text-decoration:none;white-space:nowrap;flex:none}.lng:hover{background:#FFD23F}.lng svg{flex:none}
 .rt{display:flex;align-items:center;gap:8px;margin-left:auto}header .pill+.brand{margin-left:12px}
 @media (max-width:480px){.lng{padding:0 10px;height:32px}.lng svg{display:none}.rt{gap:4px}}
+
+/* ===== Hero impact (25/11) ===== */
+.hello{flex-wrap:wrap}
+.hello .role{font-size:15px;font-weight:700;letter-spacing:0;color:var(--muted);background:var(--card);border-radius:999px;padding:6px 12px}
+.hero h1.imp{font-size:clamp(36px,4.9vw,70px);line-height:1.04;letter-spacing:-.045em;text-wrap:balance}
+.num{position:relative;white-space:nowrap}
+.num .ul{position:absolute;left:-4%;bottom:-.16em;width:108%;height:.32em;overflow:visible;pointer-events:none}
+.num .ul path{fill:none;stroke:var(--c,var(--coral));stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .7s cubic-bezier(.6,.1,.3,1) forwards;animation-delay:var(--d)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+.ast{overflow:visible;color:var(--muted)}
+.ast path{fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s ease forwards .95s}
+h1.imp .ast{width:.42em;height:.42em;vertical-align:super;margin-left:.04em;transform:rotate(-8deg)}
+.note{display:flex;align-items:center;gap:6px;margin-top:14px;color:var(--muted);opacity:0;animation:fade .6s ease forwards .95s}
+.note .ast{flex:none;width:12px;height:12px}
+.note .ast path{animation-delay:1s}
+.note span{font-weight:400;font-size:14px}
+.more{margin-top:18px;max-width:62ch;font-size:clamp(17px,1.4vw,19px);line-height:1.5;color:var(--muted);opacity:0;animation:fade .8s ease forwards 1.15s}
+.more em{font-style:italic}
+.gm{display:flex;align-items:flex-start;gap:10px;margin-top:18px;opacity:0;animation:fade .8s ease forwards 1.4s}
+.gm svg{flex:none;width:46px;height:24px;overflow:visible;color:var(--coral);margin-top:6px}
+.gm svg path{fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .6s ease forwards 1.55s}
+.gm span{font-size:clamp(20px,1.9vw,25px);font-weight:900;line-height:1.25;letter-spacing:-.02em;color:var(--ink)}
+.side{display:grid;gap:14px}
+.certs{display:flex;align-items:center;gap:10px;background:var(--white);border-radius:24px;padding:12px 16px;box-shadow:0 18px 40px -28px rgba(0,0,0,.35);opacity:0;animation:pop .8s cubic-bezier(.2,.8,.2,1) forwards .3s}
+.ring{flex:none;width:52px;height:52px;border-radius:50%;border:2px dashed #C9C9C3;display:grid;place-items:center;font-size:11px;font-weight:900;color:var(--muted);text-align:center;line-height:1}
+.ct{display:flex;flex-direction:column;margin-left:4px}
+.ct b{font-size:14px;font-weight:900}
+.ct small{font-size:12px;font-weight:700;color:var(--muted)}
+.widgets{grid-auto-rows:1fr}
+.wg{aspect-ratio:1/1;width:100%}
+@media (max-width:900px){.side{width:100%}.widgets{max-width:none;width:100%}.wg{aspect-ratio:auto;min-height:168px}}
+@media (max-width:600px){
+  .hero h1.imp{font-size:clamp(32px,9vw,44px)}
+  .wg{border-radius:24px;min-height:150px}.wg.st .big{font-size:17px}.wg.clock .tm{font-size:38px}
+  .gm{gap:8px}.gm svg{width:30px;height:18px;margin-top:4px}.gm span{font-size:18px;line-height:1.3}.gm br{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .note,.more,.gm,.certs{animation:none;opacity:1}
+  .num .ul path,.ast path,.gm svg path{animation:none;stroke-dashoffset:0}
+}
 </style>
 </head>
 <body>
@@ -306,14 +347,19 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 <section class="wrap hero">
   <div class="hgrid">
     <div>
-      <p class="hello">Hola, soy <span class="me" tabindex="0" aria-label="Lucas — ver foto">Lucas<span class="mepic" aria-hidden="true"><img src="assets/me-sq.webp" alt=""></span></span> <span class="wave" role="img" aria-label="mano saludando">👋🏻</span></p>
-      <h1 id="h1"><span>Especialista en</span><span>soluciones simples</span><span class="g">para organizaciones complejas.</span></h1>
-      <p class="wh">Product Designer que se responsabiliza por el resultado, no solo por las pantallas, en la Administración Pública y el sector privado.</p>
+      <p class="hello">Hola, soy <span class="me" tabindex="0" aria-label="Lucas — ver foto">Lucas<span class="mepic" aria-hidden="true"><img src="assets/me-sq.webp" alt=""></span></span> <span class="wave" role="img" aria-label="mano saludando">👋🏻</span><span class="role">Lead Product Designer</span></p>
+      <h1 class="imp" aria-label="He diseñado productos para más de 240k ciudadanos, 18k funcionarios públicos y planificadores en 8 países. Solo lo que está en este portfolio."><span class="w" style="--i:0">He</span> <span class="w" style="--i:1">diseñado</span> <span class="w" style="--i:2">productos</span> <span class="w" style="--i:3">para</span> <span class="w num" style="--i:4">240k+<svg class="ul" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" style="--d:1.45s;--c:var(--blue)" d="M2 6 C 20 2, 45 9, 62 5 S 90 3, 98 6"/></svg></span> <span class="w" style="--i:5">ciudadanos,</span> <span class="w num" style="--i:6">18k+<svg class="ul" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" style="--d:1.8s;--c:var(--coral)" d="M2 5 C 25 8, 50 2, 70 6 S 92 5, 98 4"/></svg></span> <span class="w" style="--i:7">funcionarios</span> <span class="w" style="--i:8">públicos</span> <span class="w" style="--i:9">y</span> <span class="w" style="--i:10">planificadores</span> <span class="w" style="--i:11">en</span> <span class="w num" style="--i:12">8<svg class="ul" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" style="--d:2.15s;--c:var(--yellow)" d="M4 6 C 30 2, 60 9, 96 4"/></svg></span> <span class="w" style="--i:13">países.<svg class="ast" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M12 3 L12 21 M4.5 7.5 L19.5 16.5 M19.5 7.5 L4.5 16.5"/></svg></span></h1>
+      <p class="note"><svg class="ast" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M12 3 L12 21 M4.5 7.5 L19.5 16.5 M19.5 7.5 L4.5 16.5"/></svg><span>Solo lo que está en este portfolio.</span></p>
+      <p class="more"><em>Más allá de estos casos,</em> mi trabajo va desde una plataforma para ingenieros en líneas de producción robotizadas hasta el negocio detrás de los productos. <em>Por el camino,</em> he formado a más de 500 personas en tres continentes y he dado clase a más de 100 estudiantes, algunos hoy en Google y Adobe.</p>
+      <p class="gm"><svg viewBox="0 0 60 30" aria-hidden="true"><path pathLength="1" d="M3 6 C 14 26, 34 22, 52 15 M43 9 L53 15 L45 23"/></svg><span>Y todo esto con el mismo buenos días para todos, <br>del personal de limpieza al CEO.</span></p>
     </div>
+    <div class="side">
+    <div class="certs" aria-label="Certificaciones en curso"><span class="ring">PSM I</span><span class="ring">PSPO I</span><span class="ct"><b>Scrum.org</b><small>Exámenes · dic. 2026</small></span></div>
     <div class="widgets" aria-label="Ahora mismo">
       <div class="wg clock" id="wclock"><span class="city">Badajoz</span><span class="tm" id="clock">--:--</span><span class="ic" id="sky" aria-hidden="true">☀︎</span><span class="sm" id="skyt">De día en España</span></div>
-      <div class="wg st"><span class="lb">Estado</span><span class="big">Product Designer, cerca de desarrollo</span><span class="lg"><span class="dot" style="display:inline-block;width:7px;height:7px;margin-right:6px" aria-hidden="true"></span>Disponible</span></div>
+      <div class="wg st"><span class="lb">Estado</span><span class="big">Abierto a puestos de Product Designer</span><span class="lg"><span class="dot" style="display:inline-block;width:7px;height:7px;margin-right:6px" aria-hidden="true"></span>Disponible</span></div>
       
+    </div>
     </div>
   </div>
 </section>
@@ -424,13 +470,13 @@ footer .base{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   <div class="about">
     <div class="photo rv"><img src="assets/me.webp" alt="Lucas Costa Pena" loading="lazy"></div>
     <div class="ab rv">
-      <p class="big">Diseño productos <span class="g">como si fueran míos.</span></p>
+      <p class="big">Qué hace. Cómo se construye. Cómo se ve. <span class="g">Me importan las tres cosas.</span></p>
       <p>Consultoría, agencias, in-house. Lo más reciente: Consultor Senior en una consultora de transformación digital, donde lideré el diseño de producto y también fui responsable de lo que venía después: qué construir primero, los sprints y la entrega, para la Administración Pública y el sector privado.</p>
       <p>Trabajo con equipos multidisciplinares y con todas las partes implicadas. Mi papel es que se entiendan: comunicación clara, decisiones tomadas a tiempo y planes de acción concretos, con responsables y plazos.</p>
       <p>Antes, años como profesor de UX/UI. Me enseñó a explicar cada decisión: a los stakeholders, a los diseñadores, a desarrollo y a las personas que usan lo que construimos.</p>
       <dl class="facts">
-        <div><dt>Ahora</dt><dd>Abierto a puestos de Product Designer que van más allá del diseño: prioridades, sprints y entrega · Remoto o híbrido, España</dd></div>
-        <div><dt>Idiomas</dt><dd>Portugués, español, inglés (C1)</dd></div>
+        <div><dt>Ahora</dt><dd>Abierto a puestos de Product Designer, del discovery a la entrega y más allá · Remoto o híbrido, España</dd></div>
+        <div><dt>Idiomas</dt><dd>Portugués, español, inglés</dd></div>
         <div><dt>Formación</dt><dd>Máster en Diseño, University for the Creative Arts (Reino Unido) · Grado en Diseño, Lusófona · Grado en Filosofía, UFMT</dd></div>
         <div><dt>Docencia</dt><dd>Lisbon School of Design · Universidad Lusófona</dd></div>
       </dl>
